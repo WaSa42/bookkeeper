@@ -1,0 +1,26 @@
+{
+  "tableDef" : {
+    "decimal":        "",
+    "emptyTable":     "Aucune données disponibles",
+    "info":           "Affichage de _START_ à _END_ sur _TOTAL_ entrées",
+    "infoEmpty":      "Affichage de 0 à 0 sur 0 entrées",
+    "infoFiltered":   "(filtré à partir de _MAX_ entrées totales)",
+    "infoPostFix":    "",
+    "thousands":      " ",
+    "lengthMenu":     "Afficher _MENU_ entrées",
+    "loadingRecords": "Chargement...",
+    "processing":     "En attente...",
+    "search":         "Rechercher :",
+    "zeroRecords":    "Aucune correspondance trouvée",
+    "paginate": {
+      "first":      "Premier",
+      "last":       "Dernier",
+      "next":       "Suivant",
+      "previous":   "Précédent"
+    },
+    "aria": {
+      "sortAscending":  ": activer pour trier par ordre croissant",
+      "sortDescending": ": activer pour trier par ordre décroissant"
+    }
+  }
+}
