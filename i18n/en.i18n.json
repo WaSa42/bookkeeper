@@ -22,5 +22,13 @@
       "sortAscending":  ": activate to sort column ascending",
       "sortDescending": ": activate to sort column descending"
     }
+  },
+  "writings": {
+    "import": {
+      "button": {
+        "text": "Import %s rows",
+        "text_plural": "Import %s rows"
+      }
+    }
   }
 }

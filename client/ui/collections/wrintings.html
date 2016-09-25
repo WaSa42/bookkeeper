@@ -6,21 +6,32 @@
 
 <template name="writingsImport">
     <div id="writings-import">
-        <form class="container">
+        <form id="writings-import-form" class="container">
             <div class="form-group">
-                <label for="file">Fichier à importer</label>
-                <input type="file" class="form-control" id="file">
+                <input type="file" name="file" class="hidden" id="file">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="$('#file').click();">Fichier à importer</button>
+                    </span>
+                    <input id="file-substitute" type="text" class="form-control" placeholder="Votre fichier">
+                    <span class="input-group-btn">
+                        <button id="writings-import-button" type="button" class="btn btn-primary pull-right" disabled="{{isEmpty rows.get}}">
+                            <i class="fa fa-upload"></i>
+                            {{#if rows.get}}
+                                {{_ 'writings.import.button.text' count=rows.get.length}}
+                            {{else}}
+                                {{_ 'writings.import.button.text' count=0}}
+                            {{/if}}
+                        </button>
+                    </span>
+                </div>
             </div>
-            <button type="submit" class="btn btn-success">Importer</button>
         </form>
-        <div class="container-fluid">
-            {{#if loading.get}}
-                <p>Chargement...</p>
-            {{/if}}
-            {{#if rows.get}}
+        {{#if rows.get}}
+            <div class="container-fluid">
                 {{> writingsImportPrewiew writings=rows.get}}
-            {{/if}}
-        </div>
+            </div>
+        {{/if}}
     </div>
 </template>
 
@@ -39,8 +50,8 @@
                 <th>EcritureLet</th>
                 <th>DateLet</th>
                 <th>ValidDate</th>
-                <th>Montantdevise</th>
-                <th>Idevise</th>
+                <!--<th>Montantdevise</th>-->
+                <!--<th>Idevise</th>-->
             </tr>
             </thead>
             <tbody>
@@ -62,8 +73,8 @@
                     <td>{{this.[13]}}</td>
                     <td>{{getDate this.[14]}}</td>
                     <td>{{getDate this.[15]}}</td>
-                    <td>{{this.[16]}}</td>
-                    <td>{{this.[17]}}</td>
+                    <!--<td>{{this.[16]}}</td>-->
+                    <!--<td>{{this.[17]}}</td>-->
                 </tr>
             {{/each}}
             </tbody>

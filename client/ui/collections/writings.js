@@ -18,8 +18,8 @@ Template.writingsImport.events({
         const files = event.target.files;
 
         if (files && files.length) {
+            $('#file-substitute').val($(event.target).val());
             self.loading.set(true);
-            console.log('start');
 
             Papa.parse(files[0], {
                 delimiter: '\t',
@@ -35,14 +35,15 @@ Template.writingsImport.events({
                         console.log('parser error', results.errors);
                         alert('Error');
                     } else {
-                        console.log('completed');
                         const rows = results.data.map(row => row.map(column => column.trim()));
                         rows.shift();
-                        console.log('end');
                         self.rows.set(rows);
                     }
                 }
             });
         }
+    },
+    'click #writings-import-button, submit #writings-import-form': function (event) {
+        
     }
 });

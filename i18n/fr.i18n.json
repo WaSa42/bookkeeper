@@ -22,5 +22,13 @@
       "sortAscending":  ": activer pour trier par ordre croissant",
       "sortDescending": ": activer pour trier par ordre décroissant"
     }
+  },
+  "writings": {
+    "import": {
+      "button": {
+        "text": "Importer __count__ élement",
+        "text_plural": "Importer __count__ élements"
+      }
+    }
   }
 }
