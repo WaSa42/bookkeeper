@@ -14,13 +14,21 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="{{isActive route='writings'}}"><a href="{{pathFor 'writings'}}">Ecritures</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Écritures <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="{{isActive route='writingList'}}"><a href="{{pathFor 'writingList'}}">Liste des écritures</a></li>
+                            <li class="{{isActive route='writingCreate'}}"><a href="{{pathFor 'writingCreate'}}">Créer une écriture</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="{{isActive route='writingsImport'}}"><a href="{{pathFor 'writingsImport'}}">Importer un fichier</a></li>
+                        </ul>
+                    </li>
                     <li class="{{isActive route='accountList'}}"><a href="{{pathFor 'accountList'}}">Comptes</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Divergences <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="{{isActive route='differences'}}"><a href="{{pathFor 'differences'}}">Validations</a></li>
-                            <li class="{{isActive route='differencesRules'}}"><a href="{{pathFor 'differencesRules'}}">Règles</a></li>
+                            <li class="{{isActive route='differenceList'}}"><a href="{{pathFor 'differenceList'}}">Validations</a></li>
+                            <li class="{{isActive route='differencesRuleList'}}"><a href="{{pathFor 'differencesRuleList'}}">Règles</a></li>
                         </ul>
                     </li>
                 </ul>
