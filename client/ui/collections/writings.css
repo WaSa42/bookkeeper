@@ -1,0 +1,4 @@
+#writings-import-preview #scroll-area {
+    max-height: 600px;
+    overflow: auto;
+}

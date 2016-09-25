@@ -1,0 +1,85 @@
+<template name="writingList">
+    <div id="writing-list" class="container">
+
+    </div>
+</template>
+
+<template name="writingsImport">
+    <div id="writings-import">
+        <form id="writings-import-form" class="container">
+            <div class="form-group">
+                <input type="file" name="file" class="hidden" id="file">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button id="browse" class="btn btn-default" type="button">Parcourir vos fichiers</button>
+                    </span>
+                    <input id="file-substitute" type="text" class="form-control" placeholder="exemple.txt">
+                    <span class="input-group-btn">
+                        <button id="writings-import-button" type="button" class="btn btn-primary pull-right" disabled="{{isEmptyRows}}">
+                            <i class="fa fa-upload"></i>
+                            {{_ 'writings.import.button.text' count=totalRows.get}}
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </form>
+        <div class="container {{previewHidden}}">
+            {{> writingsImportPreview}}
+        </div>
+    </div>
+</template>
+
+<template name="writingsImportPreview">
+    <div id="writings-import-preview">
+        <div class="clusterize table-responsive">
+            <div id="scroll-area" class="clusterize-scroll table-responsive">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <!--<th colspan="2">Journal</th>-->
+                            <th colspan="3">Écriture</th>
+                            <th colspan="2">Compte</th>
+                            <!--<th colspan="2">Compte auxiliaire</th>-->
+                            <!--<th colspan="2">Pièce</th>-->
+                            <th class="text-left">Débit</th>
+                            <th class="text-right">Crédit</th>
+                            <!--<th>EcritureLet</th>-->
+                            <!--<th>DateLet</th>-->
+                            <!--<th>ValidDate</th>-->
+                            <!--<th>Montantdevise</th>-->
+                            <!--<th>Idevise</th>-->
+                        </tr>
+                    </thead>
+                    <tbody id="content-area" class="clusterize-content">
+                        <tr class="clusterize-no-data">
+                            <td colspan="7">Chargement...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="writingsImportPreviewRow">
+    <tr>
+        <!--<td>{{writing.[0]}}</td>-->
+        <!--<td>{{writing.[1]}}</td>-->
+        <td>{{writing.[2]}}</td>
+        <td>{{getDate writing.[3]}}</td>
+        <td class="text-uppercase">{{writing.[10]}}</td>
+        <td>{{writing.[4]}}</td>
+        <td>{{writing.[5]}}</td>
+        <!--<td>{{writing.[6]}}</td>-->
+        <!--<td>{{writing.[7]}}</td>-->
+        <!--<td class="text-uppercase">{{writing.[8]}}</td>-->
+        <!--<td>{{getDate writing.[9]}}</td>-->
+        <td class="text-left">{{writing.[11]}}</td>
+        <td class="text-right">{{writing.[12]}}</td>
+        <!--<td>{{writing.[13]}}</td>-->
+        <!--<td>{{getDate writing.[14]}}</td>-->
+        <!--<td>{{getDate writing.[15]}}</td>-->
+        <!--<td>{{writing.[16]}}</td>-->
+        <!--<td>{{writing.[17]}}</td>-->
+    </tr>
+</template>
