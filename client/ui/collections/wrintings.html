@@ -6,6 +6,56 @@
 
 <template name="writingsImport">
     <div id="writings-import" class="container">
-
+        {{> writingsImportPrewiew}}
     </div>
+</template>
+
+<template name="writingsImportPrewiew">
+    {{#if writings}}
+        <div id="writings-import-preview" class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th colspan="2">Journal</th>
+                    <th colspan="3">Écriture</th>
+                    <th colspan="2">Compte</th>
+                    <th colspan="2">Compte auxiliaire</th>
+                    <th colspan="2">Pièce</th>
+                    <th class="text-left">Débit</th>
+                    <th class="text-right">Crédit</th>
+                    <th>EcritureLet</th>
+                    <th>DateLet</th>
+                    <th>ValidDate</th>
+                    <th>Montantdevise</th>
+                    <th>Idevise</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each writings}}
+                    <tr>
+                        <td>{{this.[0]}}</td>
+                        <td>{{this.[1]}}</td>
+                        <td>{{this.[2]}}</td>
+                        <td>{{getDate this.[3]}}</td>
+                        <td class="text-uppercase">{{this.[11]}}</td>
+                        <td>{{this.[4]}}</td>
+                        <td>{{this.[5]}}</td>
+                        <td>{{this.[6]}}</td>
+                        <td>{{this.[7]}}</td>
+                        <td class="text-uppercase">{{this.[8]}}</td>
+                        <td>{{this.[9]}}</td>
+                        <td>{{getDate this.[10]}}</td>
+                        <td class="text-left">{{this.[12]}}</td>
+                        <td class="text-right">{{this.[13]}}</td>
+                        <td>{{this.[14]}}</td>
+                        <td>{{getDate this.[15]}}</td>
+                        <td>{{this.[16]}}</td>
+                        <td>{{this.[17]}}</td>
+                        <td>{{this.[18]}}</td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    {{/if}}
 </template>
