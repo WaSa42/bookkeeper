@@ -26,8 +26,8 @@
   "writings": {
     "import": {
       "button": {
-        "text": "Importer __count__ élement",
-        "text_plural": "Importer __count__ élements"
+        "text": "Importer<span class=\"hidden-xs\">  __count__ élement</span>",
+        "text_plural": "Importer<span class=\"hidden-xs\">  __count__ élements</span>"
       }
     }
   }

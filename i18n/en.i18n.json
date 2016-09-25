@@ -26,8 +26,8 @@
   "writings": {
     "import": {
       "button": {
-        "text": "Import %s rows",
-        "text_plural": "Import %s rows"
+        "text": "Import<span class=\"hidden-xs\">  __count__ rows</span>",
+        "text_plural": "Import<span class=\"hidden-xs\">  __count__ rows</span>"
       }
     }
   }
