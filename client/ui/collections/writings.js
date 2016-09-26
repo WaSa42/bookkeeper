@@ -113,16 +113,16 @@ function parse(file, callback) {
                     const getDate = input => input
                         ? moment(input, 'YYYYMMDD').toDate()
                         : null;
-                    const getFormatDate = input => input
+
+                    const getFormattedDate = input => input
                         ? moment(input, 'YYYYMMDD').format('DD/MM/YYYY')
                         : null;
-
                     writings.push({
                         journalCode: results.data[y][0],
                         journalLab: results.data[y][1],
-                        writingNum: results.data[y][2],
-                        writingDate: getDate(results.data[y][3]),
-                        formatDate: getFormatDate(results.data[y][3]),
+                        num: results.data[y][2],
+                        date: getDate(results.data[y][3]),
+                        formattedDate: getFormattedDate(results.data[y][3]),
                         accountNum: results.data[y][4],
                         accountLab: results.data[y][5],
                         accountName: `${results.data[y][4]} ${results.data[y][5]}`,
@@ -130,10 +130,10 @@ function parse(file, callback) {
                         accountAuxLab: results.data[y][7],
                         pieceRef: results.data[y][8],
                         pieceDate: getDate(results.data[y][9]),
-                        writingLab: results.data[y][10],
+                        lab: results.data[y][10],
                         debit: results.data[y][11],
                         credit: results.data[y][12],
-                        writingLet: results.data[y][13],
+                        let: results.data[y][13],
                         dateLet: getDate(results.data[y][14]),
                         validDate: getDate(results.data[y][15]),
                         amountCurrency: results.data[y][16],
