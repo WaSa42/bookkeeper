@@ -23,6 +23,7 @@ session
 underscore
 
 aldeed:tabular
+dburles:collection-helpers
 fortawesome:fontawesome
 iron:router
 logandk:iron-router-active

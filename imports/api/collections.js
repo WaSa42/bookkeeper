@@ -5,3 +5,25 @@ export const Differences = new Mongo.Collection('differences');
 export const DifferencesRules = new Mongo.Collection('DifferencesRules');
 export const Journals = new Mongo.Collection('journals');
 export const Writings = new Mongo.Collection('writings');
+
+Accounts.helpers({
+    updateBalance() {
+        if (Meteor.isServer) {
+            const writings = Writings.find({
+                accountNum: this.num
+            }, {
+                fields: {
+                    debit: 1,
+                    credit: 1
+                }
+            });
+
+            const balance = parseFloat(writings.fetch().reduce((a, b) => a + b.credit - b.debit, 0).toFixed(2));
+            Accounts.update(this._id, {
+                $set: {
+                    balance
+                }
+            });
+        }
+    }
+});

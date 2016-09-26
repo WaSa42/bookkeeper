@@ -117,6 +117,9 @@ function parse(file, callback) {
                     const getFormattedDate = input => input
                         ? moment(input, 'YYYYMMDD').format('DD/MM/YYYY')
                         : null;
+                    
+                    const getCleanAmount = input => parseFloat(input.replace(/\s+/g, '').replace(',', '.')).toFixed(2);
+                    
                     writings.push({
                         journalCode: results.data[y][0],
                         journalLab: results.data[y][1],
@@ -131,8 +134,8 @@ function parse(file, callback) {
                         pieceRef: results.data[y][8],
                         pieceDate: getDate(results.data[y][9]),
                         lab: results.data[y][10],
-                        debit: results.data[y][11],
-                        credit: results.data[y][12],
+                        debit: parseFloat(getCleanAmount(results.data[y][11])),
+                        credit: parseFloat(getCleanAmount(results.data[y][12])),
                         let: results.data[y][13],
                         dateLet: getDate(results.data[y][14]),
                         validDate: getDate(results.data[y][15]),
