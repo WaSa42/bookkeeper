@@ -87,6 +87,10 @@ Template.writingsImportPreviewRow.helpers({
     }
 });
 
+Template.writingListActions.onRendered(() => {
+    $('[data-toggle="tooltip"]').tooltip()
+});
+
 function parse(file, callback) {
     Papa.parse(file, {
         delimiter: '\t',
