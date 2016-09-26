@@ -36,21 +36,39 @@
                 <small class="text-uppercase">{{journal.lab}}</small>
             </h1>
         </header>
-        <table>
-            <tbody>
-                {{#each groups}}
-                    <tr>
-                        <td>
-                            <p class="text-center">{{formattedDate}}</p>
-                            {{#each writings}}
-                                <p>{{accountName}} {{debit}} {{credit}}</p>
-                            {{/each}}
-                            <p class="text-center">{{lab}}</p>
-                            <p>---------------------------------------------------------------------------------</p>
-                        </td>
+        <table class="table table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <th>Compte</th>
+                    <th></th>
+                    <th>Débits</th>
+                    <th class="text-right">Crédits</th>
+                </tr>
+            </thead>
+            {{#each groups}}
+                <tbody>
+                    <tr class="journal-date">
+                        <td></td>
+                        <td class="text-center">{{formattedDate}}</td>
+                        <td></td>
+                        <td></td>
                     </tr>
-                {{/each}}
-            </tbody>
+                    {{#each writings}}
+                        <tr>
+                            <td class="text-right">{{accountNum}}</td>
+                            <td class="{{alignAccountWithCredit this}}">{{accountLab}}</td>
+                            <td>{{debit this}}</td>
+                            <td class="text-right">{{credit this}}</td>
+                        </tr>
+                    {{/each}}
+                    <tr class="journal-label">
+                        <td></td>
+                        <td class="text-center">{{lab}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            {{/each}}
         </table>
     </div>
 </template>

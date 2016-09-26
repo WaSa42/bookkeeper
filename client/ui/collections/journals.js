@@ -20,5 +20,14 @@ Template.journalRead.helpers({
         });
 
         return groups;
+    },
+    credit: function (writing) {
+        return writing.credit != 0 && writing.credit;
+    },
+    debit: function (writing) {
+        return writing.debit != 0 && writing.debit;
+    },
+    alignAccountWithCredit: function (writing) {
+        return writing.credit > 0 && 'text-right';
     }
 });
