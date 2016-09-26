@@ -10,9 +10,9 @@
             <i class="fa fa-history"></i>
             <span class="hidden-xs">Voir dans le journal</span>
         </button>
-        <button type="button" class="btn btn-default btn-xs view-account" title="Voir le compte" data-toggle="tooltip" data-placement="right">
+        <a href="{{pathFor 'accountRead' num=writing.accountNum}}" class="btn btn-default btn-xs view-account" title="Voir le compte" data-toggle="tooltip" data-placement="right">
             <i class="fa fa-th-list"></i>
-        </button>
+        </a>
     </span>
 </template>
 

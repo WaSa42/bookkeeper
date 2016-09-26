@@ -27,6 +27,10 @@ Accounts.helpers({
         }
     },
     getBalanceStatus() {
-        return this.balance == 0 ? 'Soldé' : (this.balance > 0 ? `Créditeur de ${Math.abs(this.balance)} €` : `Débiteur de ${Math.abs(this.balance)} €`);
+        return this.balance === 0
+            ? 'Soldé'
+            : this.balance > 0
+                ? `Créditeur de ${Math.abs(this.balance)} €`
+                : `Débiteur de ${Math.abs(this.balance)} €`;
     }
 });

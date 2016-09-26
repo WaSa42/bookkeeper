@@ -4,12 +4,23 @@
     </div>
 </template>
 
+<template name="accountListActions">
+    <span id="writing-list-actions" class="pull-right">
+        <a href="{{pathFor 'accountRead' num=account.num}}" class="btn btn-default btn-xs view-account" title="Voir le compte" data-toggle="tooltip" data-placement="right">
+            <i class="fa fa-th-list"></i>
+        </a>
+    </span>
+</template>
+
 <template name="accountCreate">
 
 </template>
 
 <template name="accountRead">
-
+    <div id="account-read" class="container">
+        <h1>{{account.num}} {{account.lab}}</h1>
+        {{> tabular table=TabularTables.Account selector=selector id="tabular-account" class="table table-striped table-bordered table-condensed table-responsive"}}
+    </div>
 </template>
 
 <template name="accountUpdate">
