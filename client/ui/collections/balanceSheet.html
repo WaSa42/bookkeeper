@@ -1,0 +1,55 @@
+<template name="balanceSheetRead">
+    <div id="balance-sheet-read" class="container">
+        <header>
+            <h1>Bilan</h1>
+        </header>
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-bordered table-stripped">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Actif</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each actives}}
+                            <tr>
+                                <td>{{lab}}</td>
+                                <td class="text-right">{{abs balance}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <td class="text-right">{{getCleanFloat totalActives}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-bordered table-stripped">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Passif</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each passives}}
+                            <tr>
+                                <td>{{lab}}</td>
+                                <td class="text-right">{{abs balance}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <td class="text-right">{{getCleanFloat totalPassives}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</template>

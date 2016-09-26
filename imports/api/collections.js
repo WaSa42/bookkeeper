@@ -6,6 +6,12 @@ export const DifferencesRules = new Mongo.Collection('DifferencesRules');
 export const Journals = new Mongo.Collection('journals');
 export const Writings = new Mongo.Collection('writings');
 
+export const BalanceStatus = {
+    ZERO: 'zero',
+    CREDIT: 'credit',
+    DEBIT: 'debit'
+};
+
 Accounts.helpers({
     updateBalance() {
         if (Meteor.isServer) {
@@ -28,8 +34,17 @@ Accounts.helpers({
     },
     getBalanceStatus() {
         return this.balance === 0
-            ? 'Soldé'
+            ? BalanceStatus.ZERO
             : this.balance > 0
+                ? BalanceStatus.CREDIT
+                : BalanceStatus.DEBIT;
+    },
+    getBalanceLabel() {
+        const status = this.getBalanceStatus();
+
+        return status === BalanceStatus.ZERO
+            ? 'Soldé'
+            : status === BalanceStatus.CREDIT
                 ? `Créditeur de ${Math.abs(this.balance)} €`
                 : `Débiteur de ${Math.abs(this.balance)} €`;
     }
