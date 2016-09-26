@@ -113,14 +113,19 @@ function parse(file, callback) {
                     const getDate = input => input
                         ? moment(input, 'YYYYMMDD').toDate()
                         : null;
+                    const getFormatDate = input => input
+                        ? moment(input, 'YYYYMMDD').format('DD/MM/YYYY')
+                        : null;
 
                     writings.push({
                         journalCode: results.data[y][0],
                         journalLab: results.data[y][1],
                         writingNum: results.data[y][2],
                         writingDate: getDate(results.data[y][3]),
+                        formatDate: getFormatDate(results.data[y][3]),
                         accountNum: results.data[y][4],
                         accountLab: results.data[y][5],
+                        accountName: `${results.data[y][4]} ${results.data[y][5]}`,
                         accountAuxNum: results.data[y][6],
                         accountAuxLab: results.data[y][7],
                         pieceRef: results.data[y][8],
@@ -132,7 +137,7 @@ function parse(file, callback) {
                         dateLet: getDate(results.data[y][14]),
                         validDate: getDate(results.data[y][15]),
                         amountCurrency: results.data[y][16],
-                        iCurrency: results.data[y][17],
+                        iCurrency: results.data[y][17]
                     });
                 });
 
