@@ -1,0 +1,4 @@
+#balance-sheet-read .panel-table {
+    height: calc(100vh - 225px);
+    overflow-y: scroll;
+}

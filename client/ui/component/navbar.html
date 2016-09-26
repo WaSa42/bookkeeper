@@ -23,32 +23,22 @@
                     </li>
                     <li class="{{isActive route='accountList'}}"><a href="{{pathFor 'accountList'}}">Comptes</a></li>
                     <li class="{{isActive route='journalList'}}"><a href="{{pathFor 'journalList'}}">Journaux</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Divergences <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li class="{{isActive route='differenceList'}}"><a href="{{pathFor 'differenceList'}}">Validations</a></li>
-                            <li class="{{isActive route='differencesRuleList'}}"><a href="{{pathFor 'differencesRuleList'}}">Règles</a></li>
-                        </ul>
-                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comptabilité <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{pathFor 'balanceSheetRead'}}">Effectuer le bilan</a></li>
+                            <li class="{{isActive route='balanceSheetRead'}}"><a href="{{pathFor 'balanceSheetRead'}}">Effectuer le bilan</a></li>
                             <li><a href="#">Effectuer le compte de résultat</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Historique comptable</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fiscalité <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Effectuer le bilan</a></li>
-                            <li><a href="#">Effectuer le compte de résultat</a></li>
+                            <li class="{{isActive route='differenceList'}}"><a href="{{pathFor 'differenceList'}}">Valider les divergences</a></li>
+                            <li class="{{isActive route='differencesRuleList'}}"><a href="{{pathFor 'differencesRuleList'}}">Règles de divergences</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="#">Déterminer le résultat fiscale</a></li>
-                            <li><a href="#">Historique fiscale</a></li>
                         </ul>
                     </li>
                 </ul>
