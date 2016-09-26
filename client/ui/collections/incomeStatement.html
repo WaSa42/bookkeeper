@@ -1,0 +1,55 @@
+<template name="incomeStatementRead">
+    <div id="income-statement-read" class="container">
+        <header>
+            <h1>
+                <strong>
+                    <i class="fa fa-balance-scale"></i>
+                    Comptabilité
+                </strong>
+                <small class="text-uppercase">Compte de résultat</small>
+            </h1>
+        </header>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading"><strong>Charges</strong></div>
+                    <div class="panel-table">
+                        <table class="table text-uppercase">
+                            <tbody>
+                            {{#each charges}}
+                                <tr>
+                                    <td>{{lab}}</td>
+                                    <td class="text-right">{{abs balance}}</td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <strong>Total <span class="pull-right">{{getCleanFloat totalCharges}}</span></strong>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-danger">
+                    <div class="panel-heading"><strong>Produits</strong></div>
+                    <div class="panel-table">
+                        <table class="table">
+                            <tbody>
+                            {{#each products}}
+                                <tr>
+                                    <td>{{lab}}</td>
+                                    <td class="text-right">{{abs balance}}</td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <strong>Total <span class="pull-right">{{getCleanFloat totalProducts}}</span></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

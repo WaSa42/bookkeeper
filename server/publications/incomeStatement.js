@@ -1,7 +1,7 @@
 import { Accounts } from '/imports/api/collections';
 
-Meteor.publish('balanceSheet.read', () => {
+Meteor.publish('incomeStatement.read', () => {
     return Accounts.find({
-        num: /^[1-5]/
+        num: /^[6-7]/
     });
 });
