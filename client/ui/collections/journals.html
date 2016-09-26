@@ -36,5 +36,21 @@
                 <small class="text-uppercase">{{journal.lab}}</small>
             </h1>
         </header>
+        <table>
+            <tbody>
+                {{#each groups}}
+                    <tr>
+                        <td>
+                            <p class="text-center">{{formattedDate}}</p>
+                            {{#each writings}}
+                                <p>{{accountName}} {{debit}} {{credit}}</p>
+                            {{/each}}
+                            <p class="text-center">{{lab}}</p>
+                            <p>---------------------------------------------------------------------------------</p>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
     </div>
 </template>
