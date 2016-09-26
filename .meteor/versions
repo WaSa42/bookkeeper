@@ -15,6 +15,7 @@ caching-html-compiler@1.0.7
 callback-hook@1.0.9
 cfs:http-methods@0.0.32
 check@1.2.3
+chrismbeckett:toastr@2.1.2_1
 coffeescript@1.0.17
 dburles:collection-helpers@1.0.4
 ddp@1.2.5

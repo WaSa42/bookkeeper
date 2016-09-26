@@ -71,11 +71,9 @@ Template.writingsImport.events({
                 template.data.submitting = false;
 
                 if (err) {
-                    // TODO toastr
-                    alert(err.reason);
+                    toastr.error('Une erreur s\'est produite lors de l\'importation de votre fichier.', 'Oops!');
                 } else {
-                    // TODO toastr
-                    alert('Écritures importées.');
+                    toastr.success('Écritures importées avec succès !');
                     Router.go('writingList')
                 }
             });
@@ -95,14 +93,14 @@ function parse(file, callback) {
         skipEmptyLines: true,
         encoding: 'iso-8859-1', // TODO: detect encoding?
         error: (err, file, input, reason) => {
-            // TODO toastr
-            alert(reason);
+            toastr.error(reason);
         },
         complete: results => {
             if (results.errors.length) {
                 console.log('parser error', results.errors);
-                // TODO toastr for each error
-                alert('Error');
+                results.errors.forEach(error => {
+                    toastr.error(error.message);
+                });
             } else {
                 const writings = [];
                 results.data.shift();
