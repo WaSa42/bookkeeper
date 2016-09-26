@@ -1,5 +1,14 @@
 <template name="journalList">
     <div id="journal-list" class="container">
+        <header>
+            <h1>
+                <strong>
+                    <i class="fa fa-list"></i>
+                    Journaux
+                </strong>
+                <small class="text-uppercase">Liste</small>
+            </h1>
+        </header>
         {{> tabular table=TabularTables.Journals class="table table-striped table-bordered table-condensed table-responsive"}}
     </div>
 </template>
@@ -7,10 +16,10 @@
 <template name="journalListActions">
     <span id="journal-list-actions" class=" pull-right">
         <a href="{{pathFor 'journalRead' code=journal.code}}" class="btn btn-default btn-xs view-journal" title="Voir" data-toggle="tooltip" data-placement="left">
-            <i class="fa fa-eye"></i>
-            <span class="hidden-xs">Voir #{{journal.code}}</span>
+            <span class="hidden-xs">Voir</span>
+            <i class="fa fa-arrow-right"></i>
         </a>
-        <a type="button" class="btn btn-warning btn-xs view-account" title="Éditer" data-toggle="tooltip" data-placement="right">
+        <a type="button" class="btn btn-warning btn-xs view-account" title="Éditer" data-toggle="tooltip" data-placement="left">
             <i class="fa fa-edit"></i>
         </a>
     </span>
@@ -18,9 +27,14 @@
 
 <template name="journalRead">
     <div id="journal-read" class="container">
-        <h1>
-            <strong>#{{journal.code}}</strong>
-            <small>{{journal.lab}}</small>
-        </h1>
+        <header>
+            <h1>
+                <strong>
+                    <i class="fa fa-history"></i>
+                    {{journal.code}}
+                </strong>
+                <small class="text-uppercase">{{journal.lab}}</small>
+            </h1>
+        </header>
     </div>
 </template>
