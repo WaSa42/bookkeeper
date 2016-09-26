@@ -15,7 +15,7 @@
                     </span>
                     <input id="file-substitute" type="text" class="form-control" placeholder="exemple.txt">
                     <span class="input-group-btn">
-                        <button id="writings-import-button" type="button" class="btn btn-primary pull-right" disabled="{{isEmptyRows}}">
+                        <button id="writings-import-button" type="submit" class="btn btn-primary pull-right" disabled="{{isEmptyRows}}">
                             <i class="fa fa-upload"></i>
                             {{{_ 'writings.import.button.text' count=totalRows.get}}}
                         </button>
@@ -63,23 +63,23 @@
 
 <template name="writingsImportPreviewRow">
     <tr>
-        <!--<td>{{writing.[0]}}</td>-->
-        <!--<td>{{writing.[1]}}</td>-->
-        <td>{{writing.[2]}}</td>
-        <td>{{getDate writing.[3]}}</td>
-        <td class="text-uppercase">{{writing.[10]}}</td>
-        <td>{{writing.[4]}}</td>
-        <td>{{writing.[5]}}</td>
-        <!--<td>{{writing.[6]}}</td>-->
-        <!--<td>{{writing.[7]}}</td>-->
-        <!--<td class="text-uppercase">{{writing.[8]}}</td>-->
-        <!--<td>{{getDate writing.[9]}}</td>-->
-        <td class="text-left">{{writing.[11]}}</td>
-        <td class="text-right">{{writing.[12]}}</td>
-        <!--<td>{{writing.[13]}}</td>-->
-        <!--<td>{{getDate writing.[14]}}</td>-->
-        <!--<td>{{getDate writing.[15]}}</td>-->
-        <!--<td>{{writing.[16]}}</td>-->
-        <!--<td>{{writing.[17]}}</td>-->
+        <!--<td>{{writing.journalCode}}</td>-->
+        <!--<td>{{writing.journalLab}}</td>-->
+        <td>{{writing.writingNum}}</td>
+        <td>{{formatDate writing.writingDate}}</td>
+        <td class="text-uppercase">{{writing.writingLab}}</td>
+        <td>{{writing.accountNum}}</td>
+        <td>{{writing.accountLab}}</td>
+        <!--<td>{{writing.accountAuxNum}}</td>-->
+        <!--<td>{{writing.accountAuxLab}}</td>-->
+        <!--<td class="text-uppercase">{{writing.pieceRef}}</td>-->
+        <!--<td>{{formatDate writing.pieceDate}}</td>-->
+        <td class="text-left">{{writing.debit}}</td>
+        <td class="text-right">{{writing.credit}}</td>
+        <!--<td>{{writing.writingLet}}</td>-->
+        <!--<td>{{formatDate writing.dateLet}}</td>-->
+        <!--<td>{{formatDate writing.validDate}}</td>-->
+        <!--<td>{{writing.amountCurrency}}</td>-->
+        <!--<td>{{writing.iCurrency}}</td>-->
     </tr>
 </template>

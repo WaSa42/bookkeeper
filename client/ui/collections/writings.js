@@ -4,6 +4,8 @@ import Clusterize from 'clusterize.js';
 
 Template.writingsImport.onCreated(function () {
     this.data.cluster = null;
+    this.data.writings = null;
+    this.data.submitting = false;
     this.data.showPreview = new ReactiveVar(false);
     this.data.totalRows = new ReactiveVar(0);
 });
@@ -37,14 +39,15 @@ Template.writingsImport.events({
             }
 
             setTimeout(() => {
-                parse(files[0], rows => {
-                    this.totalRows.set(rows.length);
+                parse(files[0], result => {
+                    this.totalRows.set(result.total);
+                    this.writings = result.writings;
 
                     if (this.cluster) {
-                        this.cluster.update(rows);
+                        this.cluster.update(result.rows);
                     } else {
                         this.cluster = new Clusterize({
-                            rows,
+                            rows: result.rows,
                             scrollId: 'scroll-area',
                             contentId: 'content-area',
                             no_data_text: 'Chargement...'
@@ -53,12 +56,36 @@ Template.writingsImport.events({
                 });
             }, 500);
         }
+    },
+    'submit #writings-import': function (event, template) {
+        event.preventDefault();
+
+        if (template.data.submitting) {
+            return false;
+        }
+
+        template.data.submitting = true;
+
+        if (template.data.writings) {
+            Meteor.call('importWritings', template.data.writings, err => {
+                template.data.submitting = false;
+
+                if (err) {
+                    // TODO toastr
+                    alert(err.reason);
+                } else {
+                    // TODO toastr
+                    alert('Écritures importées.');
+                    Router.go('writingList')
+                }
+            });
+        }
     }
 });
 
 Template.writingsImportPreviewRow.helpers({
-    getDate: date => {
-        return date && moment(date, 'YYYYMMDD').format('DD/MM/YYYY');
+    formatDate: date => {
+        return date && moment(date).format('DD/MM/YYYY');
     }
 });
 
@@ -66,21 +93,58 @@ function parse(file, callback) {
     Papa.parse(file, {
         delimiter: '\t',
         skipEmptyLines: true,
-        encoding: 'iso-8859-1',
+        encoding: 'iso-8859-1', // TODO: detect encoding?
         error: (err, file, input, reason) => {
+            // TODO toastr
             alert(reason);
         },
         complete: results => {
             if (results.errors.length) {
                 console.log('parser error', results.errors);
+                // TODO toastr for each error
                 alert('Error');
             } else {
-                const rows = results.data.map(row => Blaze.toHTMLWithData(Template.writingsImportPreviewRow, {
-                    writing: row.map(column => column.trim())
-                }));
+                const writings = [];
+                results.data.shift();
 
-                rows.shift();
-                callback(rows);
+                results.data.forEach((row, y) => {
+                    row.forEach((column, x) => {
+                        results.data[y][x] = results.data[y][x].trim();
+                    });
+
+                    const getDate = input => input
+                        ? moment(input, 'YYYYMMDD').toDate()
+                        : null;
+
+                    writings.push({
+                        journalCode: results.data[y][0],
+                        journalLab: results.data[y][1],
+                        writingNum: results.data[y][2],
+                        writingDate: getDate(results.data[y][3]),
+                        accountNum: results.data[y][4],
+                        accountLab: results.data[y][5],
+                        accountAuxNum: results.data[y][6],
+                        accountAuxLab: results.data[y][7],
+                        pieceRef: results.data[y][8],
+                        pieceDate: getDate(results.data[y][9]),
+                        writingLab: results.data[y][10],
+                        debit: results.data[y][11],
+                        credit: results.data[y][12],
+                        writingLet: results.data[y][13],
+                        dateLet: getDate(results.data[y][14]),
+                        validDate: getDate(results.data[y][15]),
+                        amountCurrency: results.data[y][16],
+                        iCurrency: results.data[y][17],
+                    });
+                });
+
+                callback({
+                    total: writings.length,
+                    writings,
+                    rows: writings.map(writing => Blaze.toHTMLWithData(Template.writingsImportPreviewRow, {
+                        writing
+                    }))
+                });
             }
         }
     });
