@@ -1,17 +1,17 @@
-export const RULES_OF_DIFFERENCES = [{
-    name: "TVTS",
+export const DIFFERENCES = [{
+    name: 'TVTS',
     fileNum: 320,
-    differenceNature: 'D',
+    nature: 'D',
     alertAccounts: ['63514'],
     alertLabs: [],
     manualAmount: [],
     debitAccount: 'F19',
     creditAccount: 'F63514',
     case2058A: 'WG'
-},{
-    name: "Amendes et pénalités",
+}, {
+    name: 'Amendes et pénalités',
     fileNum: 364,
-    differenceNature: 'D',
+    nature: 'D',
     alertAccounts: ['6712'],
     alertLabs: [],
     questions: [],
@@ -19,10 +19,10 @@ export const RULES_OF_DIFFERENCES = [{
     debitAccount: 'F19',
     creditAccount: 'F6712',
     case2058A: 'WJ'
-},{
-    name: "Dégrèvement d'impôt",
+}, {
+    name: 'Dégrèvement d\'impôt',
     fileNum: 283,
-    differenceNature: 'D',
+    nature: 'D',
     alertAccounts: ['7717'],
     alertLabs: [],
     questions: [],
@@ -30,10 +30,10 @@ export const RULES_OF_DIFFERENCES = [{
     debitAccount: 'F7717',
     creditAccount: 'F19',
     case2058A: 'XG'
-},{
-    name: "CICE",
+}, {
+    name: 'CICE',
     fileNum: 325,
-    differenceNature: 'D',
+    nature: 'D',
     alertAccounts: ['649'],
     alertLabs: [],
     questions: [],

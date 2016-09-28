@@ -1,9 +1,13 @@
 import moment from 'moment';
 import Papa from 'papaparse';
 import Clusterize from 'clusterize.js';
-import { Writings } from '/imports/api/collections';
+import { Differences, Writings } from '/imports/api/collections';
 
 Template.writingsImport.onCreated(function () {
+    if (!this.data) {
+        this.data = {};
+    }
+
     this.data.cluster = null;
     this.data.writings = null;
     this.data.submitting = false;
@@ -170,38 +174,76 @@ Template.writingCreate.helpers({
     }
 });
 
+Template.divergentWritingList.onCreated(function () {
+    this.subscribe('differences.list');
+});
+
 Template.divergentWritingList.helpers({
     selector: function () {
-        return {isDivergent: true};
+        return {
+            isDivergent: true,
+            isValid: false
+        };
     }
 });
 
 Template.divergentWritingListActions.events({
     'click .validate': function (event, template) {
-        const writing = template.data.writing;
-        // TODO créer les écritures fiscales et les afficher dans writings
+        const difference = Differences.findOne(template.data.writing.differenceId);
 
-        const writings = [writing];
+        const getLabel = (accountNum, writing) => {
+            return accountNum === 'F19'
+                ? 'DIVERGENCES DÉFINITIVES'
+                : `${writing.lab}, AJUSTEMENT FISCAL`;
+        };
+
+        const now = moment();
+
+        const debitFiscalWriting = {
+            accountNum: difference.debitAccount,
+            accountLab: getLabel(difference.debitAccount, template.data.writing),
+            debit: template.data.writing.debit || template.data.writing.credit,
+            originalWritingId: template.data.writing._id,
+            date: now.toDate(),
+            formattedDate: now.format('DD/MM/YYYY'),
+        };
+
+        const creditFiscalWriting = {
+            accountNum: difference.creditAccount,
+            accountLab: getLabel(difference.creditAccount, template.data.writing),
+            credit: template.data.writing.credit || template.data.writing.debit,
+            originalWritingId: template.data.writing._id
+        };
+
+        const writings = [
+            debitFiscalWriting,
+            creditFiscalWriting
+        ];
 
         swal({
             type: 'info',
             width: '500px',
             showCancelButton: true,
             title: 'Êtes-vous sûr ?',
-            confirmButtonText: "Oui, valider !",
-            cancelButtonText: "Non, revérifier",
+            confirmButtonText: 'Oui, valider !',
+            cancelButtonText: 'Non, revérifier',
             html: Blaze.toHTMLWithData(Template.journalGroupSwal, {
-                formattedDate: writing.formattedDate,
+                formattedDate: template.data.writing.formattedDate,
                 writings,
-                lab: writing.lab
+                lab: template.data.writing.lab
             })
-        }, function(){
-            swal(
-                'Validé !',
-                'L\'écriture a bien été enregistrée.',
-                'success'
-            );
-        }
-        );
+        }).then(function () {
+            Meteor.call('insertFiscalWritings', writings, err => {
+                if (err) {
+                    toastr.error(err.reason);
+                } else {
+                    swal(
+                        'Validé !',
+                        'L\'écriture a bien été enregistrée.',
+                        'success'
+                    );
+                }
+            });
+        });
     }
 });

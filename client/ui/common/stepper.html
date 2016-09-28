@@ -49,6 +49,10 @@
                 </div>
             </div>
         </div>
-        {{> stepContent}}
+        {{#if isStep 1}}
+            {{> writingsImport home=true}}
+        {{else}}
+            {{> stepContent}}
+        {{/if}}
     </div>
 </template>

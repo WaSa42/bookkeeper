@@ -1,17 +1,25 @@
-import { Accounts, Journals, Writings } from '/imports/api/collections';
-import { RULES_OF_DIFFERENCES } from '/imports/api/differencesRules';
+import { Accounts, Journals, Writings, Differences } from '/imports/api/collections';
 
 Meteor.methods({
     importWritings: function (writings) {
         check(writings, Array);
 
+        const rules = Differences.find().fetch();
+
         writings.forEach((writing) => {
-            writing.isDivergent =  _.some(RULES_OF_DIFFERENCES, function(rule) {
-                const accountNum = writing.accountNum;
-                const lab = writing.lab;
-                return  _.some(rule.alertAccounts, alertAccount => accountNum.startsWith(alertAccount));
-                    // || _.some(rule.alertLabs, alertLab => alertLab.includes(lab));
+            writing.isDivergent = _.some(rules, rule => {
+                return _.some(rule.alertAccounts, alertAccount => {
+                    const isDivergent = writing.accountNum.startsWith(alertAccount);
+                        // || _.some(rule.alertLabs, alertLab => alertLab.includes(writing.lab));
+
+                    if (isDivergent) {
+                        writing.differenceId = rule._id;
+                    }
+
+                    return isDivergent;
+                });
             });
+
             writing.isValid = !writing.isDivergent;
         });
 
