@@ -27,3 +27,9 @@ Template.accountReadActions.onRendered(function () {
         }, 1000);
     });
 });
+
+Template.accountReadActions.onDestroyed(function () {
+    this.autorun(() => {
+        $('[data-toggle="popover"]').popover('destroy');
+    });
+});
