@@ -155,3 +155,31 @@
         {{/autoForm}}
     </div>
 </template>
+
+<template name="divergentWritingList">
+    <div id="divergent-writing-list" class="container">
+        <header>
+            <h1>
+                <strong>
+                    <i class="fa fa-random"></i>
+                    Divergences d'écriture
+                </strong>
+                <small class="text-uppercase">Liste</small>
+            </h1>
+        </header>
+        {{> tabular table=TabularTables.DivergentWritings selector=selector id="tabular-divergent-writings" class="table table-striped table-bordered table-condensed table-responsive"}}
+    </div>
+</template>
+
+<template name="divergentWritingListActions">
+    <span id="divergent-writing-list-actions" class=" pull-right">
+        <button type="button" class="btn btn-default btn-xs more" title="Voir la fiche" data-toggle="tooltip" data-placement="left">
+            <i class="fa fa-search-plus"></i>
+            <span class="hidden-xs">Voir la fiche</span>
+        </button>
+        <button type="button" class="btn btn-success btn-xs validate" title="Valider la divergence" data-toggle="tooltip" data-placement="left">
+            <i class="fa fa-check"></i>
+            <span class="hidden-xs">Valider</span>
+        </button>
+    </span>
+</template>

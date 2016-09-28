@@ -20,7 +20,10 @@ Template.journalRead.helpers({
         });
 
         return groups;
-    },
+    }
+});
+
+Template.journalGroup.helpers({
     credit: function (writing) {
         return writing.credit != 0 && writing.credit;
     },

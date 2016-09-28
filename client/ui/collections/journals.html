@@ -46,29 +46,56 @@
                 </tr>
             </thead>
             {{#each groups}}
-                <tbody>
-                    <tr class="journal-date">
-                        <td></td>
-                        <td class="text-center">{{formattedDate}}</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    {{#each writings}}
-                        <tr>
-                            <td class="text-right">{{accountNum}}</td>
-                            <td class="{{alignAccountWithCredit this}}">{{accountLab}}</td>
-                            <td>{{debit this}}</td>
-                            <td class="text-right">{{credit this}}</td>
-                        </tr>
-                    {{/each}}
-                    <tr class="journal-label">
-                        <td></td>
-                        <td class="text-center">{{lab}}</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
+                {{> journalGroup}}
             {{/each}}
         </table>
+    </div>
+</template>
+
+<template name="journalGroup">
+    <tbody id="journal-group">
+        <tr class="journal-date">
+            <td></td>
+            <td class="text-center">{{formattedDate}}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        {{#each writings}}
+            <tr>
+                <td class="text-right">{{accountNum}}</td>
+                <td class="{{alignAccountWithCredit this}}">{{accountLab}}</td>
+                <td>{{debit this}}</td>
+                <td class="text-right">{{credit this}}</td>
+            </tr>
+        {{/each}}
+        <tr class="journal-label">
+            <td></td>
+            <td class="text-center">{{lab}}</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</template>
+
+<template name="journalGroupSwal">
+    <div id="journal-group-swal">
+        <h4 class="text-primary">{{formattedDate}} {{lab}}</h4>
+        <div class="text-left">
+            <dl class="dl-horizontal">
+                {{#each writings}}
+                    <dt>N° de compte :</dt>
+                    <dd>{{accountNum}}</dd>
+                    <dt>Libellé de compte :</dt>
+                    <dd>{{accountLab}}</dd>
+                    {{#if debit}}
+                        <dt>Débit :</dt>
+                        <dd>{{debit}}</dd>
+                    {{else}}
+                        <dt>Crédit</dt>
+                        <dd>{{credit}}</dd>
+                    {{/if}}
+                {{/each}}
+            </dl>
+        </div>
     </div>
 </template>

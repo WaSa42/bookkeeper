@@ -76,7 +76,7 @@ Template.writingsImport.events({
                 } else {
                     toastr.success('Écritures importées avec succès !');
                     if (Router.current().route.getName() == 'writingsImport') Router.go('writingList');
-                    else Router.go('stepper', {step: '2'});
+                    else Router.go('stepper', {step: '3'});
                 }
 
                 loading.hide();
@@ -167,5 +167,41 @@ function parse(file, callback) {
 Template.writingCreate.helpers({
     writing: function () {
         return Writings;
+    }
+});
+
+Template.divergentWritingList.helpers({
+    selector: function () {
+        return {isDivergent: true};
+    }
+});
+
+Template.divergentWritingListActions.events({
+    'click .validate': function (event, template) {
+        const writing = template.data.writing;
+        // TODO créer les écritures fiscales et les afficher dans writings
+
+        const writings = [writing];
+
+        swal({
+            type: 'info',
+            width: '500px',
+            showCancelButton: true,
+            title: 'Êtes-vous sûr ?',
+            confirmButtonText: "Oui, valider !",
+            cancelButtonText: "Non, revérifier",
+            html: Blaze.toHTMLWithData(Template.journalGroupSwal, {
+                formattedDate: writing.formattedDate,
+                writings,
+                lab: writing.lab
+            })
+        }, function(){
+            swal(
+                'Validé !',
+                'L\'écriture a bien été enregistrée.',
+                'success'
+            );
+        }
+        );
     }
 });

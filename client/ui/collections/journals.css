@@ -2,9 +2,20 @@
     background-color: #f9f9f9;
 }
 
-#journal-read .journal-date,
-#journal-read .journal-label {
+#journal-group .journal-date,
+#journal-group .journal-label,
+#journal-group-swal .h4 {
     font-weight: bold;
     font-family: Menlo, Consolas, Monaco, monospace;
 }
 
+#journal-group-swal {
+    font-size: 14px;
+}
+
+#journal-group-swal dt,
+#journal-group-swal dd {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

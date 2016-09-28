@@ -8,6 +8,7 @@
     "clusterize.js": "^0.17.1",
     "meteor-node-stubs": "~0.2.0",
     "moment": "^2.15.1",
-    "papaparse": "^4.1.2"
+    "papaparse": "^4.1.2",
+    "sweetalert2": "^5.1.1"
   }
 }
