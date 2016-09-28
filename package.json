@@ -2,7 +2,7 @@
   "name": "bookkeeper",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run --settings settings.json"
   },
   "dependencies": {
     "clusterize.js": "^0.17.1",

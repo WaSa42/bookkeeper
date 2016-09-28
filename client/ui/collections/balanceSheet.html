@@ -9,60 +9,458 @@
                 <small class="text-uppercase">Bilan</small>
             </h1>
         </header>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-info">
-                    <div class="panel-heading"><strong>Actif</strong></div>
-                    <div class="panel-table">
-                        <table class="table text-uppercase">
-                            <tbody>
-                            {{#each actives}}
-                                <tr>
-                                    <td>{{lab}}</td>
-                                    <td class="text-right">{{abs balance}}</td>
-                                </tr>
-                            {{/each}}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="panel-footer">
-                        <strong>Total <span class="pull-right">{{getCleanFloat totalActives}}</span></strong>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel panel-danger">
-                    <div class="panel-heading"><strong>Passif</strong></div>
-                    <div class="panel-table">
-                        <table class="table">
-                            <tbody>
-                            {{#each passives}}
-                                <tr>
-                                    <td>{{lab}}</td>
-                                    <td class="text-right">{{abs balance}}</td>
-                                </tr>
-                            {{/each}}
-                            {{#unless isResultZero result}}
-                                <tr>
-                                    <td>
-                                        Résultat
-                                        {{#if isResultPositive result}}
-                                            (bénéfice)
-                                        {{else}}
-                                            (perte)
-                                        {{/if}}
-                                    </td>
-                                    <td class="text-right">{{getCleanFloat result}}</td>
-                                </tr>
-                            {{/unless}}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="panel-footer">
-                        <strong>Total <span class="pull-right">{{getCleanFloat (totalPassives result)}}</span></strong>
-                    </div>
-                </div>
-            </div>
+        <h2>Actif</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-stripped table-hover">
+                <thead>
+                    <tr>
+                        <th>ACTIF</th>
+                        <th>Brut</th>
+                        <th>Amortissement et dépréciation</th>
+                        <th>Net</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Capital souscrit non appelé</td>
+                        <td>{{getValue 'B4'}}</td>
+                        <td></td>
+                        <td>{{getActiveDiff '4'}}</td>
+                    </tr>
+                    <tr>
+                        <th>ACTIF IMMOBILISE</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Immobilisations incorporelles :</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Frais d'établissement</td>
+                        <td>{{getValue 'B7'}}</td>
+                        <td>{{getValue 'C7'}}</td>
+                        <td>{{getActiveDiff '7'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Frais de recherche et de développement</td>
+                        <td>{{getValue 'B8'}}</td>
+                        <td>{{getValue 'C8'}}</td>
+                        <td>{{getActiveDiff '8'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Concessions, brevets, licences, marques, procédés, logiciels, droits et valeurs similaires</td>
+                        <td>{{getValue 'B9'}}</td>
+                        <td>{{getValue 'C9'}}</td>
+                        <td>{{getActiveDiff '9'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Fonds commercial</td>
+                        <td>{{getValue 'B10'}}</td>
+                        <td>{{getValue 'C10'}}</td>
+                        <td>{{getActiveDiff '10'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Autres</td>
+                        <td>{{getValue 'B11'}}</td>
+                        <td>{{getValue 'C11'}}</td>
+                        <td>{{getActiveDiff '11'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Immobilisations incorporelles en cours</td>
+                        <td>{{getValue 'B12'}}</td>
+                        <td>{{getValue 'C12'}}</td>
+                        <td>{{getActiveDiff '12'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Avances et acomptes</td>
+                        <td>{{getValue 'B13'}}</td>
+                        <td></td>
+                        <td>{{getActiveDiff '13'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Immobilisations corporelles :</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Terrains</td>
+                        <td>{{getValue 'B15'}}</td>
+                        <td>{{getValue 'C15'}}</td>
+                        <td>{{getActiveDiff '15'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Constructions</td>
+                        <td>{{getValue 'B16'}}</td>
+                        <td>{{getValue 'C16'}}</td>
+                        <td>{{getActiveDiff '16'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Installations techniques, matériel et outillage industriels</td>
+                        <td>{{getValue 'B17'}}</td>
+                        <td>{{getValue 'C17'}}</td>
+                        <td>{{getActiveDiff '17'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Autres</td>
+                        <td>{{getValue 'B18'}}</td>
+                        <td>{{getValue 'C18'}}</td>
+                        <td>{{getActiveDiff '18'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Immobilisations corporelles en cours</td>
+                        <td>{{getValue 'B19'}}</td>
+                        <td>{{getValue 'C19'}}</td>
+                        <td>{{getActiveDiff '19'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Avances et acomptes</td>
+                        <td>{{getValue 'B20'}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Immobilisations financières :</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Participations</td>
+                        <td>{{getValue 'B22'}}</td>
+                        <td>{{getValue 'C22'}}</td>
+                        <td>{{getActiveDiff '22'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Créances rattachées à des participations</td>
+                        <td>{{getValue 'B23'}}</td>
+                        <td>{{getValue 'C23'}}</td>
+                        <td>{{getActiveDiff '23'}}</td>
+                    </tr>
+                    <tr>
+                        <td>TIAP</td>
+                        <td>{{getValue 'B24'}}</td>
+                        <td>{{getValue 'C24'}}</td>
+                        <td>{{getActiveDiff '24'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Autres titres immobilisés</td>
+                        <td>{{getValue 'B25'}}</td>
+                        <td>{{getValue 'C25'}}</td>
+                        <td>{{getActiveDiff '25'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Prêts</td>
+                        <td>{{getValue 'B26'}}</td>
+                        <td>{{getValue 'C26'}}</td>
+                        <td>{{getActiveDiff '26'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Autres</td>
+                        <td>{{getValue 'B27'}}</td>
+                        <td>{{getValue 'C27'}}</td>
+                        <td>{{getActiveDiff '27'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total I</th>
+                        <td>{{getActiveGrossTotal 1}}</td>
+                        <td>{{getActiveAmortizationTotal 1}}</td>
+                        <td>{{getTotalActiveDiff 1}}</td>
+                    </tr>
+                    <tr>
+                        <th>ACTIF CIRCULANT</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Stocks et en-cours :</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Matières premières et autres approvisionnements</td>
+                        <td>{{getValue 'B31'}}</td>
+                        <td>{{getValue 'C31'}}</td>
+                        <td>{{getActiveDiff '31'}}</td>
+                    </tr>
+                    <tr>
+                        <td>En-cours de production (biens et services)</td>
+                        <td>{{getValue 'B32'}}</td>
+                        <td>{{getValue 'C32'}}</td>
+                        <td>{{getActiveDiff '32'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Produits intermédiaires et finis</td>
+                        <td>{{getValue 'B33'}}</td>
+                        <td>{{getValue 'C33'}}</td>
+                        <td>{{getActiveDiff '33'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Marchandises</td>
+                        <td>{{getValue 'B34'}}</td>
+                        <td>{{getValue 'C34'}}</td>
+                        <td>{{getActiveDiff '34'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Avances et acomptes versés sur commande</td>
+                        <td>{{getValue 'B35'}}</td>
+                        <td></td>
+                        <td>{{getActiveDiff '35'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Créances :</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Créances Clients et Comptes rattachés</td>
+                        <td>{{getValue 'B37'}}</td>
+                        <td>{{getValue 'C37'}}</td>
+                        <td>{{getActiveDiff '37'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Autres</td>
+                        <td>{{getValue 'B38'}}</td>
+                        <td>{{getValue 'C38'}}</td>
+                        <td>{{getActiveDiff '38'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Capital souscrit - appelé, non versé</td>
+                        <td>{{getValue 'B39'}}</td>
+                        <td></td>
+                        <td>{{getActiveDiff '39'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Valeurs mobilières de placement :</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Actions propres</td>
+                        <td>{{getValue 'B41'}}</td>
+                        <td>{{getValue 'C41'}}</td>
+                        <td>{{getActiveDiff '41'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Autres titres</td>
+                        <td>{{getValue 'B42'}}</td>
+                        <td>{{getValue 'C42'}}</td>
+                        <td>{{getActiveDiff '42'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Instruments de trésorerie</td>
+                        <td>{{getValue 'B43'}}</td>
+                        <td></td>
+                        <td>{{getActiveDiff '43'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Disponibilités</td>
+                        <td>{{getValue 'B44'}}</td>
+                        <td></td>
+                        <td>{{getActiveDiff '44'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Charges constatées d'avance (3)</td>
+                        <td>{{getValue 'B45'}}</td>
+                        <td></td>
+                        <td>{{getActiveDiff '45'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total II</th>
+                        <td>{{getActiveGrossTotal 2}}</td>
+                        <td>{{getActiveAmortizationTotal 2}}</td>
+                        <td>{{getTotalActiveDiff 2}}</td>
+                    </tr>
+                    <tr>
+                        <td>Charges à répartir sur plusieurs exercices (III)</td>
+                        <td>{{getValue 'B47'}}</td>
+                        <td></td>
+                        <td>{{getActiveDiff '47'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Primes de remboursement des emprunts (IV)</td>
+                        <td>{{getValue 'B48'}}</td>
+                        <td></td>
+                        <td>{{getActiveDiff '48'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Ecarts de conversion Actif (V)</td>
+                        <td>{{getValue 'B49'}}</td>
+                        <td></td>
+                        <td>{{getActiveDiff '49'}}</td>
+                    </tr>
+                    <tr>
+                        <th>TOTAL GENERAL (I + II + III + IV + V)</th>
+                        <td>{{getActiveGrossTotal 'general'}}</td>
+                        <td>{{getActiveAmortizationTotal 'general'}}</td>
+                        <td>{{getTotalActiveDiff 'general'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h2>Passif</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-stripped table-hover">
+                <thead>
+                    <tr>
+                        <th colspan="2">PASSIF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>CAPITAUX PROPRES</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Capital (dont versé…)</td>
+                        <td>{{getValue 'B4' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Primes d'émission, de fusion, d'apport</td>
+                        <td>{{getValue 'B5' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Ecarts de réévaluation</td>
+                        <td>{{getValue 'B6' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Ecart d'équivalence</td>
+                        <td>{{getValue 'B7' false}}</td>
+                    </tr>
+                    <tr>
+                        <th>Réserves :</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Réserve légale</td>
+                        <td>{{getValue 'B9' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Réserves statutaires ou contractuelles</td>
+                        <td>{{getValue 'B10' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Réserves réglementées</td>
+                        <td>{{getValue 'B11' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Autres</td>
+                        <td>{{getValue 'B12' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Résultat de l'exercice (bénéfice ou perte)</td>
+                        <td>{{getValue 'B14' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Subventions d'investissement</td>
+                        <td>{{getValue 'B15' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Provisions réglementées</td>
+                        <td>{{getValue 'B16' false}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total I</th>
+                        <td>{{getPassiveTotal 1}}</td>
+                    </tr>
+                    <tr>
+                        <th>PROVISIONS</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Provisions pour risques</td>
+                        <td>{{getValue 'B19' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Provisions pour charges</td>
+                        <td>{{getValue 'B20' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Produits des émissions de titres participatifs</td>
+                        <td>{{getValue 'B21' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Avances conditionnées</td>
+                        <td>{{getValue 'B22' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Autres</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Total II</th>
+                        <td>{{getPassiveTotal 2}}</td>
+                    </tr>
+                    <tr>
+                        <th>DETTES</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Emprunts obligataires convertibles</td>
+                        <td>{{getValue 'B27' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Autres emprunts obligataires</td>
+                        <td>{{getValue 'B28' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Emprunts et dettes auprès des établissements de crédit</td>
+                        <td>{{getValue 'B29' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Emprunts et dettes financières diverses</td>
+                        <td>{{getValue 'B30' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Avances et acomptes reçus sur commandes en cours</td>
+                        <td>{{getValue 'B31' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Dettes Fournisseurs et Comptes rattachés</td>
+                        <td>{{getValue 'B32' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Dettes fiscales et sociales</td>
+                        <td>{{getValue 'B33' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Dettes sur immobilisations et Comptes rattachés</td>
+                        <td>{{getValue 'B34' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Autres dettes</td>
+                        <td>{{getValue 'B35' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Instruments de trésorerie</td>
+                        <td>{{getValue 'B36' false}}</td>
+                    </tr>
+                    <tr>
+                        <td>Produits constatés d'avance</td>
+                        <td>{{getValue 'B37' false}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total III</th>
+                        <td>{{getPassiveTotal 3}}</td>
+                    </tr>
+                    <tr>
+                        <td>Ecarts de conversion Passif (IV)</td>
+                        <td>{{getValue 'B39' false}}</td>
+                    </tr>
+                    <tr>
+                        <th>TOTAL GENERAL (I + II + III + IV)</th>
+                        <td>{{getPassiveTotal 'general'}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>

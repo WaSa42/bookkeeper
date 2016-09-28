@@ -1,0 +1,81 @@
+<template name="incomeStatementRead">
+    <div id="income-statement-read" class="container">
+        <header>
+            <h1>
+                <strong>
+                    <i class="fa fa-balance-scale"></i>
+                    Comptabilité
+                </strong>
+                <small class="text-uppercase">Compte de résultat</small>
+            </h1>
+        </header>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-danger">
+                    <div class="panel-heading"><strong>Charges</strong></div>
+                    <div class="panel-table">
+                        <table class="table text-uppercase">
+                            <tbody>
+                            {{#each charges}}
+                                <tr>
+                                    <td>{{lab}}</td>
+                                    <td class="text-right">{{abs balance}}</td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <strong>Sous-total <span class="pull-right">{{getCleanFloat subTotalCharges}}</span></strong><br>
+                        {{#if isResultCharges result}}
+                            <strong>
+                                Résultat (bénéfice)
+                                <span class="pull-right">{{abs (getCleanFloat result)}}</span>
+                            </strong>
+                        {{else}}
+                            <span>&nbsp;</span>
+                        {{/if}}
+                        <br>
+                        <strong>
+                            Total
+                            <span class="pull-right">{{totalCharges result}}</span>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading"><strong>Produits</strong></div>
+                    <div class="panel-table">
+                        <table class="table">
+                            <tbody>
+                            {{#each products}}
+                                <tr>
+                                    <td>{{lab}}</td>
+                                    <td class="text-right">{{abs balance}}</td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <strong>Sous-total <span class="pull-right">{{getCleanFloat subTotalProducts}}</span></strong><br>
+                        {{#if isResultCharges result}}
+                            <span>&nbsp;</span>
+                        {{else}}
+                            <strong>
+                                Résultat (perte)
+                                <span class="pull-right">{{abs (getCleanFloat result)}}</span>
+                            </strong>
+                        {{/if}}
+                        <br>
+                        <strong>
+                            Total
+                            <span class="pull-right">{{totalProducts result}}</span>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

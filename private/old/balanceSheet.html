@@ -1,0 +1,68 @@
+<template name="balanceSheetRead">
+    <div id="balance-sheet-read" class="container">
+        <header>
+            <h1>
+                <strong>
+                    <i class="fa fa-balance-scale"></i>
+                    Comptabilité
+                </strong>
+                <small class="text-uppercase">Bilan</small>
+            </h1>
+        </header>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading"><strong>Actif</strong></div>
+                    <div class="panel-table">
+                        <table class="table text-uppercase">
+                            <tbody>
+                            {{#each actives}}
+                                <tr>
+                                    <td>{{lab}}</td>
+                                    <td class="text-right">{{abs balance}}</td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <strong>Total <span class="pull-right">{{getCleanFloat totalActives}}</span></strong>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-danger">
+                    <div class="panel-heading"><strong>Passif</strong></div>
+                    <div class="panel-table">
+                        <table class="table">
+                            <tbody>
+                            {{#each passives}}
+                                <tr>
+                                    <td>{{lab}}</td>
+                                    <td class="text-right">{{abs balance}}</td>
+                                </tr>
+                            {{/each}}
+                            {{#unless isResultZero result}}
+                                <tr>
+                                    <td>
+                                        Résultat
+                                        {{#if isResultPositive result}}
+                                            (bénéfice)
+                                        {{else}}
+                                            (perte)
+                                        {{/if}}
+                                    </td>
+                                    <td class="text-right">{{getCleanFloat result}}</td>
+                                </tr>
+                            {{/unless}}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <strong>Total <span class="pull-right">{{getCleanFloat (totalPassives result)}}</span></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
