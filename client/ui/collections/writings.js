@@ -60,7 +60,7 @@ Template.writingsImport.events({
                     }
 
                     swal({
-                        type: 'info',
+                        type: 'question',
                         width: '500px',
                         showCancelButton: true,
                         title: 'Importer directement ?',
@@ -239,7 +239,7 @@ Template.divergentWritingList1Actions.events({
         const writings = getWritings(template.data.writing);
 
         swal({
-            type: 'info',
+            type: 'warning',
             width: '500px',
             showCancelButton: true,
             reverseButtons: true,

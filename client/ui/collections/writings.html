@@ -246,3 +246,53 @@
         </button>
     </span>
 </template>
+
+
+<template name="writingRead">
+    <div id="writing-read" class="container">
+        <header>
+            <h1>
+                <strong>
+                    <i class="fa fa-pencil"></i>
+                    {{writing.num}}
+                </strong>
+                <small>
+                    <span class="text-uppercase">{{writing.lab}}</span>
+                </small>
+            </h1>
+        </header>
+        <table>
+            <thead>
+                <tr class="text-uppercase">
+                    <th>Débit</th>
+                    <th>Crédit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{debit}}</td>
+                    <td>{{credit}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<template name="writingPopover">
+    <div id="writing-popover" style="position: relative;">
+        <table class="table table-bordered table-condensed table-responsive">
+            <thead>
+                <tr class="text-uppercase">
+                    <th>Débit</th>
+                    <th class="text-right">Crédit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{debit}}</td>
+                    <td class="text-right">{{credit}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template>

@@ -3,7 +3,7 @@
         <header>
             <h1>
                 <strong>
-                    <i class="fa fa-list"></i>
+                    <i class="fa fa-th-list"></i>
                     Comptes
                 </strong>
                 <small class="text-uppercase">Liste</small>
@@ -14,12 +14,27 @@
 </template>
 
 <template name="accountListActions">
-    <span id="writing-list-actions" class="pull-right">
+    <span id="account-list-actions" class="pull-right">
         <a href="{{pathFor 'accountRead' num=account.num}}" class="btn btn-default btn-xs view-account" title="Voir le compte" data-toggle="tooltip" data-placement="left">
-            <span class="hidden-xs">Voir</span>
+            <span class="hidden-xs">Voir le compte</span>
             <i class="fa fa-arrow-right"></i>
         </a>
     </span>
+</template>
+
+<template name="fiscalAccountList">
+    <div id="fiscal-account-list" class="container">
+        <header>
+            <h1>
+                <strong>
+                    <i class="fa fa-th-list"></i>
+                    Comptes fiscaux
+                </strong>
+                <small class="text-uppercase">Liste</small>
+            </h1>
+        </header>
+        {{> tabular table=TabularTables.FiscalAccounts selector=selector id="tabular-fiscal-accounts" class="table table-striped table-bordered table-condensed table-responsive"}}
+    </div>
 </template>
 
 <template name="accountRead">
@@ -37,5 +52,19 @@
             </h1>
         </header>
         {{> tabular table=TabularTables.Account selector=selector id="tabular-account" class="table table-striped table-bordered table-condensed table-responsive"}}
+    </div>
+</template>
+
+<template name="accountReadActions">
+    <div class="accountReadActions">
+        {{#if fiscal writing}}
+            {{#with originalWriting writing}}
+                <button type="button" class="btn btn-xs btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="{{writingPopover this}}"
+                        title="<i class='fa fa-pencil'></i> <strong>{{formattedDate}}</strong> <span class='text-primary'>{{lab}} #{{num}}</span>">
+                    <i class="fa fa-search-plus"></i>
+                    Consulter l'écriture originale
+                </button>
+            {{/with}}
+        {{/if}}
     </div>
 </template>
