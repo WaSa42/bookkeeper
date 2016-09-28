@@ -30,6 +30,9 @@ logandk:iron-router-active
 mikowals:batch-insert
 tap:i18n
 twbs:bootstrap
-zimme:active-route
 chrismbeckett:toastr
 sacha:spin
+aldeed:autoform
+rajit:bootstrap3-datepicker
+aldeed:autoform-bs-datepicker
+aldeed:collection2

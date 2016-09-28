@@ -15,10 +15,10 @@
 
 <template name="writingListActions">
     <span id="writing-list-actions" class=" pull-right">
-        <button type="button" class="btn btn-default btn-xs view-journal" title="Voir dans le journal" data-toggle="tooltip" data-placement="left">
+        <a href="{{pathFor 'journalRead' code=writing.journalCode}}"  class="btn btn-default btn-xs view-journal" title="Voir dans le journal" data-toggle="tooltip" data-placement="left">
             <i class="fa fa-history"></i>
             <span class="hidden-xs">Voir dans le journal</span>
-        </button>
+        </a>
         <a href="{{pathFor 'accountRead' num=writing.accountNum}}" class="btn btn-default btn-xs view-account" title="Voir le compte" data-toggle="tooltip" data-placement="left">
             <i class="fa fa-th-list"></i>
         </a>
@@ -55,6 +55,7 @@
         </form>
         <div class="{{previewHidden}}">
             {{> writingsImportPreview}}
+            <div id="writings-import-loading" class="loading" style="display: none;">{{> loading}}</div>
         </div>
     </div>
 </template>
@@ -67,8 +68,11 @@
                     <thead>
                         <tr>
                             <!--<th colspan="2">Journal</th>-->
-                            <th colspan="3">Écriture</th>
-                            <th colspan="2">Compte</th>
+                            <th>N°</th>
+                            <th>Date</th>
+                            <th>Libellé</th>
+                            <th>N° de compte</th>
+                            <th>Libellé du compte</th>
                             <!--<th colspan="2">Compte auxiliaire</th>-->
                             <!--<th colspan="2">Pièce</th>-->
                             <th class="text-left">Débit</th>
@@ -112,4 +116,42 @@
         <!--<td>{{writing.amountCurrency}}</td>-->
         <!--<td>{{writing.iCurrency}}</td>-->
     </tr>
+</template>
+
+<template name="writingCreate">
+    <div id="writing-create" class="container">
+        <header>
+            <h1>
+                <strong>
+                    <i class="fa fa-list"></i>
+                    Écritures
+                </strong>
+                <small class="text-uppercase">Création</small>
+            </h1>
+        </header>
+        {{#autoForm collection=writing id="writing-create-form" type="insert"}}
+            <fieldset>
+                <legend>Écriture</legend>
+                {{> afQuickField name='num'}}
+                {{> afQuickField name='lab'}}
+                {{> afQuickField name='debit'}}
+                {{> afQuickField name='credit'}}
+                {{> afQuickField name='date'}}
+            </fieldset>
+            <fieldset>
+                <legend>Journal associé</legend>
+                {{> afQuickField name='journalCode'}}
+                {{> afQuickField name='journalLab'}}
+            </fieldset>
+            <fieldset>
+                <legend>Compte associé</legend>
+                {{> afQuickField name='accountNum'}}
+                {{> afQuickField name='accountLab'}}
+            </fieldset>
+            <button type="submit" class="btn btn-success pull-right">
+                <i class="fa fa-plus-circle"></i>
+                Ajouter l'écriture
+            </button>
+        {{/autoForm}}
+    </div>
 </template>

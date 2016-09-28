@@ -1,0 +1,82 @@
+/* STEPPER */
+.stepper-horizontal .stepper-step {
+    width: 20%;
+}
+.stepper-horizontal {
+    display: table;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+.stepper-horizontal .stepper-step {
+    display: table-cell;
+    position: relative;
+}
+.stepper-horizontal .stepper-step:first-child .stepper-bar-left,
+.stepper-horizontal .stepper-step:last-child .stepper-bar-right {
+    display: none;
+}
+.stepper-horizontal .stepper-step .stepper-circle {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+    background-color: #9e9e9e;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 2em;
+    font-size: 25px;
+    color: white;
+}
+.stepper-horizontal .stepper-step.active .stepper-circle {
+    background-color: #5bc0de;
+}
+.stepper-horizontal .stepper-step.editable-step .stepper-circle {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+.stepper-horizontal .stepper-step.editable-step .stepper-circle:before {
+    content: "\270E";
+}
+.stepper-horizontal .stepper-step .stepper-title {
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: normal;
+}
+.stepper-horizontal .stepper-step .stepper-title,
+.stepper-horizontal .stepper-step .stepper-description {
+    text-align: center;
+    color: rgba(0, 0, 0, .26);
+}
+.stepper-horizontal .stepper-step.active .stepper-title {
+    color: rgba(0, 0, 0, .87);
+    font-weight: 500;
+}
+.stepper-horizontal .stepper-step.active.done .stepper-title,
+.stepper-horizontal .stepper-step.active.editable-step .stepper-title {
+    font-weight: 300;
+}
+.stepper-horizontal .stepper-step .stepper-description {
+    font-size: 12px;
+}
+.stepper-horizontal .stepper-step.active .stepper-description {
+    color: rgba(0, 0, 0, .54);
+}
+.stepper-horizontal .stepper-step .stepper-bar-left,
+.stepper-horizontal .stepper-step .stepper-bar-right {
+    position: absolute;
+    top: 25px;
+    height: 1px;
+    border-top: 1px solid #bdbdbd;
+}
+.stepper-horizontal .stepper-step .stepper-bar-right {
+    right: 0;
+    left: 50%;
+    margin-left: 25px;
+}
+.stepper-horizontal .stepper-step:not(last-child) .stepper-bar-left {
+    left: 0;
+    right: 50%;
+    margin-right: 25px;
+}

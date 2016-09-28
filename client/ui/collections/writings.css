@@ -1,5 +1,5 @@
 #writings-import-preview #scroll-area {
-    height: calc(100vh - 185px);
+    height: calc(100vh - 340px);
     overflow: auto;
     margin-bottom: 0;
 }

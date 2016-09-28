@@ -14,7 +14,7 @@ export const BalanceStatus = {
 
 export const AccountNum = {
     BALANCE_SHEET: /^[1-5]/,
-    INCOME_STATEMENT: /^[6-7]/,
+    INCOME_STATEMENT: /^[6-7]/
 };
 
 Accounts.helpers({

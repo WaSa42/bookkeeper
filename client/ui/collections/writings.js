@@ -1,6 +1,7 @@
 import moment from 'moment';
 import Papa from 'papaparse';
 import Clusterize from 'clusterize.js';
+import { Writings } from '/imports/api/collections';
 
 Template.writingsImport.onCreated(function () {
     this.data.cluster = null;
@@ -57,9 +58,9 @@ Template.writingsImport.events({
             }, 500);
         }
     },
-    'submit #writings-import': function (event, template) {
+    'submit #writings-import-form': function (event, template) {
         event.preventDefault();
-
+        const loading = $('#writings-import-loading').show();
         if (template.data.submitting) {
             return false;
         }
@@ -74,8 +75,11 @@ Template.writingsImport.events({
                     toastr.error('Une erreur s\'est produite lors de l\'importation de votre fichier.', 'Oops!');
                 } else {
                     toastr.success('Écritures importées avec succès !');
-                    Router.go('writingList')
+                    if (Router.current().route.getName() == 'writingsImport') Router.go('writingList');
+                    else Router.go('stepper', {step: '2'});
                 }
+
+                loading.hide();
             });
         }
     }
@@ -92,6 +96,7 @@ Template.writingListActions.onRendered(() => {
 });
 
 function parse(file, callback) {
+    const loading = $('.loading').show();
     Papa.parse(file, {
         delimiter: '\t',
         skipEmptyLines: true,
@@ -100,6 +105,7 @@ function parse(file, callback) {
             toastr.error(reason);
         },
         complete: results => {
+            loading.hide();
             if (results.errors.length) {
                 console.log('parser error', results.errors);
                 results.errors.forEach(error => {
@@ -157,3 +163,9 @@ function parse(file, callback) {
         }
     });
 }
+
+Template.writingCreate.helpers({
+    writing: function () {
+        return Writings;
+    }
+});

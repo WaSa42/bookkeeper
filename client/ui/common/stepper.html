@@ -1,0 +1,54 @@
+<template name="stepper">
+    <div id="stepper">
+        <div class="container">
+            <div id="stepper" class="stepper-horizontal">
+                <div class="stepper-step {{isActive path='/stepper/1'}} {{isDone 1}}">
+                    <div class="stepper-circle">
+                        <i class="fa fa-upload line-sized"></i>
+                    </div>
+                    <div class="stepper-title">Importer un FEC</div>
+                    <div class="stepper-description">Choisisez votre fichier d'écritures, prévisualisez-le et importez-le.</div>
+                    <div class="stepper-bar-left"></div>
+                    <div class="stepper-bar-right"></div>
+                </div>
+                <div class="stepper-step {{isActive path='/stepper/2'}} {{isDone 2}}">
+                    <div class="stepper-circle">
+                        <i class="fa fa-list line-sized"></i>
+                    </div>
+                    <div class="stepper-title">Gérer les écritures</div>
+                    <div class="stepper-description">Ajoutez ou supprimez des écritures.</div>
+                    <div class="stepper-bar-left"></div>
+                    <div class="stepper-bar-right"></div>
+                </div>
+                <div class="stepper-step {{isActive path='/stepper/3'}} {{isDone 3}}">
+                    <div class="stepper-circle">
+                        <i class="fa fa-random line-sized"></i>
+                    </div>
+                    <div class="stepper-title">Gérer les divergences</div>
+                    <div class="stepper-description">Répondez aux questions, puis validez les écritures qui divergent fiscalement.</div>
+                    <div class="stepper-bar-left"></div>
+                    <div class="stepper-bar-right"></div>
+                </div>
+                <div class="stepper-step {{isActive path='/stepper/4'}} {{isDone 4}}">
+                    <div class="stepper-circle">
+                        <i class="fa fa-balance-scale line-sized"></i>
+                    </div>
+                    <div class="stepper-title">Bilans & résultats</div>
+                    <div class="stepper-description">Visualisez vos bilans & résultats puis validez-les</div>
+                    <div class="stepper-bar-left"></div>
+                    <div class="stepper-bar-right"></div>
+                </div>
+                <div class="stepper-step {{isActive path='/stepper/5'}} {{isDone 5}}">
+                    <div class="stepper-circle">
+                        <i class="fa fa-download line-sized"></i>
+                    </div>
+                    <div class="stepper-title">Impression et exportation</div>
+                    <div class="stepper-description">Imprimez ou exportez vos documents au format Excel&trade;</div>
+                    <div class="stepper-bar-left"></div>
+                    <div class="stepper-bar-right"></div>
+                </div>
+            </div>
+        </div>
+        {{> stepContent}}
+    </div>
+</template>
