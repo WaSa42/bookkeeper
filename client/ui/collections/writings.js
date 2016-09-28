@@ -79,8 +79,8 @@ Template.writingsImport.events({
                     toastr.error('Une erreur s\'est produite lors de l\'importation de votre fichier.', 'Oops!');
                 } else {
                     toastr.success('Écritures importées avec succès !');
-                    if (Router.current().route.getName() == 'writingsImport') Router.go('writingList');
-                    else Router.go('stepper', {step: '3'});
+                    if (Router.current().route.getName() == 'writingsImport') Router.go('divergentWritingList');
+                    else Router.go('stepper', {step: '2'});
                 }
 
                 loading.hide();

@@ -18,7 +18,6 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Écritures <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="{{isActive route='writingList'}}"><a href="{{pathFor 'writingList'}}">Liste des écritures</a></li>
-                            <li class="{{isActive route='divergentWritingList'}}"><a href="{{pathFor 'divergentWritingList'}}">Liste des écritures divergentes</a></li>
                             <li class="{{isActive route='writingCreate'}}"><a href="{{pathFor 'writingCreate'}}">Ajouter une écriture</a></li>
                             <li class="divider"></li>
                             <li class="{{isActive route='writingsImport'}}"><a href="{{pathFor 'writingsImport'}}">Importer un fichier</a></li>
@@ -26,6 +25,7 @@
                     </li>
                     <li class="{{isActive route='accountList'}}"><a href="{{pathFor 'accountList'}}">Comptes</a></li>
                     <li class="{{isActive route='journalList'}}"><a href="{{pathFor 'journalList'}}">Journaux</a></li>
+                    <li class="{{isActive route='divergentWritingList'}}"><a href="{{pathFor 'divergentWritings'}}">Divergence {{#if hasPublishedCount 'divergentWritings'}}({{getPublishedCount 'divergentWritings'}}){{/if}}</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">

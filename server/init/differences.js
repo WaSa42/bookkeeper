@@ -11,6 +11,6 @@ Meteor.startup(() => {
             Differences.insert(rule);
         });
 
-        console.log(count, 'rule inserted');
+        console.log(Differences.find().count(), 'rule inserted');
     }
 });
