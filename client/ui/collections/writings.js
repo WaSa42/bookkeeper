@@ -191,53 +191,58 @@ Template.divergentWritingList.onCreated(function () {
 });
 
 Template.divergentWritingList.helpers({
-    selector: function () {
+    selector: function (differenceType) {
         return {
             isDivergent: true,
-            isValid: false
+            isValid: false,
+            differenceType
         };
     }
 });
 
-Template.divergentWritingListActions.events({
+function getLabel(accountNum, writing) {
+    return accountNum === 'F19'
+        ? 'DIVERGENCES DÉFINITIVES'
+        : `${writing.lab}, AJUSTEMENT FISCAL`;
+}
+
+function getWritings(writing) {
+    const difference = Differences.findOne(writing.differenceId);
+    const now = moment();
+
+    const debitFiscalWriting = {
+        accountNum: difference.debitAccount,
+        accountLab: getLabel(difference.debitAccount, writing),
+        debit: writing.debit || writing.credit,
+        credit: 0,
+        originalWritingId: writing._id,
+        date: now.toDate(),
+        formattedDate: now.format('DD/MM/YYYY')
+    };
+
+    const creditFiscalWriting = {
+        accountNum: difference.creditAccount,
+        accountLab: getLabel(difference.creditAccount, writing),
+        credit: writing.credit || writing.debit,
+        debit: 0,
+        originalWritingId: writing._id
+    };
+
+    return [
+        debitFiscalWriting,
+        creditFiscalWriting
+    ];
+}
+
+Template.divergentWritingList1Actions.events({
     'click .validate': function (event, template) {
-        const difference = Differences.findOne(template.data.writing.differenceId);
-
-        const getLabel = (accountNum, writing) => {
-            return accountNum === 'F19'
-                ? 'DIVERGENCES DÉFINITIVES'
-                : `${writing.lab}, AJUSTEMENT FISCAL`;
-        };
-
-        const now = moment();
-
-        const debitFiscalWriting = {
-            accountNum: difference.debitAccount,
-            accountLab: getLabel(difference.debitAccount, template.data.writing),
-            debit: template.data.writing.debit || template.data.writing.credit,
-            credit: 0,
-            originalWritingId: template.data.writing._id,
-            date: now.toDate(),
-            formattedDate: now.format('DD/MM/YYYY')
-        };
-
-        const creditFiscalWriting = {
-            accountNum: difference.creditAccount,
-            accountLab: getLabel(difference.creditAccount, template.data.writing),
-            credit: template.data.writing.credit || template.data.writing.debit,
-            debit: 0,
-            originalWritingId: template.data.writing._id
-        };
-
-        const writings = [
-            debitFiscalWriting,
-            creditFiscalWriting
-        ];
+        const writings = getWritings(template.data.writing);
 
         swal({
             type: 'info',
             width: '500px',
             showCancelButton: true,
+            reverseButtons: true,
             title: 'Êtes-vous sûr ?',
             confirmButtonText: 'Oui, valider !',
             cancelButtonText: 'Non, revérifier',
@@ -262,6 +267,68 @@ Template.divergentWritingListActions.events({
     }
 });
 
-Template.divergentWritingListActions.onRendered(() => {
-    $('[data-toggle="tooltip"]').tooltip()
+// TODO: divergentWritingList2Actions
+
+Template.divergentWritingList3Actions.events({
+    'click .validate': function (event, template) {
+        swal.setDefaults({
+            confirmButtonText: 'Suivant',
+            cancelButtonText: 'Annuler',
+            showCancelButton: true,
+            reverseButtons: true,
+            animation: false,
+            progressSteps: ['1', '2']
+        });
+
+        swal({
+            title: 'Saisir le montant',
+            input: 'number',
+            inputValidator: function (value) {
+                return new Promise(function (resolve, reject) {
+                    if (value && value > 0) {
+                        resolve();
+                    } else {
+                        reject('Montant invalide !');
+                    }
+                });
+            }
+        }).then(function (amount) {
+            swal.resetDefaults();
+
+            const writings = getWritings(template.data.writing);
+
+            writings[0].debit = amount;
+            writings[1].credit = amount;
+
+            swal({
+                type: 'info',
+                width: '500px',
+                showCancelButton: true,
+                reverseButtons: true,
+                animation: false,
+                title: 'Êtes-vous sûr ?',
+                confirmButtonText: 'Oui, valider !',
+                cancelButtonText: 'Non, revérifier',
+                html: Blaze.toHTMLWithData(Template.journalGroupSwal, {
+                    formattedDate: template.data.writing.formattedDate,
+                    writings,
+                    lab: template.data.writing.lab
+                })
+            }).then(function () {
+                Meteor.call('insertFiscalWritings', writings, err => {
+                    if (err) {
+                        toastr.error(err.reason);
+                    } else {
+                        swal(
+                            'Validé !',
+                            'L\'écriture a bien été enregistrée.',
+                            'success'
+                        );
+                    }
+                });
+            });
+        }, function () {
+            swal.resetDefaults();
+        });
+    }
 });

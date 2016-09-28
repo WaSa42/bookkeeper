@@ -42,8 +42,15 @@
         </div>
         {{#if isStep 1}}
             {{> writingsImport home=true}}
-        {{else}}
-            {{> stepContent}}
+        {{/if}}
+        {{#if isStep 2}}
+            {{> divergentWritingList}}
+        {{/if}}
+        {{#if isStep 3}}
+            {{> balanceSheetRead}}
+        {{/if}}
+        {{#if isStep 4}}
+            Export
         {{/if}}
     </div>
 </template>

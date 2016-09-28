@@ -5,7 +5,9 @@ Meteor.startup(() => {
     const count = Differences.find().count();
     console.log(count, 'rules');
 
-    if (count === 0) {
+    if (count !== DIFFERENCES.length) {
+        Differences.remove({});
+
         DIFFERENCES.forEach(rule => {
             console.log('insert rule', rule.name);
             Differences.insert(rule);

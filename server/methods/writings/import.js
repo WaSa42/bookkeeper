@@ -9,14 +9,24 @@ Meteor.methods({
         writings.forEach((writing) => {
             writing.isDivergent = _.some(rules, rule => {
                 return _.some(rule.alertAccounts, alertAccount => {
-                    const isDivergent = writing.accountNum.startsWith(alertAccount);
-                        // || _.some(rule.alertLabs, alertLab => alertLab.includes(writing.lab));
+                    let isDivergent;
 
-                    if (isDivergent) {
-                        writing.differenceId = rule._id;
+                    switch (rule.type) {
+                        case 1:
+                        case 2:
+                        case 3:
+                            isDivergent = writing.accountNum.startsWith(alertAccount);
+                                // || _.some(rule.alertLabs, alertLab => alertLab.includes(writing.lab));
+
+                            if (isDivergent) {
+                                writing.differenceId = rule._id;
+                                writing.differenceType = rule.type;
+                            }
+
+                            return isDivergent;
+                        default:
+                            throw new Meteor.Error('Not implemented');
                     }
-
-                    return isDivergent;
                 });
             });
 
