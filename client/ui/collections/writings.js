@@ -58,6 +58,18 @@ Template.writingsImport.events({
                             no_data_text: 'Chargement...'
                         });
                     }
+
+                    swal({
+                        type: 'info',
+                        width: '500px',
+                        showCancelButton: true,
+                        title: 'Importer directement ?',
+                        confirmButtonText: 'Oui, importer !',
+                        cancelButtonText: 'Non, prévisualiser',
+                        text: 'Vous pouvez importer directement votre FEC ou le prévisualisez auparavant.'
+                    }).then(function () {
+                        $('#writings-import-form').submit();
+                    });
                 });
             }, 500);
         }
@@ -248,4 +260,8 @@ Template.divergentWritingListActions.events({
             });
         });
     }
+});
+
+Template.divergentWritingListActions.onRendered(() => {
+    $('[data-toggle="tooltip"]').tooltip()
 });
