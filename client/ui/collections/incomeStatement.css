@@ -1,4 +1,4 @@
 #income-statement-read .panel-table {
-    height: calc(100vh - 225px);
+    height: calc(100vh - 265px);
     overflow-y: scroll;
 }

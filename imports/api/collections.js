@@ -12,6 +12,11 @@ export const BalanceStatus = {
     DEBIT: 'debit'
 };
 
+export const AccountNum = {
+    BALANCE_SHEET: /^[1-5]/,
+    INCOME_STATEMENT: /^[6-7]/,
+};
+
 Accounts.helpers({
     updateBalance() {
         if (Meteor.isServer) {

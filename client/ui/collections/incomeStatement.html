@@ -26,7 +26,20 @@
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <strong>Total <span class="pull-right">{{getCleanFloat totalCharges}}</span></strong>
+                        <strong>Sous-total <span class="pull-right">{{getCleanFloat subTotalCharges}}</span></strong><br>
+                        {{#if isResultCharges result}}
+                            <strong>
+                                Résultat (bénéfice)
+                                <span class="pull-right">{{abs (getCleanFloat result)}}</span>
+                            </strong>
+                        {{else}}
+                            <span>&nbsp;</span>
+                        {{/if}}
+                        <br>
+                        <strong>
+                            Total
+                            <span class="pull-right">{{totalCharges result}}</span>
+                        </strong>
                     </div>
                 </div>
             </div>
@@ -46,7 +59,20 @@
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <strong>Total <span class="pull-right">{{getCleanFloat totalProducts}}</span></strong>
+                        <strong>Sous-total <span class="pull-right">{{getCleanFloat subTotalProducts}}</span></strong><br>
+                        {{#if isResultCharges result}}
+                            <span>&nbsp;</span>
+                        {{else}}
+                            <strong>
+                                Résultat (perte)
+                                <span class="pull-right">{{abs (getCleanFloat result)}}</span>
+                            </strong>
+                        {{/if}}
+                        <br>
+                        <strong>
+                            Total
+                            <span class="pull-right">{{totalProducts result}}</span>
+                        </strong>
                     </div>
                 </div>
             </div>

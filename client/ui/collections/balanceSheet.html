@@ -42,11 +42,24 @@
                                     <td class="text-right">{{abs balance}}</td>
                                 </tr>
                             {{/each}}
+                            {{#unless isResultZero result}}
+                                <tr>
+                                    <td>
+                                        Résultat
+                                        {{#if isResultPositive result}}
+                                            (bénéfice)
+                                        {{else}}
+                                            (perte)
+                                        {{/if}}
+                                    </td>
+                                    <td class="text-right">{{getCleanFloat result}}</td>
+                                </tr>
+                            {{/unless}}
                             </tbody>
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <strong>Total <span class="pull-right">{{getCleanFloat totalPassives}}</span></strong>
+                        <strong>Total <span class="pull-right">{{getCleanFloat (totalPassives result)}}</span></strong>
                     </div>
                 </div>
             </div>

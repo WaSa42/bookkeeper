@@ -2,16 +2,26 @@ import { BalanceStatus } from '/imports/api/collections';
 
 Template.balanceSheetRead.helpers({
     actives: function () {
-        return getAccounts(this.accounts, BalanceStatus.DEBIT);
+        return getAccounts(this.balanceSheetAccounts, BalanceStatus.DEBIT);
     },
     totalActives: function () {
-        return getTotal(this.accounts, BalanceStatus.DEBIT);
+        return getTotal(this.balanceSheetAccounts, BalanceStatus.DEBIT);
     },
     passives: function () {
-        return getAccounts(this.accounts, BalanceStatus.CREDIT);
+        return getAccounts(this.balanceSheetAccounts, BalanceStatus.CREDIT);
     },
-    totalPassives: function () {
-        return getTotal(this.accounts, BalanceStatus.CREDIT);
+    totalPassives: function (result) {
+        return getTotal(this.balanceSheetAccounts, BalanceStatus.CREDIT) + result;
+    },
+    result: function () {
+        return getTotal(this.incomeStatementAccounts, BalanceStatus.CREDIT)
+            - getTotal(this.incomeStatementAccounts, BalanceStatus.DEBIT);
+    },
+    isResultZero: function (result) {
+        return result === 0;
+    },
+    isResultPositive: function (result) {
+        return result > 0;
     }
 });
 

@@ -1,7 +1,7 @@
-import { Accounts } from '/imports/api/collections';
+import { Accounts, AccountNum } from '/imports/api/collections';
 
 Meteor.publish('incomeStatement.read', () => {
     return Accounts.find({
-        num: /^[6-7]/
+        num: AccountNum.INCOME_STATEMENT
     });
 });
