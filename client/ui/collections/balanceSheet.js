@@ -1,13 +1,13 @@
 import { BalanceStatus } from '/imports/api/collections';
 
 const activeSettings = Meteor.settings.public.balanceSheet.active;
-const excludeActiveSettings = Meteor.settings.public.balanceSheet.active.exclude;
+const excludeActiveSettings = activeSettings.exclude;
 const passiveSettings = Meteor.settings.public.balanceSheet.passive;
-const excludePassiveSettings = Meteor.settings.public.balanceSheet.passive.exclude;
+const excludePassiveSettings = passiveSettings.exclude;
 
 Template.balanceSheetRead.helpers({
     getValue: function (cellKey, active = true) {
-        const value = Math.round(getTotalAccountsAmount(this.accounts, cellKey, active));
+        const value = Math.round(getValue(this.accounts, cellKey, active));
         return value === 0 ? null : value;
     },
     getActiveGrossTotal: function (totalId) {
@@ -25,20 +25,16 @@ Template.balanceSheetRead.helpers({
                 return null;
             }
 
-            const value = getTotalAccountsAmount(this.accounts, `B${row}`, active);
+            const value = Math.round(getValue(this.accounts, `B${row}`, active));
             return value === 0 ? null : value;
         }
 
         const diff = Math.round(
-            getTotalAccountsAmount(this.accounts, `B${row}`, active) -
-            getTotalAccountsAmount(this.accounts, `C${row}`, active)
+            getValue(this.accounts, `B${row}`, active) -
+            getValue(this.accounts, `C${row}`, active)
         );
 
-        if (!diff) {
-            return null;
-        }
-
-        return diff;
+        return diff || null;
     },
     getTotalActiveDiff: function (totalId) {
         const diff = Math.round(
@@ -46,11 +42,7 @@ Template.balanceSheetRead.helpers({
             getActiveTotal(totalId, this.accounts, 'C')
         );
 
-        if (!diff) {
-            return null;
-        }
-
-        return diff;
+        return diff || null;
     }
 });
 
@@ -90,11 +82,11 @@ function codeIsExcluded(cellKey, accountNum, active) {
         .some(excludedAccountNum => accountNum.startsWith(excludedAccountNum));
 }
 
-function getTotalAccountsAmount(accounts, cellKey, active) {
-    const allowNegative = !active && cellKey === 'B14';
+function getValue(accounts, cellKey, active) {
+    const onResultCell = !active && cellKey === 'B14';
 
     return getAccounts(accounts, cellKey, active)
-        .reduce((a, b) => a + allowNegative ? b.balance : Math.abs(b.balance), 0);
+        .reduce((a, b) => a + (onResultCell ? b.balance : Math.abs(b.balance)), 0);
 }
 
 
@@ -168,5 +160,5 @@ function getTotalCells(accounts, filter, active) {
         return filter(cellPosition.col, cellPosition.row);
     });
 
-    return cellKeys.reduce((a, b) => a + getTotalAccountsAmount(accounts, b, active), 0);
+    return cellKeys.reduce((a, b) => a + getValue(accounts, b, active), 0);
 }

@@ -9,73 +9,259 @@
                 <small class="text-uppercase">Compte de résultat</small>
             </h1>
         </header>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-danger">
-                    <div class="panel-heading"><strong>Charges</strong></div>
-                    <div class="panel-table">
-                        <table class="table text-uppercase">
-                            <tbody>
-                            {{#each charges}}
-                                <tr>
-                                    <td>{{lab}}</td>
-                                    <td class="text-right">{{abs balance}}</td>
-                                </tr>
-                            {{/each}}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="panel-footer">
-                        <strong>Sous-total <span class="pull-right">{{getCleanFloat subTotalCharges}}</span></strong><br>
-                        {{#if isResultCharges result}}
-                            <strong>
-                                Résultat (bénéfice)
-                                <span class="pull-right">{{abs (getCleanFloat result)}}</span>
-                            </strong>
-                        {{else}}
-                            <span>&nbsp;</span>
-                        {{/if}}
-                        <br>
-                        <strong>
-                            Total
-                            <span class="pull-right">{{totalCharges result}}</span>
-                        </strong>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel panel-info">
-                    <div class="panel-heading"><strong>Produits</strong></div>
-                    <div class="panel-table">
-                        <table class="table">
-                            <tbody>
-                            {{#each products}}
-                                <tr>
-                                    <td>{{lab}}</td>
-                                    <td class="text-right">{{abs balance}}</td>
-                                </tr>
-                            {{/each}}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="panel-footer">
-                        <strong>Sous-total <span class="pull-right">{{getCleanFloat subTotalProducts}}</span></strong><br>
-                        {{#if isResultCharges result}}
-                            <span>&nbsp;</span>
-                        {{else}}
-                            <strong>
-                                Résultat (perte)
-                                <span class="pull-right">{{abs (getCleanFloat result)}}</span>
-                            </strong>
-                        {{/if}}
-                        <br>
-                        <strong>
-                            Total
-                            <span class="pull-right">{{totalProducts result}}</span>
-                        </strong>
-                    </div>
-                </div>
-            </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-stripped table-hover">
+                <tbody>
+                <tr>
+                    <th>Produits d'exploitation :</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Ventes de marchandises</td>
+                    <td>{{getValue 'B3'}}</td>
+                </tr>
+                <tr>
+                    <td>Production vendue (biens et services)</td>
+                    <td>{{getValue 'B4'}}</td>
+                </tr>
+                <tr>
+                    <th>Montant net du chiffre d'affaires</th>
+                    <td>{{getTotal 'turnover'}}</td>
+                </tr>
+                <tr>
+                    <td>Production stockée</td>
+                    <td>{{getValue 'B6'}}</td>
+                </tr>
+                <tr>
+                    <td>Production immobilisée</td>
+                    <td>{{getValue 'B7'}}</td>
+                </tr>
+                <tr>
+                    <td>Subventions d'exploitation</td>
+                    <td>{{getValue 'B8'}}</td>
+                </tr>
+                <tr>
+                    <td>Reprises sur provisions (et amortissements), transferts de charges</td>
+                    <td>{{getValue 'B9'}}</td>
+                </tr>
+                <tr>
+                    <td>Autres produits</td>
+                    <td>{{getValue 'B10'}}</td>
+                </tr>
+                <tr>
+                    <th>Total I</th>
+                    <td>{{getTotal 1}}</td>
+                </tr>
+                <tr>
+                    <th>Charges d'exploitation</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Achats de marchandises</td>
+                    <td>{{getValue 'B13'}}</td>
+                </tr>
+                <tr>
+                    <td>Variation de stocks</td>
+                    <td>{{getValue 'B14'}}</td>
+                </tr>
+                <tr>
+                    <td>Achats de matières premières et autres approvisionnements</td>
+                    <td>{{getValue 'B15'}}</td>
+                </tr>
+                <tr>
+                    <td>Variation de stock</td>
+                    <td>{{getValue 'B16'}}</td>
+                </tr>
+                <tr>
+                    <td>Autres achats et charges externes</td>
+                    <td>{{getValue 'B17'}}</td>
+                </tr>
+                <tr>
+                    <td>Impôts, taxes et versements assimilés</td>
+                    <td>{{getValue 'B18'}}</td>
+                </tr>
+                <tr>
+                    <td>Salaires et traitements</td>
+                    <td>{{getValue 'B19'}}</td>
+                </tr>
+                <tr>
+                    <td>Charges sociales</td>
+                    <td>{{getValue 'B20'}}</td>
+                </tr>
+                <tr>
+                    <td>Dotations aux amortissements et dépréciations :</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Sur immobilisations :<br>dotations aux amortissements</td>
+                    <td>{{getValue 'B22'}}</td>
+                </tr>
+                <tr>
+                    <td>Sur immobilisations :<br>dotations aux dépréciations</td>
+                    <td>{{getValue 'B24'}}</td>
+                </tr>
+                <tr>
+                    <td>Sur actif circulant :<br>dotations aux dépréciations</td>
+                    <td>{{getValue 'B26'}}</td>
+                </tr>
+                <tr>
+                    <td>Dotations aux provisions</td>
+                    <td>{{getValue 'B28'}}</td>
+                </tr>
+                <tr>
+                    <td>Autres charges</td>
+                    <td>{{getValue 'B29'}}</td>
+                </tr>
+                <tr>
+                    <th>Total II</th>
+                    <td>{{getTotal 2}}</td>
+                </tr>
+                <tr>
+                    <th>1. RESULTAT D'EXPLOITATION (I - II)</th>
+                    <td>{{getTotal 'operating-income'}}</td>
+                </tr>
+                <tr>
+                    <th>Quotes-parts de résultat sur opérations faites en commun :</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Bénéfice ou perte transféré III</td>
+                    <td>{{getValue 'B33'}}</td>
+                </tr>
+                <tr>
+                    <td>Perte ou bénéfice transféré IV</td>
+                    <td>{{getValue 'B34'}}</td>
+                </tr>
+                <tr>
+                    <th>Produits financiers :</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>De participation</td>
+                    <td>{{getValue 'B36'}}</td>
+                </tr>
+                <tr>
+                    <td>D'autres valeurs mobilières et créances de l'actif immobilisé</td>
+                    <td>{{getValue 'B37'}}</td>
+                </tr>
+                <tr>
+                    <td>Autres intérêts et produits assimilés</td>
+                    <td>{{getValue 'B38'}}</td>
+                </tr>
+                <tr>
+                    <td>Reprises sur provisions et dépréciations et transferts de charges</td>
+                    <td>{{getValue 'B39'}}</td>
+                </tr>
+                <tr>
+                    <td>Différences positives de change</td>
+                    <td>{{getValue 'B40'}}</td>
+                </tr>
+                <tr>
+                    <td>Produits nets sur cessions de valeurs mobilières de placement</td>
+                    <td>{{getValue 'B41'}}</td>
+                </tr>
+                <tr>
+                    <th>Total V</th>
+                    <td>{{getTotal 5}}</td>
+                </tr>
+                <tr>
+                    <th>Charges financières :</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Dotations aux amortissements, aux dépréciations et aux provisions</td>
+                    <td>{{getValue 'B44'}}</td>
+                </tr>
+                <tr>
+                    <td>Intérêts et charges assimilées</td>
+                    <td>{{getValue 'B45'}}</td>
+                </tr>
+                <tr>
+                    <td>Différences négatives de change</td>
+                    <td>{{getValue 'B46'}}</td>
+                </tr>
+                <tr>
+                    <td>Charges nettes sur cessions de valeurs mobilières de placement</td>
+                    <td>{{getValue 'B47'}}</td>
+                </tr>
+                <tr>
+                    <th>Total VI</th>
+                    <td>{{getTotal 6}}</td>
+                </tr>
+                <tr>
+                    <th>2. RESULTAT FINANCIER (V - VI)</th>
+                    <td>{{getTotal 'financial-result'}}</td>
+                </tr>
+                <tr>
+                    <th>3. RESULTAT COURANT avant impôts<br>(I − II + III − IV + V − VI)</th>
+                    <td>{{getTotal 'current-profit'}}</td>
+                </tr>
+                <tr>
+                    <th>Produits exceptionnels :</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Sur opérations de gestion</td>
+                    <td>{{getValue 'B53'}}</td>
+                </tr>
+                <tr>
+                    <td>Sur opérations en capital</td>
+                    <td>{{getValue 'B54'}}</td>
+                </tr>
+                <tr>
+                    <td>Reprises sur provisions et dépréciations et transferts de charges</td>
+                    <td>{{getValue 'B55'}}</td>
+                </tr>
+                <tr>
+                    <th>Total VII</th>
+                    <td>{{getTotal 7}}</td>
+                </tr>
+                <tr>
+                    <th>Charges exceptionnelles :</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Sur opérations de gestion</td>
+                    <td>{{getValue 'B58'}}</td>
+                </tr>
+                <tr>
+                    <td>Sur opérations en capital</td>
+                    <td>{{getValue 'B59'}}</td>
+                </tr>
+                <tr>
+                    <td>Dotations aux amortissements, aux dépréciations et aux provisions</td>
+                    <td>{{getValue 'B60'}}</td>
+                </tr>
+                <tr>
+                    <th>Total VIII</th>
+                    <td>{{getTotal 8}}</td>
+                </tr>
+                <tr>
+                    <th>4. RESULTAT EXCEPTIONNEL (VII - VIII)</th>
+                    <td>{{getTotal 'exceptional-result'}}</td>
+                </tr>
+                <tr>
+                    <th>Participation des salariés aux résultats (IX)</th>
+                    <td>{{getValue 'B63'}}</td>
+                </tr>
+                <tr>
+                    <th>Impôts sur les bénéfices (X)</th>
+                    <td>{{getValue 'B64'}}</td>
+                </tr>
+                <tr>
+                    <th>Total des produits (I + III + V + VII)</th>
+                    <td>{{getTotal 'products'}}</td>
+                </tr>
+                <tr>
+                    <th>Total des charges (II + IV + VI + VIII + IX + X)</th>
+                    <td>{{getTotal 'charges'}}</td>
+                </tr>
+                <tr>
+                    <th>Bénéfice ou perte</th>
+                    <td>{{getTotal 'result'}}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
