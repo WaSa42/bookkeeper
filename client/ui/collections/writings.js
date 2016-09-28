@@ -203,15 +203,17 @@ Template.divergentWritingListActions.events({
             accountNum: difference.debitAccount,
             accountLab: getLabel(difference.debitAccount, template.data.writing),
             debit: template.data.writing.debit || template.data.writing.credit,
+            credit: 0,
             originalWritingId: template.data.writing._id,
             date: now.toDate(),
-            formattedDate: now.format('DD/MM/YYYY'),
+            formattedDate: now.format('DD/MM/YYYY')
         };
 
         const creditFiscalWriting = {
             accountNum: difference.creditAccount,
             accountLab: getLabel(difference.creditAccount, template.data.writing),
             credit: template.data.writing.credit || template.data.writing.debit,
+            debit: 0,
             originalWritingId: template.data.writing._id
         };
 

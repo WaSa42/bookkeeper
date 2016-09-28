@@ -2,6 +2,16 @@ import { Accounts, Writings } from '/imports/api/collections';
 
 Meteor.methods({
     insertFiscalWritings: function (writings) {
+        Writings.update({
+            _id: writings[0].originalWritingId
+        }, {
+            $set: {
+                isValid: true
+            }
+        });
+
+        Writings.batchInsert(writings);
+
         writings.forEach(writing => {
             const account = Accounts.findOne({
                 num: writing.accountNum
@@ -17,15 +27,5 @@ Meteor.methods({
                 doc.updateBalance();
             }
         });
-
-        Writings.update({
-            _id: writings[0].originalWritingId
-        }, {
-            $set: {
-                isValid: true,
-            }
-        });
-
-        Writings.batchInsert(writings);
     }
 });
