@@ -70,7 +70,17 @@ function getValue(accounts, cellKey, fiscal) {
     return getAccounts(accounts, cellKey, fiscal).reduce((a, b) => {
         // Fiscal
         if (b.num.startsWith('F')) {
-            return a + b.balance;
+            const status = b.getBalanceStatus();
+
+            if (b.num.startsWith('F6')) {
+                return status === BalanceStatus.DEBIT
+                    ? a + Math.abs(b.balance)
+                    : a - Math.abs(b.balance);
+            } else {
+                return status === BalanceStatus.DEBIT
+                    ? a - Math.abs(b.balance)
+                    : a + Math.abs(b.balance);
+            }
         }
 
         // Production stockée

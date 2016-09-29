@@ -32,7 +32,7 @@ Meteor.methods({
             doc.updateBalance();
         });
     },
-    validateAllWritings: function (typeNum, differenceTag) {
+    validateAllWritings: function (typeNum, differenceTag, extra = {}) {
         const selector = {
             isDivergent: true,
             isValid: false,
@@ -43,8 +43,17 @@ Meteor.methods({
             selector.differenceTag = differenceTag;
         }
 
-        const writings = Writings.find(selector).fetch();
-        // TODO créer les écritures fiscales
-        console.log(writings.length, 'écritures à traiter');
+        Writings.find(selector).fetch().forEach(writing => {
+            const writings = getWritings(writing);
+
+            if (extra.amount) {
+                writings.forEach(w => {
+                    if (w.debit !== 0) w.debit = extra.amount;
+                    if (w.credit !== 0) w.credit = extra.amount;
+                });
+            }
+
+            Meteor.call('insertFiscalWritings', writings);
+        });
     }
 });

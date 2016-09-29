@@ -230,6 +230,33 @@ Template.globalWritingsActions.helpers({
     }
 });
 
+function askConfirmation(callback) {
+    swal({
+        type: 'warning',
+        showCancelButton: true,
+        reverseButtons: true,
+        title: 'Êtes-vous sûr ?',
+        confirmButtonText: 'Oui, valider !',
+        cancelButtonText: 'Non, revérifier'
+    }).then(callback);
+}
+
+function sendSelection(data, extra = {}) {
+    const selection = data.export.get();
+    const tag = selection ? selection.tag : null;
+
+    Meteor.call('validateAllWritings', data.typeNum, tag, extra, err => {
+        if (err) {
+            toastr.error(err.reason);
+        } else {
+            swal({
+                type: 'success',
+                text: 'Opération effectuée.'
+            });
+        }
+    });
+}
+
 Template.globalWritingsActions.events({
     'click .select': function (event, template) {
         template.data.export.set(this);
@@ -240,94 +267,25 @@ Template.globalWritingsActions.events({
     'click #validate-all': function (event, template) {
         switch (template.data.typeNum) {
             case 1:
-                swal({
-                    type: 'warning',
-                    showCancelButton: true,
-                    reverseButtons: true,
-                    title: 'Êtes-vous sûr ?',
-                    confirmButtonText: 'Oui, valider !',
-                    cancelButtonText: 'Non, revérifier'
-                }).then(function () {
-                    const selection = template.data.export.get();
-                    const tag = selection ? selection.tag : null;
-
-                    Meteor.call('validateAllWritings', template.data.typeNum, tag, err => {
-                        if (err) {
-                            toastr.error(err.reason);
-                        } else {
-                            swal({
-                                type: 'success',
-                                text: 'Opération effectuée.'
-                            });
-                        }
-                    });
+            case 2:
+                askConfirmation(() => {
+                    sendSelection(template.data);
                 });
                 break;
-            case 2:
+            case 3:
+                askAmount(amount => {
+                    askConfirmation(() => {
+                        sendSelection(template.data, {
+                            amount
+                        });
+                    });
+                });
                 break;
             default:
                 throw new Error('Not implemented');
         }
     }
 });
-
-function getLabel(accountNum, writing) {
-    return accountNum === 'F19'
-        ? 'DIVERGENCES DÉFINITIVES'
-        : `${writing.lab}, AJUSTEMENT FISCAL`;
-}
-
-function getWritings(writing) {
-    const difference = Differences.findOne(writing.differenceId);
-    const now = moment();
-    const values = {
-        originalWritingId: writing._id,
-        date: now.toDate(),
-        formattedDate: now.format('DD/MM/YYYY')
-    };
-
-    let debitFiscalWriting;
-    let creditFiscalWriting;
-
-    if (writing.debit !== 0) {
-        creditFiscalWriting = {
-            ...values,
-            accountNum: `F${writing.accountNum}`,
-            accountLab: getLabel(difference.creditAccount, writing),
-            debit: 0,
-            credit: writing.debit
-        };
-
-        debitFiscalWriting = {
-            ...values,
-            accountNum: 'F19',
-            accountLab: getLabel(difference.debitAccount, writing),
-            debit: writing.debit,
-            credit: 0
-        };
-    } else {
-        debitFiscalWriting = {
-            ...values,
-            accountNum: `F${writing.accountNum}`,
-            accountLab: getLabel(difference.debitAccount, writing),
-            debit: writing.credit,
-            credit: 0
-        };
-
-        creditFiscalWriting = {
-            ...values,
-            accountNum: 'F19',
-            accountLab: getLabel(difference.creditAccount, writing),
-            debit: 0,
-            credit: writing.credit
-        }
-    }
-
-    return [
-        debitFiscalWriting,
-        creditFiscalWriting
-    ];
-}
 
 Template.divergentWritingList1Actions.events({
     'click .validate': function (event, template) {
@@ -362,34 +320,39 @@ Template.divergentWritingList1Actions.events({
     }
 });
 
-// TODO: divergentWritingList2Actions
+function askAmount(callback) {
+    swal.setDefaults({
+        confirmButtonText: 'Suivant',
+        cancelButtonText: 'Annuler',
+        showCancelButton: true,
+        reverseButtons: true,
+        animation: false,
+        progressSteps: ['1', '2']
+    });
+
+    swal({
+        title: '1. Saisir le montant',
+        input: 'number',
+        inputValidator: function (value) {
+            return new Promise(function (resolve, reject) {
+                if (value && value > 0) {
+                    resolve();
+                } else {
+                    reject('Montant invalide !');
+                }
+            });
+        }
+    }).then(function (amount) {
+        swal.resetDefaults();
+        callback(getCleanFloat(amount));
+    }, function () {
+        swal.resetDefaults();
+    });
+}
 
 Template.divergentWritingList3Actions.events({
     'click .validate': function (event, template) {
-        swal.setDefaults({
-            confirmButtonText: 'Suivant',
-            cancelButtonText: 'Annuler',
-            showCancelButton: true,
-            reverseButtons: true,
-            animation: false,
-            progressSteps: ['1', '2']
-        });
-
-        swal({
-            title: '1. Saisir le montant',
-            input: 'number',
-            inputValidator: function (value) {
-                return new Promise(function (resolve, reject) {
-                    if (value && value > 0) {
-                        resolve();
-                    } else {
-                        reject('Montant invalide !');
-                    }
-                });
-            }
-        }).then(function (amount) {
-            swal.resetDefaults();
-
+        askAmount(amount => {
             const writings = getWritings(template.data.writing);
 
             writings[0].debit = amount;
@@ -422,8 +385,6 @@ Template.divergentWritingList3Actions.events({
                     }
                 });
             });
-        }, function () {
-            swal.resetDefaults();
         });
     }
 });
