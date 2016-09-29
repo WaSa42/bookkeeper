@@ -171,36 +171,24 @@ export const DIFFERENCES = [{
     }],
     manualAmount: true,
     debitAccount: [{
-        condition: {
-            min: 0
-        },
+        min: 0,
         num: 'F50'
     }, {
-        condition: {
-            max: 0
-        },
+        max: 0,
         num: 'F667'
     }],
     creditAccount:  [{
-        condition: {
-            min: 0
-        },
+        min: 0,
         num: 'F767'
     }, {
-        condition: {
-            max: 0
-        },
+        max: 0,
         num: 'F50'
     }],
     case2058A: [{
-        condition: {
-            min: 0
-        },
+        min: 0,
         num: 'XR'
     }, {
-        condition: {
-            max: 0
-        },
+        max: 0,
         num: 'XS'
     }],
     type: 4
