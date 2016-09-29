@@ -151,7 +151,7 @@ export const DIFFERENCES = [{
     case2058A: 'WQ',
     type: 4
 }, {
-    name: 'Valeur plus ou moins latente',
+    name: 'Plus ou moins-value latente ?',
     tag: 12,
     fileNum: 110,
     nature: 'P',
@@ -159,7 +159,7 @@ export const DIFFERENCES = [{
     alertLabs: [],
     questions: [{
         type: 'YN',
-        text: 'La valeur est-elle plus ou moins latente ?'
+        text: 'Plus ou moins-value latente ?'
     }],
     manualAmount: true,
     debitAccount: {
@@ -204,4 +204,56 @@ export const DIFFERENCES = [{
     creditAccount: 'F6234',
     case2058A: 'WQ',
     type: 4
+}, {
+    name: 'TVTS',
+    tag: 15,
+    fileNum: 320,
+    nature: 'D',
+    alertAccounts: [],
+    alertLabs: ['Véhicules de société', 'TVS', 'TVTS'],
+    questions: [],
+    manualAmount: false,
+    debitAccount: 'F19',
+    creditAccount: 'auto',
+    case2058A: 'WQ',
+    type: 5
+}, {
+    name: 'Amendes et pénalités',
+    tag: 16,
+    fileNum: 364,
+    nature: 'D',
+    alertAccounts: [],
+    alertLabs: ['amende', 'TVS', 'Majoration'],
+    questions: [],
+    manualAmount: false,
+    debitAccount: 'F19',
+    creditAccount: 'auto',
+    case2058A: 'WG',
+    type: 5
+}, {
+    name: 'Dégrèvement d\'impôt',
+    tag: 17,
+    fileNum: 283,
+    nature: 'D',
+    alertAccounts: [],
+    alertLabs: ['Dégrèvement', 'Remboursement'],
+    questions: [],
+    manualAmount: false,
+    debitAccount: 'F19',
+    creditAccount: 'auto',
+    case2058A: 'XG',
+    type: 5
+}, {
+    name: 'CICE',
+    tag: 18,
+    fileNum: 325,
+    nature: 'D',
+    alertAccounts: [],
+    alertLabs: ['CICE', 'Compétitivité'],
+    questions: [],
+    manualAmount: false,
+    debitAccount: 'F19',
+    creditAccount: 'auto',
+    case2058A: 'XG',
+    type: 5
 }];

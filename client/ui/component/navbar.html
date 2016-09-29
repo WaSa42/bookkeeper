@@ -37,15 +37,15 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comptabilité <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="{{isActive route='balanceSheetRead'}}"><a href="{{pathFor 'balanceSheetRead'}}">Effectuer le bilan</a></li>
-                            <li class="{{isActive route='incomeStatementRead'}}"><a href="{{pathFor 'incomeStatementRead'}}">Effectuer le compte de résultat</a></li>
+                            <li class="{{isActive route='balanceSheetRead'}}"><a href="{{pathFor 'balanceSheetRead'}}">Afficher le bilan</a></li>
+                            <li class="{{isActive route='incomeStatementRead'}}"><a href="{{pathFor 'incomeStatementRead'}}">Afficher le compte de résultat</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fiscalité <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="{{isActive path='/balance-sheet/fiscal'}}"><a href="{{pathFor 'balanceSheetRead' mode='fiscal'}}">Effectuer le bilan</a></li>
-                            <li class="{{isActive path='/income-statement/fiscal'}}"><a href="{{pathFor 'incomeStatementRead' mode='fiscal'}}">Effectuer le compte de résultat</a></li>
+                            <li class="{{isActive path='/balance-sheet/fiscal'}}"><a href="{{pathFor 'balanceSheetRead' mode='fiscal'}}">Afficher le bilan</a></li>
+                            <li class="{{isActive path='/income-statement/fiscal'}}"><a href="{{pathFor 'incomeStatementRead' mode='fiscal'}}">Afficher le compte de résultat</a></li>
                         </ul>
                     </li>
                 </ul>
