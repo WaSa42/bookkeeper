@@ -208,6 +208,12 @@ Template.divergentWritingList.helpers({
     }
 });
 
+Template.divergentWritingList.events({
+    'click .nav-tabs-li': function (event, template) {
+        template.data.selection.set(null);
+    }
+});
+
 Template.globalWritingsActions.helpers({
     rules: function () {
         return Differences.find({
