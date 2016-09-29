@@ -144,7 +144,36 @@
 </template>
 
 <template name="writingCreateForm">
-    {{>quickForm options}}
+    <div class="row"></div>
+    <div class="alert alert-success" role="alert">
+        <strong>Vous y êtes presque !</strong>
+        Vous pouvez ajouter des écritures libres ou afficher directement les bilans et comptes de résultat.
+    </div>
+    {{#autoForm options}}
+        <div class="row">
+            <div class="col-md-2">
+                {{> afQuickField name='accountNum'}}
+            </div>
+            <div class="col-md-10">
+                {{> afQuickField name='lab'}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                {{> afQuickField name='debit'}}
+            </div>
+            <div class="col-sm-4">
+                {{> afQuickField name='credit'}}
+            </div>
+            <div class="col-sm-4">
+                {{> afQuickField name='date'}}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success pull-right">
+            <i class="fa fa-plus"></i>
+            Créer l'écriture
+        </button>
+    {{/autoForm}}
 </template>
 
 <template name="divergentWritingList">
@@ -174,11 +203,14 @@
                         <li role="presentation" class="nav-tabs-li">
                             <a href="#type-7" role="tab" data-toggle="tab"><span class="fa fa-fw">7.</span> Saisie libre</a>
                         </li>
-                        <li role="presentation" class="nav-tabs-li">
-                            <a href="{{pathFor 'stepper' step='3'}}" role="tab" data-toggle="tab"><i class="fa fa-fw fa-balance-scale"></i> Afficher bilans & comptes de résultats</a>
+                        <li class="nav-tabs-li">
+                            <a href="{{pathFor 'stepper' step='3'}}"><i class="fa fa-fw fa-history"></i> Afficher les écritures fiscales générées</a>
                         </li>
-                        <li role="presentation" class="nav-tabs-li">
-                            <a href="{{pathFor 'stepper' step='4'}}" role="tab" data-toggle="tab"><i class="fa fa-fw fa-upload"></i> Exporter les documents</a>
+                        <li class="nav-tabs-li">
+                            <a href="{{pathFor 'stepper' step='4'}}"><i class="fa fa-fw fa-balance-scale"></i> Afficher bilans & comptes de résultats</a>
+                        </li>
+                        <li class="nav-tabs-li">
+                            <a href="{{pathFor 'stepper' step='5'}}"><i class="fa fa-fw fa-upload"></i> Exporter les documents</a>
                         </li>
                     </ul>
                 </header>
@@ -255,7 +287,7 @@
                         <h1>
                             <strong>
                                 <i class="fa fa-pencil"></i>
-                                Écritures
+                                Écriture
                             </strong>
                             <small class="text-uppercase">Saisie libre</small>
                         </h1>

@@ -5,18 +5,17 @@
                 {{#if fiscal}}
                     <strong>
                         <i class="fa fa-line-chart"></i>
-                        Fiscalité
+                        Bilan fiscal
                     </strong>
                 {{else}}
                     <strong>
                         <i class="fa fa-balance-scale"></i>
-                        Comptabilité
+                        Bilan comptable
                     </strong>
                 {{/if}}
-                <small class="text-uppercase">Bilan</small>
+                <small class="text-uppercase text-primary">Actif</small>
             </h1>
         </header>
-        <h2>Actif</h2>
         <div class="table-responsive">
             <table class="table table-bordered table-stripped table-hover">
                 <thead>
@@ -313,7 +312,22 @@
                 </tbody>
             </table>
         </div>
-        <h2>Passif</h2>
+        <header>
+            <h1>
+                {{#if fiscal}}
+                    <strong>
+                        <i class="fa fa-line-chart"></i>
+                        Bilan fiscal
+                    </strong>
+                {{else}}
+                    <strong>
+                        <i class="fa fa-balance-scale"></i>
+                        Bilan comptable
+                    </strong>
+                {{/if}}
+                <small class="text-uppercase text-danger">Passif</small>
+            </h1>
+        </header>
         <div class="table-responsive">
             <table class="table table-bordered table-stripped table-hover">
                 <thead>

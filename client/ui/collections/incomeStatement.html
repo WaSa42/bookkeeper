@@ -5,21 +5,27 @@
                 {{#if fiscal}}
                     <strong>
                         <i class="fa fa-line-chart"></i>
-                        Fiscalité
+                        Compte de résultat
                     </strong>
                 {{else}}
                     <strong>
                         <i class="fa fa-balance-scale"></i>
-                        Comptabilité
+                        Compte de résultat
                     </strong>
                 {{/if}}
-                <small class="text-uppercase">Compte de résultat</small>
+                <small class="text-uppercase text-primary">
+                    {{#if fiscal}}
+                        Fiscal
+                    {{else}}
+                        Comptable
+                    {{/if}}
+                </small>
             </h1>
         </header>
         <div class="table-responsive">
             <table class="table table-bordered table-stripped table-hover">
                 <tbody>
-                <tr>
+                <tr class="stripped">
                     <th>Produits d'exploitation :</th>
                     <td></td>
                 </tr>
@@ -31,7 +37,7 @@
                     <td>Production vendue (biens et services)</td>
                     <td>{{getValue 'B4'}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Montant net du chiffre d'affaires</th>
                     <td>{{getTotal 'turnover'}}</td>
                 </tr>
@@ -55,11 +61,11 @@
                     <td>Autres produits</td>
                     <td>{{getValue 'B10'}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Total I</th>
                     <td>{{getTotal 1}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Charges d'exploitation</th>
                     <td></td>
                 </tr>
@@ -119,15 +125,15 @@
                     <td>Autres charges</td>
                     <td>{{getValue 'B29'}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Total II</th>
                     <td>{{getTotal 2}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>1. RESULTAT D'EXPLOITATION (I - II)</th>
                     <td>{{getTotal 'operating-income'}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Quotes-parts de résultat sur opérations faites en commun :</th>
                     <td></td>
                 </tr>
@@ -139,7 +145,7 @@
                     <td>Perte ou bénéfice transféré IV</td>
                     <td>{{getValue 'B34'}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Produits financiers :</th>
                     <td></td>
                 </tr>
@@ -167,7 +173,7 @@
                     <td>Produits nets sur cessions de valeurs mobilières de placement</td>
                     <td>{{getValue 'B41'}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Total V</th>
                     <td>{{getTotal 5}}</td>
                 </tr>
@@ -191,19 +197,19 @@
                     <td>Charges nettes sur cessions de valeurs mobilières de placement</td>
                     <td>{{getValue 'B47'}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Total VI</th>
                     <td>{{getTotal 6}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>2. RESULTAT FINANCIER (V - VI)</th>
                     <td>{{getTotal 'financial-result'}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>3. RESULTAT COURANT avant impôts<br>(I − II + III − IV + V − VI)</th>
                     <td>{{getTotal 'current-profit'}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Produits exceptionnels :</th>
                     <td></td>
                 </tr>
@@ -219,11 +225,11 @@
                     <td>Reprises sur provisions et dépréciations et transferts de charges</td>
                     <td>{{getValue 'B55'}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Total VII</th>
                     <td>{{getTotal 7}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Charges exceptionnelles :</th>
                     <td></td>
                 </tr>
@@ -239,11 +245,11 @@
                     <td>Dotations aux amortissements, aux dépréciations et aux provisions</td>
                     <td>{{getValue 'B60'}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Total VIII</th>
                     <td>{{getTotal 8}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>4. RESULTAT EXCEPTIONNEL (VII - VIII)</th>
                     <td>{{getTotal 'exceptional-result'}}</td>
                 </tr>
@@ -263,7 +269,7 @@
                     <th>Total des charges (II + IV + VI + VIII + IX + X)</th>
                     <td>{{getTotal 'charges'}}</td>
                 </tr>
-                <tr>
+                <tr class="stripped">
                     <th>Bénéfice ou perte</th>
                     <td>{{getTotal 'result'}}</td>
                 </tr>

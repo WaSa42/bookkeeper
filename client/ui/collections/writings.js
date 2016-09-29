@@ -67,7 +67,7 @@ Template.writingsImport.events({
                         type: 'question',
                         width: '500px',
                         showCancelButton: true,
-                        title: `Importer ${result.total} éléments`,
+                        title: `${result.total} écritures trouvées`,
                         confirmButtonText: 'Oui, importer !',
                         cancelButtonText: 'Non, prévisualiser',
                         text: 'Vous pouvez importer directement votre FEC ou le prévisualisez auparavant.'
