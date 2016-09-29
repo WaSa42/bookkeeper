@@ -112,9 +112,29 @@ Template.writingListActions.onRendered(() => {
     $('[data-toggle="tooltip"]').tooltip()
 });
 
-Template.writingCreate.helpers({
-    writing: function () {
-        return Writings;
+Template.writingCreateForm.helpers({
+    options: function () {
+        return {
+            collection: Writings,
+            schema: WritingsSchema,
+            id: 'writing-create-form',
+            type: 'insert',
+            buttonContent: 'Créer l\'écriture'
+        };
+    }
+});
+
+AutoForm.hooks({
+    'writing-create-form': {
+        before: {
+            insert: doc => {
+                doc.formattedDate = moment(doc.date).format('DD/MM/YYYY');
+                return doc;
+            }
+        },
+        onSuccess: () => {
+            toastr.success('Opération effectuée');
+        }
     }
 });
 
