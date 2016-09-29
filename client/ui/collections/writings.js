@@ -227,6 +227,9 @@ Template.globalWritingsActions.helpers({
         return selection
             ? selection.name
             : DIFFERENCE_TYPES[this.typeNum];
+    },
+    type1: function (typeNum) {
+        return typeNum == 1;
     }
 });
 
@@ -317,6 +320,9 @@ Template.divergentWritingList1Actions.events({
                 }
             });
         });
+    },
+    'click .non-divergent': function (event, template) {
+        updateNonDivergentWriting(event, template);
     }
 });
 
@@ -386,5 +392,34 @@ Template.divergentWritingList3Actions.events({
                 });
             });
         });
+    },
+    'click .non-divergent': function (event, template) {
+        updateNonDivergentWriting(event, template);
     }
 });
+
+function updateNonDivergentWriting(event, template) {
+    swal({
+        type: 'warning',
+        width: '500px',
+        showCancelButton: true,
+        reverseButtons: true,
+        title: 'Êtes-vous sûr ?',
+        confirmButtonText: 'Oui, retirer !',
+        cancelButtonText: 'Non, revérifier',
+        confirmButtonColor: '#d33',
+        html: 'La divergence sera non applicable, par conséquent retirée de la liste.'
+    }).then(function () {
+        Meteor.call('updateNonDivergentWritings', [template.data.writing], err => {
+            if (err) {
+                toastr.error(err.reason);
+            } else {
+                swal(
+                    'Non appliqué !',
+                    'L\'écriture a bien été enregistrée comme non divergente.',
+                    'success'
+                );
+            }
+        });
+    });
+}

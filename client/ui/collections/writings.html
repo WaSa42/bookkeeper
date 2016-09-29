@@ -243,10 +243,12 @@
             {{/each}}
             <br>
         </span>
-        <button type="button" id="validate-all" class="btn btn-success pull-right">
-            <i class="fa fa-check-circle"></i>
-            Valider {{type}}
-        </button>
+        {{#if type1 typeNum}}
+            <button type="button" id="validate-all" class="btn btn-success pull-right">
+                <i class="fa fa-check-circle"></i>
+                Valider {{type}}
+            </button>
+        {{/if}}
     </div>
 </template>
 
@@ -261,6 +263,9 @@
         <button type="button" class="btn btn-default btn-xs validate">
             <i class="fa fa-check"></i>
             <span class="hidden-xs">Valider</span>
+        </button>
+        <button type="button" class="btn btn-danger btn-xs non-divergent" title="Non applicable">
+            <i class="fa fa-trash"></i>
         </button>
     </span>
 </template>
@@ -277,6 +282,9 @@
             <i class="fa fa-check"></i>
             <span class="hidden-xs">Saisir le montant</span>
         </button>
+        <button type="button" class="btn btn-danger btn-xs non-divergent" title="Non applicable">
+            <i class="fa fa-trash"></i>
+        </button>
     </span>
 </template>
 
@@ -291,6 +299,9 @@
         <button type="button" class="btn btn-success btn-xs validate">
             <i class="fa fa-check"></i>
             <span class="hidden-xs">Saisir le montant</span>
+        </button>
+        <button type="button" class="btn btn-danger btn-xs non-divergent" title="Non applicable">
+            <i class="fa fa-trash"></i>
         </button>
     </span>
 </template>
