@@ -1,4 +1,10 @@
 {
+  "navbar": {
+    "differences": {
+      "text": "Divergence",
+      "text_plural": "Divergences"
+    }
+  },
   "tableDef" : {
     "decimal":        "",
     "emptyTable":     "Aucune données disponibles",

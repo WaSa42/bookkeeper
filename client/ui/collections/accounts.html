@@ -57,7 +57,7 @@
 
 <template name="accountReadActions">
     <div class="accountReadActions">
-        {{#if fiscal writing}}
+        {{#if writing.isFiscal}}
             {{#with originalWriting writing}}
                 <button type="button" class="btn btn-xs btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="{{writingPopover this}}"
                         title="<i class='fa fa-pencil'></i> <strong>{{formattedDate}}</strong> <span class='text-primary'>{{lab}} #{{num}}</span>">

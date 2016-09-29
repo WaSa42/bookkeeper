@@ -1,4 +1,10 @@
 {
+  "navbar": {
+    "differences": {
+      "text": "Difference",
+      "text_plural": "Differences"
+    }
+  },
   "tableDef" : {
     "decimal":        "",
     "emptyTable":     "No data available in table",

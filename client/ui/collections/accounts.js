@@ -12,7 +12,6 @@ Template.accountRead.onCreated(function () {
 });
 
 Template.accountReadActions.helpers({
-    fiscal: writing => writing.originalWritingId,
     originalWriting: writing => Writings.findOne(writing.originalWritingId),
     writingPopover: writing => Blaze.toHTMLWithData(Template.writingPopover, writing)
 });

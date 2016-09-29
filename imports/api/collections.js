@@ -54,3 +54,15 @@ Accounts.helpers({
                 : `Débiteur de ${Math.abs(this.balance)} €`;
     }
 });
+
+Writings.helpers({
+    isFiscal() {
+        return !!this.originalWritingId;
+    },
+    getFile() {
+        return !this.differenceId ? false : Differences.findOne(this.differenceId).fileNum;
+    },
+    getFilePath() {
+        return `/files/${this.getFile()}.pdf`;
+    }
+});

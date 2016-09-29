@@ -63,7 +63,7 @@ Template.writingsImport.events({
                         type: 'question',
                         width: '500px',
                         showCancelButton: true,
-                        title: 'Importer directement ?',
+                        title: 'Importer directement',
                         confirmButtonText: 'Oui, importer !',
                         cancelButtonText: 'Non, prévisualiser',
                         text: 'Vous pouvez importer directement votre FEC ou le prévisualisez auparavant.'

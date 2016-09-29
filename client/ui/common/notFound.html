@@ -1,3 +1,27 @@
 <template name="notFound">
-    notFound
+    <div id="not-found" class="container text-center">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="error-template">
+                    <h1>
+                        Oops!</h1>
+                    <h2>
+                        404 Not Found</h2>
+                    <div class="error-details">
+                        Nous sommes désolé, une erreur est survenue, nous n'avons pas trouvez la page que vous recherchez!
+                    </div>
+                    <div class="error-actions">
+                        <a href="{{pathFor 'home'}}" class="btn btn-primary btn-lg">
+                            <i class="fa fa-home"></i>
+                            Revenir à l'accueil
+                        </a>
+                        <a href="http://www.jquery2dotnet.com" class="btn btn-default btn-lg">
+                            <i class="fa fa-envelope"></i>
+                            Nous contacter
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
