@@ -1,7 +1,8 @@
 export const DIFFERENCE_TYPES = {
     1: 'RETRAITEMENTS FISCAUX 100%',
     2: 'RETRAITEMENTS FISCAUX PARTIELS',
-    3: 'RETRAITEMENTS FISCAUX PARTIELS AVEC SAISIE DU MONTANT'
+    3: 'RETRAITEMENTS FISCAUX PARTIELS AVEC SAISIE',
+    4: 'RETRAITEMENTS FISCAUX POTENTIELS'
 };
 
 export const DIFFERENCES = [{
@@ -133,4 +134,107 @@ export const DIFFERENCES = [{
     creditAccount: 'F6615',
     case2058A: 'WQ',
     type: 3
+}, {
+    name: 'Titres à prépondérance immobilière',
+    tag: 11,
+    fileNum: 402,
+    nature: 'D',
+    alertAccounts: ['775'],
+    alertLabs: [],
+    questions: [{
+        type: 'YN',
+        text: 'Le titre est-il détenu depuis plus de 2 ans ?',
+        answer: {
+            yes: 'then',
+            no: 'break'
+        }
+    }],
+    manualAmount: true,
+    debitAccount: 'F775',
+    creditAccount: 'F19',
+    case2058A: 'WQ',
+    type: 4
+}, {
+    name: 'Valeur plus ou moins latente',
+    tag: 12,
+    fileNum: 110,
+    nature: 'P',
+    alertAccounts: ['50'],
+    alertLabs: [],
+    questions: [{
+        type: 'YN',
+        text: 'La valeur est-elle plus ou moins latente ?',
+        answer: {
+            yes: 'manualAmount',
+            no: 'break'
+        }
+    }],
+    manualAmount: true,
+    debitAccount: [{
+        condition: {
+            min: 0
+        },
+        num: 'F50'
+    }, {
+        condition: {
+            max: 0
+        },
+        num: 'F667'
+    }],
+    creditAccount:  [{
+        condition: {
+            min: 0
+        },
+        num: 'F767'
+    }, {
+        condition: {
+            max: 0
+        },
+        num: 'F50'
+    }],
+    case2058A: [{
+        condition: {
+            min: 0
+        },
+        num: 'XR'
+    }, {
+        condition: {
+            max: 0
+        },
+        num: 'XS'
+    }],
+    type: 4
+}, {
+    name: 'Investissement productif',
+    tag: 13,
+    fileNum: 22,
+    nature: 'D',
+    alertAccounts: ['21', '20'],
+    alertLabs: [],
+    questions: [{
+        type: 'YN',
+        text: 'Eligible au suramortissement?',
+        answer: {
+            yes: 'then',
+            no: 'break'
+        }
+    }],
+    manualAmount: true,
+    debitAccount: 'F6811',
+    creditAccount: 'F106',
+    case2058A: 'WQ',
+    type: 4
+}, {
+    name: 'Mécénat/dons',
+    tag: 14,
+    fileNum: 316,
+    nature: 'D',
+    alertAccounts: ['6234'],
+    alertLabs: [],
+    questions: [],
+    manualAmount: false,
+    debitAccount: 'F19',
+    creditAccount: 'F6234',
+    case2058A: 'WQ',
+    type: 4
 }];

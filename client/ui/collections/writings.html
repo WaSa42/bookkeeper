@@ -175,6 +175,9 @@
                 <li role="presentation">
                     <a href="#type-3" role="tab" data-toggle="tab">3. [...] avec saisie du montant</a>
                 </li>
+                <li role="presentation">
+                    <a href="#type-4" role="tab" data-toggle="tab">4. Retraitements fiscaux potentiels</a>
+                </li>
             </ul>
         </header>
         <br>
@@ -211,6 +214,17 @@
                 </h1>
                 {{> globalWritingsActions typeNum=3 export=selection}}
                 {{> tabular table=TabularTables.DivergentWritings3 selector=(selector 3) id="tabular-divergent-writings-3" class="table table-striped table-bordered table-condensed table-responsive"}}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="type-4">
+                <h1>
+                    <strong>
+                        <i class="fa fa-random"></i>
+                        Divergence comptable et fiscale
+                    </strong>
+                    <small class="text-uppercase">Retraitements fiscaux potentiels</small>
+                </h1>
+                {{> globalWritingsActions typeNum=4}}
+                {{> tabular table=TabularTables.DivergentWritings4 selector=(selector 4) id="tabular-divergent-writings-4" class="table table-striped table-bordered table-condensed table-responsive"}}
             </div>
         </div>
     </div>
@@ -269,6 +283,21 @@
 
 <template name="divergentWritingList3Actions">
     <span id="divergent-writing-list-3-actions" class=" pull-right">
+        {{#if writing.getFile}}
+            <a href="{{writing.getFilePath}}" target="_blank" class="btn btn-default btn-xs more">
+                <i class="fa fa-search-plus"></i>
+                <span class="hidden-xs">Voir la fiche</span>
+            </a>
+        {{/if}}
+        <button type="button" class="btn btn-success btn-xs validate">
+            <i class="fa fa-check"></i>
+            <span class="hidden-xs">Saisir le montant</span>
+        </button>
+    </span>
+</template>
+
+<template name="divergentWritingList4Actions">
+    <span id="divergent-writing-list-4-actions" class=" pull-right">
         {{#if writing.getFile}}
             <a href="{{writing.getFilePath}}" target="_blank" class="btn btn-default btn-xs more">
                 <i class="fa fa-search-plus"></i>
