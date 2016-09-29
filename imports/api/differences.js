@@ -239,8 +239,8 @@ export const DIFFERENCES = [{
     alertLabs: ['dégrèvement', 'degrevement', 'remboursement'],
     questions: [],
     manualAmount: false,
-    debitAccount: 'F19',
-    creditAccount: 'auto',
+    debitAccount: 'auto',
+    creditAccount: 'F19',
     case2058A: 'XG',
     type: 5
 }, {
@@ -252,8 +252,8 @@ export const DIFFERENCES = [{
     alertLabs: ['cice', 'compétitivité', 'competitivite'],
     questions: [],
     manualAmount: false,
-    debitAccount: 'F19',
-    creditAccount: 'auto',
+    debitAccount: 'auto',
+    creditAccount: 'F19',
     case2058A: 'XG',
     type: 5
 }];
