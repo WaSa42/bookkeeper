@@ -17,7 +17,9 @@ Meteor.methods({
                         case 3:
                         case 4:
                             isDivergent = writing.accountNum.startsWith(alertAccount);
-                                // || _.some(rule.alertLabs, alertLab => alertLab.includes(writing.lab));
+                            break;
+                        case 5:
+                            isDivergent = new RegExp(alertAccount).test(writing.accountNum);
                             break;
                         default:
                             throw new Meteor.Error('Not implemented');
