@@ -6,13 +6,12 @@ const excludeSettings = settings.exclude;
 Template.incomeStatementRead.helpers({
     getValue: function (cellKey) {
         const value = Math.round(getValue(this.accounts, cellKey));
-        return value === 0 ? null : value;
+        return value === 0 ? null : getCleanNumber(value);
     },
     getTotal: function (totalId) {
-        return Math.round(getTotal(totalId, this.accounts, 'B'));
+        return getCleanNumber(Math.round(getTotal(totalId, this.accounts, 'B')));
     },
 });
-
 
 function getAccounts(accounts, cellKey) {
     const results = [];
@@ -48,7 +47,43 @@ function codeIsExcluded(cellKey, accountNum) {
 }
 
 function getValue(accounts, cellKey) {
-    return getAccounts(accounts, cellKey).reduce((a, b) => a + Math.abs(b.balance), 0);
+    console.log('-------------------------------------------------------------');
+    return getAccounts(accounts, cellKey).reduce((a, b) => {
+        if (cellKey === 'B20') {
+            console.log(cellKey, b.num, b.lab, b.balance);
+        }
+
+        // Production stockée
+        if (cellKey === 'B6') {
+            if (b.getBalanceStatus() === BalanceStatus.CREDIT) {
+                return a + Math.abs(b.balance);
+            } else {
+                return a - Math.abs(b.balance);
+            }
+        }
+
+        // Variation de stock
+        else if (cellKey === 'B14' || cellKey === 'B16') {
+            if (b.getBalanceStatus() === BalanceStatus.DEBIT) {
+                return a + Math.abs(b.balance);
+            } else {
+                return a - Math.abs(b.balance);
+            }
+        }
+
+        // Impôts
+        else if (cellKey === 'B64') {
+            return a - Math.abs(b.balance);
+        }
+
+        else if (b.num.startsWith('6')) {
+            return a - b.balance;
+        } else if (b.num.startsWith('7')) {
+            return a + b.balance;
+        }
+
+        return a + b.balance;
+    }, 0);
 }
 
 function getCellPosition(cellKey) {
@@ -60,7 +95,11 @@ function getCellPosition(cellKey) {
 
 function getTotal(totalId, accounts, column) {
     switch (totalId) {
-        // TODO: case turnover
+        case 'turnover':
+            return getTotalCells(
+                accounts,
+                (col, row) => col === column && row >= 3 && row <= 4
+            );
         case 1:
             return getTotalCells(
                 accounts,
@@ -71,7 +110,8 @@ function getTotal(totalId, accounts, column) {
                 accounts,
                 (col, row) => col === column && row >= 13 && row <= 29,
             );
-        // TODO: case operating-income
+        case 'operating-income':
+            return getTotal(1, accounts, column) - getTotal(2, accounts, column);
         case 5:
             return getTotalCells(
                 accounts,
@@ -101,15 +141,16 @@ function getTotal(totalId, accounts, column) {
         case 'exceptional-result':
             return getTotal(7, accounts, column) - getTotal(8, accounts, column);
         case 'products':
-            return getTotal(1, accounts, column) - getTotal(3, accounts, column)
-                + getTotal(5, accounts, column) - getTotal(7, accounts, column);
+            return getTotal(1, accounts, column) + getTotal(3, accounts, column)
+                + getTotal(5, accounts, column) + getTotal(7, accounts, column);
         case 'charges':
-            return getTotal(2, accounts, column) - getTotal(4, accounts, column)
-                + getTotal(6, accounts, column) - getTotal(8, accounts, column)
-                + getTotal(9, accounts, column) - getTotal(10, accounts, column);
-        // TODO: case result
+            return getTotal(2, accounts, column) + getTotal(4, accounts, column)
+                + getTotal(6, accounts, column) + getTotal(8, accounts, column)
+                + getTotal(9, accounts, column) + getValue(accounts, 'B64');
+        case 'result':
+            return getTotal('products', accounts, column) - getTotal('charges', accounts, column);
         default:
-            console.log('Not implemented');
+            console.log('Not implemented', totalId);
             // TODO
             return 0;
             // throw new Error('Not implemented');

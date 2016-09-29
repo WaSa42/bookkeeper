@@ -2,3 +2,7 @@
     height: calc(100vh - 225px);
     overflow-y: scroll;
 }
+
+#balance-sheet-read tr td:not(:nth-child(1)) {
+    text-align: right;
+}

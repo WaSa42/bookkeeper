@@ -2,3 +2,7 @@
     height: calc(100vh - 265px);
     overflow-y: scroll;
 }
+
+#income-statement-read tr td:last-of-type {
+    text-align: right;
+}

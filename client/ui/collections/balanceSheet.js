@@ -8,16 +8,16 @@ const excludePassiveSettings = passiveSettings.exclude;
 Template.balanceSheetRead.helpers({
     getValue: function (cellKey, active = true) {
         const value = Math.round(getValue(this.accounts, cellKey, active));
-        return value === 0 ? null : value;
+        return value === 0 ? null : getCleanNumber(value);
     },
     getActiveGrossTotal: function (totalId) {
-        return Math.round(getActiveTotal(totalId, this.accounts, 'B'));
+        return getCleanNumber(Math.round(getActiveTotal(totalId, this.accounts, 'B')));
     },
     getActiveAmortizationTotal: function (totalId) {
-        return Math.round(getActiveTotal(totalId, this.accounts, 'C'));
+        return getCleanNumber(Math.round(getActiveTotal(totalId, this.accounts, 'C')));
     },
     getPassiveTotal: function (totalId) {
-        return Math.round(getPassiveTotal(totalId, this.accounts, 'B'));
+        return getCleanNumber(Math.round(getPassiveTotal(totalId, this.accounts, 'B')));
     },
     getActiveDiff: function (row, active = true) {
         if (!activeSettings[`C${row}`]) {
@@ -26,7 +26,7 @@ Template.balanceSheetRead.helpers({
             }
 
             const value = Math.round(getValue(this.accounts, `B${row}`, active));
-            return value === 0 ? null : value;
+            return value === 0 ? null : getCleanNumber(value);
         }
 
         const diff = Math.round(
@@ -34,7 +34,7 @@ Template.balanceSheetRead.helpers({
             getValue(this.accounts, `C${row}`, active)
         );
 
-        return diff || null;
+        return diff ? getCleanNumber(diff) : null;
     },
     getTotalActiveDiff: function (totalId) {
         const diff = Math.round(
@@ -42,7 +42,7 @@ Template.balanceSheetRead.helpers({
             getActiveTotal(totalId, this.accounts, 'C')
         );
 
-        return diff || null;
+        return diff ? getCleanNumber(diff) : null;
     }
 });
 
