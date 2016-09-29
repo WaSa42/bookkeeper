@@ -3,3 +3,11 @@
     overflow: auto;
     margin-bottom: 0;
 }
+
+.global-writings-actions {
+    height: 45px;
+}
+
+.global-writings-actions .label {
+    font-size: 100%;
+}

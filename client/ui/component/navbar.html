@@ -20,7 +20,7 @@
                             <li class="{{isActive route='writingList'}}"><a href="{{pathFor 'writingList'}}">Liste des écritures</a></li>
                             <li class="{{isActive route='writingCreate'}}"><a href="{{pathFor 'writingCreate'}}">Ajouter une écriture</a></li>
                             <li class="divider"></li>
-                            <li class="{{isActive route='writingsImport'}}"><a href="{{pathFor 'writingsImport'}}">Importer un fichier</a></li>
+                            <li class="{{isActive route='writingsImport'}}"><a href="{{pathFor 'home'}}">Importer un fichier</a></li>
                         </ul>
                     </li>
                     <li class="dropdown {{isActive route='accountList'}}">
@@ -31,7 +31,7 @@
                         </ul>
                     </li>
                     <li class="{{isActive route='journalList'}}"><a href="{{pathFor 'journalList'}}">Journaux</a></li>
-                    <li class="{{isActive route='divergentWritingList'}}"><a href="{{pathFor 'divergentWritingList'}}">{{_ 'navbar.differences.text' count=(getPublishedCount 'divergentWritings')}} {{#if hasPublishedCount 'divergentWritings'}}({{getPublishedCount 'divergentWritings'}}){{/if}}</a></li>
+                    <li class="{{isActive path='/stepper/2'}}"><a href="{{pathFor 'stepper' step='2'}}">{{_ 'navbar.differences.text' count=(getPublishedCount 'divergentWritings')}} {{#if hasPublishedCount 'divergentWritings'}}({{getPublishedCount 'divergentWritings'}}){{/if}}</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">

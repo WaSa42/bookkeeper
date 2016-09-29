@@ -2,6 +2,7 @@ import moment from 'moment';
 import Papa from 'papaparse';
 import Clusterize from 'clusterize.js';
 import { Differences, Writings } from '/imports/api/collections';
+import { DIFFERENCE_TYPES } from '/imports/api/differences';
 
 Template.writingsImport.onCreated(function () {
     if (!this.data) {
@@ -197,6 +198,18 @@ Template.divergentWritingList.helpers({
             isValid: false,
             differenceType
         };
+    }
+});
+
+Template.globalWritinsActions.helpers({
+    rules: function (differenceType) {
+        return Differences.find({type: differenceType}).fetch();
+    },
+    type: function (typeNum) {
+        const filters = ['TVTS', 'Amendes et pénalités']; //TODO getFIlters
+        const type = DIFFERENCE_TYPES[typeNum];
+
+        return `${type}`; //TODO add filters to string
     }
 });
 
