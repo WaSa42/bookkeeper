@@ -7,6 +7,21 @@
     font-size: 16px;
 }
 
+#writings-import-form .help .help-text {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Lato Light";
+    font-style: italic;
+}
+
+#writings-import-form .fa-reply {
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1, mirror=1);
+    -webkit-transform: scale(-1, 1) rotate(90deg);
+    -ms-transform: scale(-1, 1) rotate(90deg);
+    transform: scale(-1, 1) rotate(90deg);
+    margin-left: 50px;
+}
+
 .global-writings-actions {
     min-height: 45px;
     margin-bottom: 10px;

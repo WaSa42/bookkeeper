@@ -17,6 +17,9 @@ Template.writingsImport.onCreated(function () {
 });
 
 Template.writingsImport.helpers({
+    previewVisible: function () {
+        return this.showPreview.get() && 'hidden';
+    },
     previewHidden: function () {
         return !this.showPreview.get() && 'hidden';
     },
