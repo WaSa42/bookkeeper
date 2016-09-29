@@ -112,75 +112,6 @@ Template.writingListActions.onRendered(() => {
     $('[data-toggle="tooltip"]').tooltip()
 });
 
-function parse(file, callback) {
-    const loading = $('.loading').show();
-    Papa.parse(file, {
-        delimiter: '\t',
-        skipEmptyLines: true,
-        encoding: 'iso-8859-1', // TODO: detect encoding?
-        error: (err, file, input, reason) => {
-            toastr.error(reason);
-        },
-        complete: results => {
-            loading.hide();
-            if (results.errors.length) {
-                console.log('parser error', results.errors);
-                results.errors.forEach(error => {
-                    toastr.error(error.message);
-                });
-            } else {
-                const writings = [];
-                results.data.shift();
-
-                results.data.forEach((row, y) => {
-                    row.forEach((column, x) => {
-                        results.data[y][x] = results.data[y][x].trim();
-                    });
-
-                    const getDate = input => input
-                        ? moment(input, 'YYYYMMDD').toDate()
-                        : null;
-
-                    const getFormattedDate = input => input
-                        ? moment(input, 'YYYYMMDD').format('DD/MM/YYYY')
-                        : null;
-                    
-                    writings.push({
-                        journalCode: results.data[y][0],
-                        journalLab: results.data[y][1],
-                        num: results.data[y][2],
-                        date: getDate(results.data[y][3]),
-                        formattedDate: getFormattedDate(results.data[y][3]),
-                        accountNum: results.data[y][4],
-                        accountLab: results.data[y][5],
-                        accountName: `${results.data[y][4]} ${results.data[y][5]}`,
-                        accountAuxNum: results.data[y][6],
-                        accountAuxLab: results.data[y][7],
-                        pieceRef: results.data[y][8],
-                        pieceDate: getDate(results.data[y][9]),
-                        lab: results.data[y][10],
-                        debit: getCleanFloat(results.data[y][11]),
-                        credit: getCleanFloat(results.data[y][12]),
-                        let: results.data[y][13],
-                        dateLet: getDate(results.data[y][14]),
-                        validDate: getDate(results.data[y][15]),
-                        amountCurrency: results.data[y][16],
-                        iCurrency: results.data[y][17]
-                    });
-                });
-
-                callback({
-                    total: writings.length,
-                    writings,
-                    rows: writings.map(writing => Blaze.toHTMLWithData(Template.writingsImportPreviewRow, {
-                        writing
-                    }))
-                });
-            }
-        }
-    });
-}
-
 Template.writingCreate.helpers({
     writing: function () {
         return Writings;
@@ -241,33 +172,6 @@ Template.globalWritingsActions.helpers({
     }
 });
 
-function askConfirmation(callback) {
-    swal({
-        type: 'warning',
-        showCancelButton: true,
-        reverseButtons: true,
-        title: 'Êtes-vous sûr ?',
-        confirmButtonText: 'Oui, valider !',
-        cancelButtonText: 'Non, revérifier'
-    }).then(callback);
-}
-
-function sendSelection(data, extra = {}) {
-    const selection = data.export.get();
-    const tag = selection ? selection.tag : null;
-
-    Meteor.call('validateAllWritings', data.typeNum, tag, extra, err => {
-        if (err) {
-            toastr.error(err.reason);
-        } else {
-            swal({
-                type: 'success',
-                text: 'Opération effectuée.'
-            });
-        }
-    });
-}
-
 Template.globalWritingsActions.events({
     'click .select': function (event, template) {
         template.data.export.set(this);
@@ -302,20 +206,7 @@ Template.divergentWritingList1Actions.events({
     'click .validate': function (event, template) {
         const writings = getWritings(template.data.writing);
 
-        swal({
-            type: 'warning',
-            width: '500px',
-            showCancelButton: true,
-            reverseButtons: true,
-            title: 'Êtes-vous sûr ?',
-            confirmButtonText: 'Oui, valider !',
-            cancelButtonText: 'Non, revérifier',
-            html: Blaze.toHTMLWithData(Template.journalGroupSwal, {
-                formattedDate: template.data.writing.formattedDate,
-                writings,
-                lab: template.data.writing.lab
-            })
-        }).then(function () {
+        previewWritings(template.data.writing, writings, () => {
             insertWritings(writings);
         });
     },
@@ -323,50 +214,6 @@ Template.divergentWritingList1Actions.events({
         updateNonDivergentWriting(template.data.writing);
     }
 });
-
-function insertWritings(writings) {
-    Meteor.call('insertFiscalWritings', writings, err => {
-        if (err) {
-            toastr.error(err.reason);
-        } else {
-            swal(
-                'Validé !',
-                'Opération effectuée.',
-                'success'
-            );
-        }
-    });
-}
-
-function askAmount(callback) {
-    swal.setDefaults({
-        confirmButtonText: 'Suivant',
-        cancelButtonText: 'Annuler',
-        showCancelButton: true,
-        reverseButtons: true,
-        animation: false,
-        progressSteps: ['1', '2']
-    });
-
-    swal({
-        title: '1. Saisir le montant',
-        input: 'number',
-        inputValidator: function (value) {
-            return new Promise(function (resolve, reject) {
-                if (value) {
-                    resolve();
-                } else {
-                    reject('Montant invalide !');
-                }
-            });
-        }
-    }).then(function (amount) {
-        swal.resetDefaults();
-        callback(getCleanFloat(amount));
-    }, function () {
-        swal.resetDefaults();
-    });
-}
 
 Template.divergentWritingList3Actions.events({
     'click .validate': function (event, template) {
@@ -410,6 +257,100 @@ Template.divergentWritingList3Actions.events({
     }
 });
 
+Template.divergentWritingList4Actions.events({
+    'click .process': function (event, template) {
+        const difference = Differences.findOne(template.data.writing.differenceId);
+
+        if (difference.questions && difference.questions.length) {
+            askQuestions(difference, template.data.writing);
+        } else {
+            handleWriting(difference, template.data.writing);
+        }
+    },
+    'click .non-divergent': function (event, template) {
+        updateNonDivergentWriting(template.data.writing);
+    }
+});
+
+Template.divergentWritingList5Actions.events({
+    'click .process': function (event, template) {
+        const difference = Differences.findOne(template.data.writing.differenceId);
+        handleWriting(difference, template.data.writing);
+    },
+    'click .non-divergent': function (event, template) {
+        updateNonDivergentWriting(template.data.writing);
+    }
+});
+
+function parse(file, callback) {
+    const loading = $('.loading').show();
+    Papa.parse(file, {
+        delimiter: '\t',
+        skipEmptyLines: true,
+        encoding: 'iso-8859-1', // TODO: detect encoding?
+        error: (err, file, input, reason) => {
+            toastr.error(reason);
+        },
+        complete: results => {
+            loading.hide();
+            if (results.errors.length) {
+                console.log('parser error', results.errors);
+                results.errors.forEach(error => {
+                    toastr.error(error.message);
+                });
+            } else {
+                const writings = [];
+                results.data.shift();
+
+                results.data.forEach((row, y) => {
+                    row.forEach((column, x) => {
+                        results.data[y][x] = results.data[y][x].trim();
+                    });
+
+                    const getDate = input => input
+                        ? moment(input, 'YYYYMMDD').toDate()
+                        : null;
+
+                    const getFormattedDate = input => input
+                        ? moment(input, 'YYYYMMDD').format('DD/MM/YYYY')
+                        : null;
+
+                    writings.push({
+                        journalCode: results.data[y][0],
+                        journalLab: results.data[y][1],
+                        num: results.data[y][2],
+                        date: getDate(results.data[y][3]),
+                        formattedDate: getFormattedDate(results.data[y][3]),
+                        accountNum: results.data[y][4],
+                        accountLab: results.data[y][5],
+                        accountName: `${results.data[y][4]} ${results.data[y][5]}`,
+                        accountAuxNum: results.data[y][6],
+                        accountAuxLab: results.data[y][7],
+                        pieceRef: results.data[y][8],
+                        pieceDate: getDate(results.data[y][9]),
+                        lab: results.data[y][10],
+                        debit: getCleanFloat(results.data[y][11]),
+                        credit: getCleanFloat(results.data[y][12]),
+                        let: results.data[y][13],
+                        dateLet: getDate(results.data[y][14]),
+                        validDate: getDate(results.data[y][15]),
+                        amountCurrency: results.data[y][16],
+                        iCurrency: results.data[y][17]
+                    });
+                });
+
+                callback({
+                    total: writings.length,
+                    writings,
+                    rows: writings.map(writing => Blaze.toHTMLWithData(Template.writingsImportPreviewRow, {
+                        writing
+                    }))
+                });
+            }
+        }
+    });
+}
+
 function updateNonDivergentWriting(writing) {
     swal({
         type: 'warning',
@@ -435,20 +376,6 @@ function updateNonDivergentWriting(writing) {
         });
     });
 }
-
-Template.divergentWritingList4Actions.events({
-    'click .process': function (event, template) {
-        const difference = Differences.findOne(template.data.writing.differenceId);
-
-        if (difference.questions && difference.questions.length) {
-            askQuestions(difference, template.data.writing);
-        } else {
-            askConfirmation(() => {
-                handleWriting(difference, template.data.writing);
-            });
-        }
-    }
-});
 
 function askQuestions(difference, writing) {
     const question = difference.questions.shift();
@@ -486,10 +413,103 @@ function handleWriting(difference, writing) {
                 if (w.credit !== 0) w.credit = amount;
             });
 
-            insertWritings(writings);
+            previewWritings(writing, writings, () => {
+                insertWritings(writings);
+            });
         });
     } else {
         const writings = getWritings(writing);
-        insertWritings(writings);
+
+        previewWritings(writing, writings, () => {
+            insertWritings(writings);
+        });
     }
+}
+
+function askConfirmation(callback) {
+    swal({
+        type: 'warning',
+        showCancelButton: true,
+        reverseButtons: true,
+        title: 'Êtes-vous sûr ?',
+        confirmButtonText: 'Oui, valider !',
+        cancelButtonText: 'Non, revérifier'
+    }).then(callback);
+}
+
+function sendSelection(data, extra = {}) {
+    const selection = data.export.get();
+    const tag = selection ? selection.tag : null;
+
+    Meteor.call('validateAllWritings', data.typeNum, tag, extra, err => {
+        if (err) {
+            toastr.error(err.reason);
+        } else {
+            swal({
+                type: 'success',
+                text: 'Opération effectuée.'
+            });
+        }
+    });
+}
+
+function previewWritings(writing, writings, callback) {
+    swal({
+        type: 'warning',
+        width: '500px',
+        showCancelButton: true,
+        reverseButtons: true,
+        title: 'Êtes-vous sûr ?',
+        confirmButtonText: 'Oui, valider !',
+        cancelButtonText: 'Non, revérifier',
+        html: Blaze.toHTMLWithData(Template.journalGroupSwal, {
+            formattedDate: writing.formattedDate,
+            writings,
+            lab: writing.lab
+        })
+    }).then(callback);
+}
+
+function insertWritings(writings) {
+    Meteor.call('insertFiscalWritings', writings, err => {
+        if (err) {
+            toastr.error(err.reason);
+        } else {
+            swal(
+                'Validé !',
+                'Opération effectuée.',
+                'success'
+            );
+        }
+    });
+}
+
+function askAmount(callback) {
+    swal.setDefaults({
+        confirmButtonText: 'Suivant',
+        cancelButtonText: 'Annuler',
+        showCancelButton: true,
+        reverseButtons: true,
+        animation: false,
+        progressSteps: ['1', '2']
+    });
+
+    swal({
+        title: '1. Saisir le montant',
+        input: 'number',
+        inputValidator: function (value) {
+            return new Promise(function (resolve, reject) {
+                if (value) {
+                    resolve();
+                } else {
+                    reject('Montant invalide !');
+                }
+            });
+        }
+    }).then(function (amount) {
+        swal.resetDefaults();
+        callback(getCleanFloat(amount));
+    }, function () {
+        swal.resetDefaults();
+    });
 }
