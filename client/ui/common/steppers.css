@@ -29,7 +29,7 @@
 }
 .stepper-horizontal .stepper-step.active .stepper-circle,
 .stepper-horizontal .stepper-step.done .stepper-circle {
-    background-color: #5bc0de;
+    background-color: #FF4081;
 }
 .stepper-horizontal .stepper-step.editable-step .stepper-circle {
     -moz-transform: scaleX(-1);
