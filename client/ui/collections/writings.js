@@ -189,27 +189,85 @@ Template.writingCreate.helpers({
 
 Template.divergentWritingList.onCreated(function () {
     this.subscribe('differences.list');
+    this.data.selection = new ReactiveVar(null);
 });
 
 Template.divergentWritingList.helpers({
     selector: function (differenceType) {
-        return {
+        const selector = {
             isDivergent: true,
             isValid: false,
             differenceType
         };
+
+        if (this.selection.get()) {
+            selector.differenceTag = this.selection.get().tag;
+        }
+
+        return selector;
     }
 });
 
 Template.globalWritingsActions.helpers({
-    rules: function (differenceType) {
-        return Differences.find({type: differenceType}).fetch();
+    rules: function () {
+        return Differences.find({
+            type: this.typeNum
+        }).fetch();
     },
-    type: function (typeNum) {
-        const filters = ['TVTS', 'Amendes et pénalités']; //TODO getFIlters
-        const type = DIFFERENCE_TYPES[typeNum];
+    emptySelectionSelected: function () {
+        return Template.instance().data.export.get() ? 'default' : 'success';
+    },
+    selected: function () {
+        const selection = Template.instance().data.export.get();
+        return selection && selection.tag === this.tag ? 'success' : 'default';
+    },
+    type: function () {
+        const selection = this.export.get();
 
-        return `${type}`; //TODO add filters to string
+        return selection
+            ? selection.name
+            : DIFFERENCE_TYPES[this.typeNum];
+    }
+});
+
+Template.globalWritingsActions.events({
+    'click .select': function (event, template) {
+        template.data.export.set(this);
+    },
+    'click .cancel-selection': function (event, template) {
+        template.data.export.set(null);
+    },
+    'click #validate-all': function (event, template) {
+        switch (template.data.typeNum) {
+            case 1:
+                swal({
+                    type: 'warning',
+                    showCancelButton: true,
+                    reverseButtons: true,
+                    title: 'Êtes-vous sûr ?',
+                    confirmButtonText: 'Oui, valider !',
+                    cancelButtonText: 'Non, revérifier'
+                }).then(function () {
+                    const selection = template.data.export.get();
+                    const tag = selection ? selection.tag : null;
+
+                    Meteor.call('validateAllWritings', template.data.typeNum, tag, err => {
+                        if (err) {
+                            toastr.error(err.reason);
+                        } else {
+                            swal({
+                                type: 'success',
+                                text: 'Opération effectuée.'
+                            });
+                        }
+                    });
+                });
+                break;
+            case 2:
+                break;
+            default:
+                throw new Error('Not implemented');
+        }
     }
 });
 
@@ -234,7 +292,7 @@ function getWritings(writing) {
     if (writing.debit !== 0) {
         creditFiscalWriting = {
             ...values,
-            accountNum: difference.creditAccount,
+            accountNum: `F${writing.accountNum}`,
             accountLab: getLabel(difference.creditAccount, writing),
             debit: 0,
             credit: writing.debit
@@ -242,7 +300,7 @@ function getWritings(writing) {
 
         debitFiscalWriting = {
             ...values,
-            accountNum: difference.debitAccount,
+            accountNum: 'F19',
             accountLab: getLabel(difference.debitAccount, writing),
             debit: writing.debit,
             credit: 0
@@ -250,7 +308,7 @@ function getWritings(writing) {
     } else {
         debitFiscalWriting = {
             ...values,
-            accountNum: difference.creditAccount,
+            accountNum: `F${writing.accountNum}`,
             accountLab: getLabel(difference.debitAccount, writing),
             debit: writing.credit,
             credit: 0
@@ -258,7 +316,7 @@ function getWritings(writing) {
 
         creditFiscalWriting = {
             ...values,
-            accountNum: difference.debitAccount,
+            accountNum: 'F19',
             accountLab: getLabel(difference.creditAccount, writing),
             debit: 0,
             credit: writing.credit
@@ -318,7 +376,7 @@ Template.divergentWritingList3Actions.events({
         });
 
         swal({
-            title: 'Saisir le montant',
+            title: '1. Saisir le montant',
             input: 'number',
             inputValidator: function (value) {
                 return new Promise(function (resolve, reject) {
@@ -343,7 +401,7 @@ Template.divergentWritingList3Actions.events({
                 showCancelButton: true,
                 reverseButtons: true,
                 animation: false,
-                title: 'Êtes-vous sûr ?',
+                title: '2. Êtes-vous sûr ?',
                 confirmButtonText: 'Oui, valider !',
                 cancelButtonText: 'Non, revérifier',
                 html: Blaze.toHTMLWithData(Template.journalGroupSwal, {
@@ -367,49 +425,5 @@ Template.divergentWritingList3Actions.events({
         }, function () {
             swal.resetDefaults();
         });
-    }
-});
-
-Template.globalWritingsActions.events({
-    'click .tag': function (event) {
-        const tag = $(event.target);
-        tag.toggleClass('label-default').toggleClass('label-primary').toggleClass('active');
-    },
-    'click .validate-all': function (event, template) {
-        const filters = []; //TODO getFilters
-        const selector = {
-            isDivergent: true,
-            isValid: false,
-            differenceType: template.data.typeNum,
-            differenceId: {
-                $in: filters
-            }
-        };
-
-        swal({
-            type: 'warning',
-            width: '500px',
-            showCancelButton: true,
-            reverseButtons: true,
-            title: 'Êtes-vous sûr ?',
-            confirmButtonText: 'Oui, valider !',
-            cancelButtonText: 'Non, revérifier',
-            text: `Vous validerez tout les éléments de `
-        }).then(function () {
-            Meteor.call('insertAllFiscalWritings', selector, err => {
-                if (err) {
-                    toastr.error(err.reason);
-                } else {
-                    swal(
-                        'Validé !',
-                        'Les écriture ont bien été enregistrée.',
-                        'success'
-                    );
-                }
-            });
-        });
-
-        console.log(selector);
-        Meteor.call()
     }
 });

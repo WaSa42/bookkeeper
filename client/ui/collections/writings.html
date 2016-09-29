@@ -187,7 +187,7 @@
                     </strong>
                     <small class="text-uppercase">Retraitements fiscaux 100%</small>
                 </h1>
-                {{> globalWritingsActions typeNum=1}}
+                {{> globalWritingsActions typeNum=1 export=selection}}
                 {{> tabular table=TabularTables.DivergentWritings1 selector=(selector 1) id="tabular-divergent-writings-1" class="table table-striped table-bordered table-condensed table-responsive"}}
             </div>
             <div role="tabpanel" class="tab-pane" id="type-2">
@@ -198,7 +198,7 @@
                     </strong>
                     <small class="text-uppercase">Retraitements fiscaux partiels</small>
                 </h1>
-                {{> globalWritingsActions typeNum=2}}
+                {{> globalWritingsActions typeNum=2 export=selection}}
                 {{> tabular table=TabularTables.DivergentWritings2 selector=(selector 2) id="tabular-divergent-writings-2" class="table table-striped table-bordered table-condensed table-responsive"}}
             </div>
             <div role="tabpanel" class="tab-pane" id="type-3">
@@ -209,7 +209,7 @@
                     </strong>
                     <small class="text-uppercase">[...] avec saisie du montant</small>
                 </h1>
-                {{> globalWritingsActions typeNum=3}}
+                {{> globalWritingsActions typeNum=3 export=selection}}
                 {{> tabular table=TabularTables.DivergentWritings3 selector=(selector 3) id="tabular-divergent-writings-3" class="table table-striped table-bordered table-condensed table-responsive"}}
             </div>
         </div>
@@ -219,15 +219,19 @@
 <template name="globalWritingsActions">
     <div class="global-writings-actions">
         <span class="filters">
-            {{#each rules typeNum}}
-                <span class="label label-default label-lg tag" data-id="{{_id }}">
+            <span class="label label-{{emptySelectionSelected}} label-lg tag cancel-selection">
+                Tous
+            </span>
+            {{#each rules}}
+                <span class="label label-{{selected}} label-lg tag select">
                     {{name}}
                 </span>
             {{/each}}
+            <br>
         </span>
-        <button type="button" class="btn btn-success validate-all pull-right">
+        <button type="button" id="validate-all" class="btn btn-success pull-right">
             <i class="fa fa-check-circle"></i>
-            Valider {{type typeNum}}
+            Valider {{type}}
         </button>
     </div>
 </template>

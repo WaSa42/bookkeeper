@@ -31,5 +31,20 @@ Meteor.methods({
             const doc = Accounts.findOne(id, {fields: {num: 1}});
             doc.updateBalance();
         });
+    },
+    validateAllWritings: function (typeNum, differenceTag) {
+        const selector = {
+            isDivergent: true,
+            isValid: false,
+            differenceType: typeNum
+        };
+
+        if (differenceTag) {
+            selector.differenceTag = differenceTag;
+        }
+
+        const writings = Writings.find(selector).fetch();
+        // TODO créer les écritures fiscales
+        console.log(writings.length, 'écritures à traiter');
     }
 });

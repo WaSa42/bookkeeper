@@ -11,6 +11,15 @@
     height: 45px;
 }
 
+.global-writings-actions .filters {
+    display: inline-block;
+    max-width: 70%;
+}
+
+.global-writings-actions .filters .tag {
+    display: inline-block;
+}
+
 .global-writings-actions .tag {
     font-size: 100%;
     margin: 0 5px 5px 0;
@@ -18,9 +27,5 @@
 
 .global-writings-actions .tag:hover {
     cursor: pointer;
-    background-color: #888;
-}
-
-.global-writings-actions .tag.active:hover {
-    background-color: #388dcf;
+    background-color: #5cb85c;
 }

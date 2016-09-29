@@ -6,6 +6,7 @@ export const DIFFERENCE_TYPES = {
 
 export const DIFFERENCES = [{
     name: 'TVTS',
+    tag: 1,
     fileNum: 320,
     nature: 'D',
     alertAccounts: ['63514'],
@@ -17,6 +18,7 @@ export const DIFFERENCES = [{
     type: 1
 }, {
     name: 'Amendes et pénalités',
+    tag: 2,
     fileNum: 364,
     nature: 'D',
     alertAccounts: ['6712'],
@@ -29,6 +31,7 @@ export const DIFFERENCES = [{
     type: 1
 }, {
     name: 'Dégrèvement d\'impôt',
+    tag: 3,
     fileNum: 283,
     nature: 'D',
     alertAccounts: ['7717'],
@@ -41,6 +44,7 @@ export const DIFFERENCES = [{
     type: 1
 }, {
     name: 'CICE',
+    tag: 4,
     fileNum: 325,
     nature: 'D',
     alertAccounts: ['649'],
@@ -53,6 +57,7 @@ export const DIFFERENCES = [{
     type: 1
 }, {
     name: 'Amendes et pénalités',
+    tag: 5,
     fileNum: 364,
     nature: 'D',
     alertAccounts: ['6711'],
@@ -65,6 +70,7 @@ export const DIFFERENCES = [{
     type: 2
 }, {
     name: 'Provision retraite',
+    tag: 6,
     fileNum: 224,
     nature: 'D',
     alertAccounts: ['6815'],
@@ -77,6 +83,7 @@ export const DIFFERENCES = [{
     type: 2
 }, {
     name: 'Société mère et filiale',
+    tag: 7,
     fileNum: 273,
     nature: 'D',
     alertAccounts: ['7611'],
@@ -89,6 +96,7 @@ export const DIFFERENCES = [{
     type: 3
 }, {
     name: 'Amortissement VT',
+    tag: 8,
     fileNum: 26,
     nature: 'D',
     alertAccounts: ['68112'],
@@ -101,6 +109,7 @@ export const DIFFERENCES = [{
     type: 3
 }, {
     name: 'Location VT',
+    tag: 9,
     fileNum: 300,
     nature: 'D',
     alertAccounts: ['6122'],
@@ -113,6 +122,7 @@ export const DIFFERENCES = [{
     type: 3
 }, {
     name: 'Intérêts C/C',
+    tag: 10,
     fileNum: 341,
     nature: 'D',
     alertAccounts: ['6615'],

@@ -21,6 +21,7 @@ Meteor.methods({
                             if (isDivergent) {
                                 writing.differenceId = rule._id;
                                 writing.differenceType = rule.type;
+                                writing.differenceTag = rule.tag;
                             }
 
                             return isDivergent;
