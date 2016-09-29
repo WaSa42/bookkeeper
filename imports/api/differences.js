@@ -143,11 +143,7 @@ export const DIFFERENCES = [{
     alertLabs: [],
     questions: [{
         type: 'YN',
-        text: 'Le titre est-il détenu depuis plus de 2 ans ?',
-        answer: {
-            yes: 'then',
-            no: 'break'
-        }
+        text: 'Le titre est-il détenu depuis plus de 2 ans ?'
     }],
     manualAmount: true,
     debitAccount: 'F775',
@@ -163,34 +159,21 @@ export const DIFFERENCES = [{
     alertLabs: [],
     questions: [{
         type: 'YN',
-        text: 'La valeur est-elle plus ou moins latente ?',
-        answer: {
-            yes: 'manualAmount',
-            no: 'break'
-        }
+        text: 'La valeur est-elle plus ou moins latente ?'
     }],
     manualAmount: true,
-    debitAccount: [{
-        min: 0,
-        num: 'F50'
-    }, {
-        max: 0,
-        num: 'F667'
-    }],
-    creditAccount:  [{
-        min: 0,
-        num: 'F767'
-    }, {
-        max: 0,
-        num: 'F50'
-    }],
-    case2058A: [{
-        min: 0,
-        num: 'XR'
-    }, {
-        max: 0,
-        num: 'XS'
-    }],
+    debitAccount: {
+        positive: 'F50',
+        negative: 'F667'
+    },
+    creditAccount: {
+        positive: 'F767',
+        negative: 'F50'
+    },
+    case2058A: {
+        positive: 'XR',
+        negative: 'XS'
+    },
     type: 4
 }, {
     name: 'Investissement productif',
@@ -201,11 +184,7 @@ export const DIFFERENCES = [{
     alertLabs: [],
     questions: [{
         type: 'YN',
-        text: 'Eligible au suramortissement?',
-        answer: {
-            yes: 'then',
-            no: 'break'
-        }
+        text: 'Eligible au suramortissement ?'
     }],
     manualAmount: true,
     debitAccount: 'F6811',

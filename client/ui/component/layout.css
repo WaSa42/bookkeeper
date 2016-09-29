@@ -5,3 +5,7 @@ header h1 {
 table .stripped {
     background-color: #f9f9f9;
 }
+
+.dataTables_processing {
+    display: none !important;
+}

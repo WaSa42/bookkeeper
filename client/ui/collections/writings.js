@@ -221,21 +221,23 @@ Template.globalWritingsActions.helpers({
         }).fetch();
     },
     emptySelectionSelected: function () {
-        return Template.instance().data.export.get() ? 'default' : 'success';
+        const template = Template.instance();
+        return template && template.data && template.data.export && template.data.export.get() ? 'default' : 'success';
     },
     selected: function () {
-        const selection = Template.instance().data.export.get();
+        const template = Template.instance();
+        const selection = template && template.data && template.data.export && template.data.export.get();
         return selection && selection.tag === this.tag ? 'success' : 'default';
     },
     type: function () {
-        const selection = this.export.get();
+        const selection = this.export && this.export.get();
 
         return selection
             ? selection.name
             : DIFFERENCE_TYPES[this.typeNum];
     },
-    type1: function (typeNum) {
-        return typeNum == 1;
+    allowValidateAll: function () {
+        return this.typeNum == 1;
     }
 });
 
@@ -314,23 +316,27 @@ Template.divergentWritingList1Actions.events({
                 lab: template.data.writing.lab
             })
         }).then(function () {
-            Meteor.call('insertFiscalWritings', writings, err => {
-                if (err) {
-                    toastr.error(err.reason);
-                } else {
-                    swal(
-                        'Validé !',
-                        'L\'écriture a bien été enregistrée.',
-                        'success'
-                    );
-                }
-            });
+            insertWritings(writings);
         });
     },
     'click .non-divergent': function (event, template) {
-        updateNonDivergentWriting(event, template);
+        updateNonDivergentWriting(template.data.writing);
     }
 });
+
+function insertWritings(writings) {
+    Meteor.call('insertFiscalWritings', writings, err => {
+        if (err) {
+            toastr.error(err.reason);
+        } else {
+            swal(
+                'Validé !',
+                'Opération effectuée.',
+                'success'
+            );
+        }
+    });
+}
 
 function askAmount(callback) {
     swal.setDefaults({
@@ -347,7 +353,7 @@ function askAmount(callback) {
         input: 'number',
         inputValidator: function (value) {
             return new Promise(function (resolve, reject) {
-                if (value && value > 0) {
+                if (value) {
                     resolve();
                 } else {
                     reject('Montant invalide !');
@@ -400,11 +406,11 @@ Template.divergentWritingList3Actions.events({
         });
     },
     'click .non-divergent': function (event, template) {
-        updateNonDivergentWriting(event, template);
+        updateNonDivergentWriting(template.data.writing);
     }
 });
 
-function updateNonDivergentWriting(event, template) {
+function updateNonDivergentWriting(writing) {
     swal({
         type: 'warning',
         width: '500px',
@@ -416,7 +422,7 @@ function updateNonDivergentWriting(event, template) {
         confirmButtonColor: '#d33',
         html: 'La divergence sera non applicable, par conséquent retirée de la liste.'
     }).then(function () {
-        Meteor.call('updateNonDivergentWritings', [template.data.writing], err => {
+        Meteor.call('updateNonDivergentWritings', [writing], err => {
             if (err) {
                 toastr.error(err.reason);
             } else {
@@ -428,4 +434,62 @@ function updateNonDivergentWriting(event, template) {
             }
         });
     });
+}
+
+Template.divergentWritingList4Actions.events({
+    'click .process': function (event, template) {
+        const difference = Differences.findOne(template.data.writing.differenceId);
+
+        if (difference.questions && difference.questions.length) {
+            askQuestions(difference, template.data.writing);
+        } else {
+            askConfirmation(() => {
+                handleWriting(difference, template.data.writing);
+            });
+        }
+    }
+});
+
+function askQuestions(difference, writing) {
+    const question = difference.questions.shift();
+
+    swal({
+        type: 'info',
+        showCancelButton: true,
+        reverseButtons: true,
+        animation: false,
+        title: question.text,
+        confirmButtonText: 'Oui',
+        cancelButtonText: 'Non',
+    }).then(() => {
+        handleWriting(difference, writing);
+    }, () => {
+        updateNonDivergentWriting(writing);
+    });
+}
+
+function handleWriting(difference, writing) {
+    if (difference.manualAmount) {
+        askAmount(amount => {
+            const writings = getWritings(writing);
+
+            writings[0].accountNum = amount > 0
+                ? difference.debitAccount.positive
+                : difference.debitAccount.negative;
+
+            writings[1].accountNum = amount > 0
+                ? difference.creditAccount.positive
+                : difference.creditAccount.negative;
+
+            writings.forEach(w => {
+                if (w.debit !== 0) w.debit = amount;
+                if (w.credit !== 0) w.credit = amount;
+            });
+
+            insertWritings(writings);
+        });
+    } else {
+        const writings = getWritings(writing);
+        insertWritings(writings);
+    }
 }

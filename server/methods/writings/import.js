@@ -15,21 +15,21 @@ Meteor.methods({
                         case 1:
                         case 2:
                         case 3:
+                        case 4:
                             isDivergent = writing.accountNum.startsWith(alertAccount);
                                 // || _.some(rule.alertLabs, alertLab => alertLab.includes(writing.lab));
-
-                            if (isDivergent) {
-                                writing.differenceId = rule._id;
-                                writing.differenceType = rule.type;
-                                writing.differenceTag = rule.tag;
-                            }
-
-                            return isDivergent;
-                        case 4:
                             break;
                         default:
                             throw new Meteor.Error('Not implemented');
                     }
+
+                    if (isDivergent) {
+                        writing.differenceId = rule._id;
+                        writing.differenceType = rule.type;
+                        writing.differenceTag = rule.tag;
+                    }
+
+                    return isDivergent;
                 });
             });
 

@@ -223,7 +223,7 @@
                     </strong>
                     <small class="text-uppercase">Retraitements fiscaux potentiels</small>
                 </h1>
-                {{> globalWritingsActions typeNum=4}}
+                {{> globalWritingsActions typeNum=4 export=selection}}
                 {{> tabular table=TabularTables.DivergentWritings4 selector=(selector 4) id="tabular-divergent-writings-4" class="table table-striped table-bordered table-condensed table-responsive"}}
             </div>
         </div>
@@ -243,7 +243,7 @@
             {{/each}}
             <br>
         </span>
-        {{#if type1 typeNum}}
+        {{#if allowValidateAll}}
             <button type="button" id="validate-all" class="btn btn-success pull-right">
                 <i class="fa fa-check-circle"></i>
                 Valider {{type}}
@@ -296,16 +296,15 @@
                 <span class="hidden-xs">Voir la fiche</span>
             </a>
         {{/if}}
-        <button type="button" class="btn btn-success btn-xs validate">
+        <button type="button" class="btn btn-success btn-xs process">
             <i class="fa fa-check"></i>
-            <span class="hidden-xs">Saisir le montant</span>
+            <span class="hidden-xs">Traiter</span>
         </button>
         <button type="button" class="btn btn-danger btn-xs non-divergent" title="Non applicable">
             <i class="fa fa-trash"></i>
         </button>
     </span>
 </template>
-
 
 <template name="writingRead">
     <div id="writing-read" class="container">

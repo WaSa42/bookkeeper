@@ -8,12 +8,12 @@
 }
 
 .global-writings-actions {
-    height: 45px;
+    min-height: 45px;
+    margin-bottom: 10px;
 }
 
 .global-writings-actions .filters {
     display: inline-block;
-    max-width: 70%;
 }
 
 .global-writings-actions .filters .tag {
