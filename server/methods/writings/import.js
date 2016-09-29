@@ -25,6 +25,8 @@ Meteor.methods({
                             }
 
                             return isDivergent;
+                        case 4:
+                            break;
                         default:
                             throw new Meteor.Error('Not implemented');
                     }
