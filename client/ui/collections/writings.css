@@ -3,11 +3,24 @@
     overflow: auto;
     margin-bottom: 0;
 }
+#divergent-writing-list .nav-tabs li {
+    font-size: 16px;
+}
 
 .global-writings-actions {
     height: 45px;
 }
 
-.global-writings-actions .label {
+.global-writings-actions .tag {
     font-size: 100%;
+    margin: 0 5px 5px 0;
+}
+
+.global-writings-actions .tag:hover {
+    cursor: pointer;
+    background-color: #888;
+}
+
+.global-writings-actions .tag.active:hover {
+    background-color: #388dcf;
 }

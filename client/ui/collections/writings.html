@@ -187,7 +187,7 @@
                     </strong>
                     <small class="text-uppercase">Retraitements fiscaux 100%</small>
                 </h1>
-                {{> globalWritinsActions typeNum=1}}
+                {{> globalWritingsActions typeNum=1}}
                 {{> tabular table=TabularTables.DivergentWritings1 selector=(selector 1) id="tabular-divergent-writings-1" class="table table-striped table-bordered table-condensed table-responsive"}}
             </div>
             <div role="tabpanel" class="tab-pane" id="type-2">
@@ -198,7 +198,7 @@
                     </strong>
                     <small class="text-uppercase">Retraitements fiscaux partiels</small>
                 </h1>
-                {{> globalWritinsActions typeNum=2}}
+                {{> globalWritingsActions typeNum=2}}
                 {{> tabular table=TabularTables.DivergentWritings2 selector=(selector 2) id="tabular-divergent-writings-2" class="table table-striped table-bordered table-condensed table-responsive"}}
             </div>
             <div role="tabpanel" class="tab-pane" id="type-3">
@@ -209,21 +209,23 @@
                     </strong>
                     <small class="text-uppercase">[...] avec saisie du montant</small>
                 </h1>
-                {{> globalWritinsActions typeNum=3}}
+                {{> globalWritingsActions typeNum=3}}
                 {{> tabular table=TabularTables.DivergentWritings3 selector=(selector 3) id="tabular-divergent-writings-3" class="table table-striped table-bordered table-condensed table-responsive"}}
             </div>
         </div>
     </div>
 </template>
 
-<template name="globalWritinsActions">
+<template name="globalWritingsActions">
     <div class="global-writings-actions">
         <span class="filters">
             {{#each rules typeNum}}
-                <span class="label label-default label-lg" data-id="{{_id }}">{{name}}</span>
+                <span class="label label-default label-lg tag" data-id="{{_id }}">
+                    {{name}}
+                </span>
             {{/each}}
         </span>
-        <button type="button" data-type="1" class="btn btn-success validate-all pull-right">
+        <button type="button" class="btn btn-success validate-all pull-right">
             <i class="fa fa-check-circle"></i>
             Valider {{type typeNum}}
         </button>

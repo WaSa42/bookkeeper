@@ -201,7 +201,7 @@ Template.divergentWritingList.helpers({
     }
 });
 
-Template.globalWritinsActions.helpers({
+Template.globalWritingsActions.helpers({
     rules: function (differenceType) {
         return Differences.find({type: differenceType}).fetch();
     },
@@ -367,5 +367,49 @@ Template.divergentWritingList3Actions.events({
         }, function () {
             swal.resetDefaults();
         });
+    }
+});
+
+Template.globalWritingsActions.events({
+    'click .tag': function (event) {
+        const tag = $(event.target);
+        tag.toggleClass('label-default').toggleClass('label-primary').toggleClass('active');
+    },
+    'click .validate-all': function (event, template) {
+        const filters = []; //TODO getFilters
+        const selector = {
+            isDivergent: true,
+            isValid: false,
+            differenceType: template.data.typeNum,
+            differenceId: {
+                $in: filters
+            }
+        };
+
+        swal({
+            type: 'warning',
+            width: '500px',
+            showCancelButton: true,
+            reverseButtons: true,
+            title: 'Êtes-vous sûr ?',
+            confirmButtonText: 'Oui, valider !',
+            cancelButtonText: 'Non, revérifier',
+            text: `Vous validerez tout les éléments de `
+        }).then(function () {
+            Meteor.call('insertAllFiscalWritings', selector, err => {
+                if (err) {
+                    toastr.error(err.reason);
+                } else {
+                    swal(
+                        'Validé !',
+                        'Les écriture ont bien été enregistrée.',
+                        'success'
+                    );
+                }
+            });
+        });
+
+        console.log(selector);
+        Meteor.call()
     }
 });
