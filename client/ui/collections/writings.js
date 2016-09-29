@@ -225,7 +225,9 @@ function getWritings(writing) {
         accountLab: getLabel(difference.creditAccount, writing),
         credit: writing.credit || writing.debit,
         debit: 0,
-        originalWritingId: writing._id
+        originalWritingId: writing._id,
+        date: now.toDate(),
+        formattedDate: now.format('DD/MM/YYYY')
     };
 
     return [
