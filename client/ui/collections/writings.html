@@ -163,110 +163,121 @@
 </template>
 
 <template name="divergentWritingList">
-    <div id="divergent-writing-list" class="container">
-        <header>
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active nav-tabs-li">
-                    <a href="#type-1" role="tab" data-toggle="tab">1. Retraitements fiscaux 100%</a>
-                </li>
-                <li role="presentation" class="nav-tabs-li">
-                    <a href="#type-2" role="tab" data-toggle="tab">2. Retraitements fiscaux partiels</a>
-                </li>
-                <li role="presentation" class="nav-tabs-li">
-                    <a href="#type-3" role="tab" data-toggle="tab">3. [...] avec saisie du montant</a>
-                </li>
-                <li role="presentation" class="nav-tabs-li">
-                    <a href="#type-4" role="tab" data-toggle="tab">4. Retraitements fiscaux potentiels</a>
-                </li>
-                <li role="presentation" class="nav-tabs-li">
-                    <a href="#type-5" role="tab" data-toggle="tab">5. [...] à partir du libellé</a>
-                </li>
-                <li role="presentation" class="nav-tabs-li">
-                    <a href="#type-6" role="tab" data-toggle="tab">6. Avec montant suggéré</a>
-                </li>
-                <li role="presentation" class="nav-tabs-li">
-                    <a href="#type-7" role="tab" data-toggle="tab">7. Saisie libre</a>
-                </li>
-            </ul>
-        </header>
-        <br>
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="type-1">
-                <h1>
-                    <strong>
-                        <i class="fa fa-random"></i>
-                        Divergences comptables et fiscales
-                    </strong>
-                    <small class="text-uppercase">Retraitements fiscaux 100%</small>
-                </h1>
-                {{> globalWritingsActions typeNum=1 export=selection}}
-                {{> tabular table=TabularTables.DivergentWritings1 selector=(selector 1) id="tabular-divergent-writings-1" class="table table-striped table-bordered table-condensed table-responsive"}}
+    <div id="divergent-writing-list" class="container-fluid">
+        <div class="row">
+            <div class="col-xs-3">
+                <header>
+                    <ul class="nav nav-tabs tabs-left" role="tablist">
+                        <li role="presentation" class="active nav-tabs-li">
+                            <a href="#type-1" role="tab" data-toggle="tab"><span class="fa fa-fw">1.</span> Retraitements fiscaux 100%</a>
+                        </li>
+                        <li role="presentation" class="nav-tabs-li">
+                            <a href="#type-2" role="tab" data-toggle="tab"><span class="fa fa-fw">2.</span> Retraitements fiscaux partiels</a>
+                        </li>
+                        <li role="presentation" class="nav-tabs-li">
+                            <a href="#type-3" role="tab" data-toggle="tab"><span class="fa fa-fw">3.</span> [...] avec saisie du montant</a>
+                        </li>
+                        <li role="presentation" class="nav-tabs-li">
+                            <a href="#type-4" role="tab" data-toggle="tab"><span class="fa fa-fw">4.</span> Retraitements fiscaux potentiels</a>
+                        </li>
+                        <li role="presentation" class="nav-tabs-li">
+                            <a href="#type-5" role="tab" data-toggle="tab"><span class="fa fa-fw">5.</span> [...] à partir du libellé</a>
+                        </li>
+                        <li role="presentation" class="nav-tabs-li">
+                            <a href="#type-6" role="tab" data-toggle="tab"><span class="fa fa-fw">6.</span> Avec montant suggéré</a>
+                        </li>
+                        <li role="presentation" class="nav-tabs-li">
+                            <a href="#type-7" role="tab" data-toggle="tab"><span class="fa fa-fw">7.</span> Saisie libre</a>
+                        </li>
+                        <li role="presentation" class="nav-tabs-li">
+                            <a href="{{pathFor 'stepper' step='3'}}" role="tab" data-toggle="tab"><i class="fa fa-fw fa-balance-scale"></i> Afficher bilans & comptes de résultats</a>
+                        </li>
+                        <li role="presentation" class="nav-tabs-li">
+                            <a href="{{pathFor 'stepper' step='4'}}" role="tab" data-toggle="tab"><i class="fa fa-fw fa-upload"></i> Exporter les documents</a>
+                        </li>
+                    </ul>
+                </header>
             </div>
-            <div role="tabpanel" class="tab-pane" id="type-2">
-                <h1>
-                    <strong>
-                        <i class="fa fa-random"></i>
-                        Divergences comptables et fiscales
-                    </strong>
-                    <small class="text-uppercase">Retraitements fiscaux partiels</small>
-                </h1>
-                {{> globalWritingsActions typeNum=2 export=selection}}
-                {{> tabular table=TabularTables.DivergentWritings2 selector=(selector 2) id="tabular-divergent-writings-2" class="table table-striped table-bordered table-condensed table-responsive"}}
-            </div>
-            <div role="tabpanel" class="tab-pane" id="type-3">
-                <h1>
-                    <strong>
-                        <i class="fa fa-random"></i>
-                        Divergences comptables et fiscales
-                    </strong>
-                    <small class="text-uppercase">[...] avec saisie du montant</small>
-                </h1>
-                {{> globalWritingsActions typeNum=3 export=selection}}
-                {{> tabular table=TabularTables.DivergentWritings3 selector=(selector 3) id="tabular-divergent-writings-3" class="table table-striped table-bordered table-condensed table-responsive"}}
-            </div>
-            <div role="tabpanel" class="tab-pane" id="type-4">
-                <h1>
-                    <strong>
-                        <i class="fa fa-random"></i>
-                        Divergences comptables et fiscales
-                    </strong>
-                    <small class="text-uppercase">Retraitements fiscaux potentiels</small>
-                </h1>
-                {{> globalWritingsActions typeNum=4 export=selection}}
-                {{> tabular table=TabularTables.DivergentWritings4 selector=(selector 4) id="tabular-divergent-writings-4" class="table table-striped table-bordered table-condensed table-responsive"}}
-            </div>
-            <div role="tabpanel" class="tab-pane" id="type-5">
-                <h1>
-                    <strong>
-                        <i class="fa fa-random"></i>
-                        Divergences comptables et fiscales
-                    </strong>
-                    <small class="text-uppercase">[...] à partir du libellé</small>
-                </h1>
-                {{> globalWritingsActions typeNum=5 export=selection}}
-                {{> tabular table=TabularTables.DivergentWritings5 selector=(selector 5) id="tabular-divergent-writings-5" class="table table-striped table-bordered table-condensed table-responsive"}}
-            </div>
-            <div role="tabpanel" class="tab-pane" id="type-6">
-                <h1>
-                    <strong>
-                        <i class="fa fa-random"></i>
-                        Divergences comptables et fiscales
-                    </strong>
-                    <small class="text-uppercase">Avec montant suggéré</small>
-                </h1>
-                {{> globalWritingsActions typeNum=6 export=selection}}
-                <!--{{> tabular table=TabularTables.DivergentWritings6 selector=(selector 6) id="tabular-divergent-writings-6" class="table table-striped table-bordered table-condensed table-responsive"}}-->
-            </div>
-            <div role="tabpanel" class="tab-pane" id="type-7">
-                <h1>
-                    <strong>
-                        <i class="fa fa-random"></i>
-                        Divergences comptables et fiscales
-                    </strong>
-                    <small class="text-uppercase">Saisie libre</small>
-                </h1>
-                {{> globalWritingsActions typeNum=7 export=selection}}
-                <!--{{> tabular table=TabularTables.DivergentWritings7 selector=(selector 7) id="tabular-divergent-writings-7" class="table table-striped table-bordered table-condensed table-responsive"}}-->
+            <div class="col-xs-9">
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="type-1">
+                        <h1>
+                            <strong>
+                                <i class="fa fa-random"></i>
+                                Divergences comptables et fiscales
+                            </strong>
+                            <small class="text-uppercase">Retraitements fiscaux 100%</small>
+                        </h1>
+                        {{> globalWritingsActions typeNum=1 export=selection}}
+                        {{> tabular table=TabularTables.DivergentWritings1 selector=(selector 1) id="tabular-divergent-writings-1" class="table table-striped table-bordered table-condensed table-responsive"}}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="type-2">
+                        <h1>
+                            <strong>
+                                <i class="fa fa-random"></i>
+                                Divergences comptables et fiscales
+                            </strong>
+                            <small class="text-uppercase">Retraitements fiscaux partiels</small>
+                        </h1>
+                        {{> globalWritingsActions typeNum=2 export=selection}}
+                        {{> tabular table=TabularTables.DivergentWritings2 selector=(selector 2) id="tabular-divergent-writings-2" class="table table-striped table-bordered table-condensed table-responsive"}}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="type-3">
+                        <h1>
+                            <strong>
+                                <i class="fa fa-random"></i>
+                                Divergences comptables et fiscales
+                            </strong>
+                            <small class="text-uppercase">[...] avec saisie du montant</small>
+                        </h1>
+                        {{> globalWritingsActions typeNum=3 export=selection}}
+                        {{> tabular table=TabularTables.DivergentWritings3 selector=(selector 3) id="tabular-divergent-writings-3" class="table table-striped table-bordered table-condensed table-responsive"}}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="type-4">
+                        <h1>
+                            <strong>
+                                <i class="fa fa-random"></i>
+                                Divergences comptables et fiscales
+                            </strong>
+                            <small class="text-uppercase">Retraitements fiscaux potentiels</small>
+                        </h1>
+                        {{> globalWritingsActions typeNum=4 export=selection}}
+                        {{> tabular table=TabularTables.DivergentWritings4 selector=(selector 4) id="tabular-divergent-writings-4" class="table table-striped table-bordered table-condensed table-responsive"}}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="type-5">
+                        <h1>
+                            <strong>
+                                <i class="fa fa-random"></i>
+                                Divergences comptables et fiscales
+                            </strong>
+                            <small class="text-uppercase">[...] à partir du libellé</small>
+                        </h1>
+                        {{> globalWritingsActions typeNum=5 export=selection}}
+                        {{> tabular table=TabularTables.DivergentWritings5 selector=(selector 5) id="tabular-divergent-writings-5" class="table table-striped table-bordered table-condensed table-responsive"}}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="type-6">
+                        <h1>
+                            <strong>
+                                <i class="fa fa-random"></i>
+                                Divergences comptables et fiscales
+                            </strong>
+                            <small class="text-uppercase">Avec montant suggéré</small>
+                        </h1>
+                        {{> globalWritingsActions typeNum=6 export=selection}}
+                        {{> tabular table=TabularTables.DivergentWritings6 selector=(selector 6) id="tabular-divergent-writings-6" class="table table-striped table-bordered table-condensed table-responsive"}}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="type-7">
+                        <h1>
+                            <strong>
+                                <i class="fa fa-random"></i>
+                                Divergences comptables et fiscales
+                            </strong>
+                            <small class="text-uppercase">Saisie libre</small>
+                        </h1>
+                        {{> globalWritingsActions typeNum=7 export=selection}}
+                        {{> tabular table=TabularTables.DivergentWritings7 selector=(selector 7) id="tabular-divergent-writings-7" class="table table-striped table-bordered table-condensed table-responsive"}}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
