@@ -222,26 +222,48 @@ function getLabel(accountNum, writing) {
 function getWritings(writing) {
     const difference = Differences.findOne(writing.differenceId);
     const now = moment();
-
-    const debitFiscalWriting = {
-        accountNum: difference.debitAccount,
-        accountLab: getLabel(difference.debitAccount, writing),
-        debit: writing.debit || writing.credit,
-        credit: 0,
+    const values = {
         originalWritingId: writing._id,
         date: now.toDate(),
         formattedDate: now.format('DD/MM/YYYY')
     };
 
-    const creditFiscalWriting = {
-        accountNum: difference.creditAccount,
-        accountLab: getLabel(difference.creditAccount, writing),
-        credit: writing.credit || writing.debit,
-        debit: 0,
-        originalWritingId: writing._id,
-        date: now.toDate(),
-        formattedDate: now.format('DD/MM/YYYY')
-    };
+    let debitFiscalWriting;
+    let creditFiscalWriting;
+
+    if (writing.debit !== 0) {
+        creditFiscalWriting = {
+            ...values,
+            accountNum: difference.creditAccount,
+            accountLab: getLabel(difference.creditAccount, writing),
+            debit: 0,
+            credit: writing.debit
+        };
+
+        debitFiscalWriting = {
+            ...values,
+            accountNum: difference.debitAccount,
+            accountLab: getLabel(difference.debitAccount, writing),
+            debit: writing.debit,
+            credit: 0
+        };
+    } else {
+        debitFiscalWriting = {
+            ...values,
+            accountNum: difference.creditAccount,
+            accountLab: getLabel(difference.debitAccount, writing),
+            debit: writing.credit,
+            credit: 0
+        };
+
+        creditFiscalWriting = {
+            ...values,
+            accountNum: difference.debitAccount,
+            accountLab: getLabel(difference.creditAccount, writing),
+            debit: 0,
+            credit: writing.credit
+        }
+    }
 
     return [
         debitFiscalWriting,

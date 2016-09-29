@@ -12,8 +12,8 @@ export const BalanceStatus = {
 };
 
 export const AccountNum = {
-    BALANCE_SHEET: /^[1-5]/,
-    INCOME_STATEMENT: /^[6-7]/,
+    BALANCE_SHEET: /^F?[1-5]/,
+    INCOME_STATEMENT: /^F?[6-7]/,
     FISCAL: '^F'
 };
 

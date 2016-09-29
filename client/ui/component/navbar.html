@@ -44,10 +44,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fiscalité <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="{{isActive route='differenceList'}}"><a href="{{pathFor 'differenceList'}}">Valider les divergences</a></li>
-                            <li class="{{isActive route='differencesRuleList'}}"><a href="{{pathFor 'differencesRuleList'}}">Règles de divergences</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Déterminer le résultat fiscale</a></li>
+                            <li class="{{isActive path='/balance-sheet/fiscal'}}"><a href="{{pathFor 'balanceSheetRead' mode='fiscal'}}">Effectuer le bilan</a></li>
+                            <li class="{{isActive path='/income-statement/fiscal'}}"><a href="{{pathFor 'incomeStatementRead' mode='fiscal'}}">Effectuer le compte de résultat</a></li>
                         </ul>
                     </li>
                 </ul>

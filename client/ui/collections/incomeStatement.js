@@ -5,18 +5,38 @@ const excludeSettings = settings.exclude;
 
 Template.incomeStatementRead.helpers({
     getValue: function (cellKey) {
-        const value = Math.round(getValue(this.accounts, cellKey));
+        const value = Math.round(getValue(this.accounts, cellKey, this.fiscal));
         return value === 0 ? null : getCleanNumber(value);
     },
     getTotal: function (totalId) {
-        return getCleanNumber(Math.round(getTotal(totalId, this.accounts, 'B')));
+        return getCleanNumber(Math.round(getTotal(totalId, this.accounts, 'B', this.fiscal)));
     },
 });
 
-function getAccounts(accounts, cellKey) {
+function addFiscalSettings(settings) {
+    const fiscalSettings = [];
+
+    settings.forEach(conf => {
+        if (!conf.endsWith('C') && !conf.endsWith('D')) {
+            fiscalSettings.push(`F${conf}`);
+        }
+    });
+
+    return _.union(settings, fiscalSettings);
+}
+
+function getAccounts(accounts, cellKey, fiscal) {
     const results = [];
 
-    settings[cellKey].forEach(conf => {
+    let tmpSettings = {
+        ...settings
+    };
+
+    if (fiscal) {
+        tmpSettings[cellKey] = addFiscalSettings(tmpSettings[cellKey]);
+    }
+
+    tmpSettings[cellKey].forEach(conf => {
         const creditOnly = conf.endsWith('C');
         const debitOnly = conf.endsWith('D');
         const code = creditOnly || debitOnly ? conf.slice(0, -1) : conf;
@@ -46,11 +66,11 @@ function codeIsExcluded(cellKey, accountNum) {
         .some(excludedAccountNum => accountNum.startsWith(excludedAccountNum));
 }
 
-function getValue(accounts, cellKey) {
-    console.log('-------------------------------------------------------------');
-    return getAccounts(accounts, cellKey).reduce((a, b) => {
-        if (cellKey === 'B20') {
-            console.log(cellKey, b.num, b.lab, b.balance);
+function getValue(accounts, cellKey, fiscal) {
+    return getAccounts(accounts, cellKey, fiscal).reduce((a, b) => {
+        // Fiscal
+        if (b.num.startsWith('F')) {
+            return a + b.balance;
         }
 
         // Production stockée
@@ -93,75 +113,51 @@ function getCellPosition(cellKey) {
     };
 }
 
-function getTotal(totalId, accounts, column) {
+function getTotal(totalId, accounts, column, fiscal) {
     switch (totalId) {
         case 'turnover':
-            return getTotalCells(
-                accounts,
-                (col, row) => col === column && row >= 3 && row <= 4
-            );
+            return getTotalCells(accounts, (col, row) => col === column && row >= 3 && row <= 4, fiscal);
         case 1:
-            return getTotalCells(
-                accounts,
-                (col, row) => col === column && row <= 10
-            );
+            return getTotalCells(accounts, (col, row) => col === column && row <= 10, fiscal);
         case 2:
-            return getTotalCells(
-                accounts,
-                (col, row) => col === column && row >= 13 && row <= 29,
-            );
+            return getTotalCells(accounts, (col, row) => col === column && row >= 13 && row <= 29, fiscal);
         case 'operating-income':
-            return getTotal(1, accounts, column) - getTotal(2, accounts, column);
+            return getTotal(1, accounts, column, fiscal) - getTotal(2, accounts, column, fiscal);
         case 5:
-            return getTotalCells(
-                accounts,
-                (col, row) => col === column && row >= 36 && row <= 41,
-            );
+            return getTotalCells(accounts, (col, row) => col === column && row >= 36 && row <= 41, fiscal);
         case 6:
-            return getTotalCells(
-                accounts,
-                (col, row) => col === column && row >= 44 && row <= 47,
-            );
+            return getTotalCells(accounts, (col, row) => col === column && row >= 44 && row <= 47, fiscal);
         case 'financial-result':
-            return getTotal(5, accounts, column) - getTotal(4, accounts, column);
+            return getTotal(5, accounts, column, fiscal) - getValue(accounts, 'B34', fiscal);
         case 'current-profit':
-            return getTotal(1, accounts, column) - getTotal(2, accounts, column)
-                + getTotal(3, accounts, column) - getTotal(4, accounts, column)
-                + getTotal(5, accounts, column) - getTotal(6, accounts, column);
+            return getTotal(1, accounts, column, fiscal) - getTotal(2, accounts, column, fiscal)
+                + getValue(accounts, 'B33', fiscal) - getValue(accounts, 'B34', fiscal)
+                + getTotal(5, accounts, column, fiscal) - getTotal(6, accounts, column, fiscal);
         case 7:
-            return getTotalCells(
-                accounts,
-                (col, row) => col === column && row >= 53 && row <= 55,
-            );
+            return getTotalCells(accounts, (col, row) => col === column && row >= 53 && row <= 55, fiscal);
         case 8:
-            return getTotalCells(
-                accounts,
-                (col, row) => col === column && row >= 58 && row <= 60,
-            );
+            return getTotalCells(accounts, (col, row) => col === column && row >= 58 && row <= 60, fiscal);
         case 'exceptional-result':
-            return getTotal(7, accounts, column) - getTotal(8, accounts, column);
+            return getTotal(7, accounts, column, fiscal) - getTotal(8, accounts, column, fiscal);
         case 'products':
-            return getTotal(1, accounts, column) + getTotal(3, accounts, column)
-                + getTotal(5, accounts, column) + getTotal(7, accounts, column);
+            return getTotal(1, accounts, column, fiscal) + getValue(accounts, 'B33', fiscal)
+                + getTotal(5, accounts, column, fiscal) + getTotal(7, accounts, column, fiscal);
         case 'charges':
-            return getTotal(2, accounts, column) + getTotal(4, accounts, column)
-                + getTotal(6, accounts, column) + getTotal(8, accounts, column)
-                + getTotal(9, accounts, column) + getValue(accounts, 'B64');
+            return getTotal(2, accounts, column, fiscal) + getValue(accounts, 'B34', fiscal)
+                + getTotal(6, accounts, column, fiscal) + getTotal(8, accounts, column, fiscal)
+                + getValue(accounts, 'B63', fiscal) + getValue(accounts, 'B64', fiscal);
         case 'result':
-            return getTotal('products', accounts, column) - getTotal('charges', accounts, column);
+            return getTotal('products', accounts, column, fiscal) - getTotal('charges', accounts, column, fiscal);
         default:
-            console.log('Not implemented', totalId);
-            // TODO
-            return 0;
-            // throw new Error('Not implemented');
+            throw new Error(`Total ${totalId} not implemented`);
     }
 }
 
-function getTotalCells(accounts, filter) {
+function getTotalCells(accounts, filter, fiscal) {
     const cellKeys = _.keys(settings).filter(cellKey => {
         const cellPosition = getCellPosition(cellKey);
         return filter(cellPosition.col, cellPosition.row);
     });
 
-    return cellKeys.reduce((a, b) => a + getValue(accounts, b), 0);
+    return cellKeys.reduce((a, b) => a + getValue(accounts, b, fiscal), 0);
 }

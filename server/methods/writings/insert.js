@@ -17,15 +17,19 @@ Meteor.methods({
                 num: writing.accountNum
             });
 
-            if (!account) {
-                const id = Accounts.insert({
+            let id;
+
+            if (account) {
+                id = account._id;
+            } else {
+                id = Accounts.insert({
                     num: writing.accountNum,
                     lab: writing.accountLab
                 });
-
-                const doc = Accounts.findOne(id, {fields: {num: 1}});
-                doc.updateBalance();
             }
+
+            const doc = Accounts.findOne(id, {fields: {num: 1}});
+            doc.updateBalance();
         });
     }
 });

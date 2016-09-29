@@ -2,10 +2,17 @@
     <div id="income-statement-read" class="container">
         <header>
             <h1>
-                <strong>
-                    <i class="fa fa-balance-scale"></i>
-                    Comptabilité
-                </strong>
+                {{#if fiscal}}
+                    <strong>
+                        <i class="fa fa-line-chart"></i>
+                        Fiscalité
+                    </strong>
+                {{else}}
+                    <strong>
+                        <i class="fa fa-balance-scale"></i>
+                        Comptabilité
+                    </strong>
+                {{/if}}
                 <small class="text-uppercase">Compte de résultat</small>
             </h1>
         </header>
