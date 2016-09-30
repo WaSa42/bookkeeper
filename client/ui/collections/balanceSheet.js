@@ -1,4 +1,4 @@
-import { BalanceStatus, Accounts } from '/imports/api/collections';
+import { BalanceStatus, Accounts, AccountNum } from '/imports/api/collections';
 
 const activeSettings = Meteor.settings.public.balanceSheet.active;
 const excludeActiveSettings = activeSettings.exclude;
@@ -6,6 +6,8 @@ const passiveSettings = Meteor.settings.public.balanceSheet.passive;
 const excludePassiveSettings = passiveSettings.exclude;
 
 Template.balanceSheetRead.onCreated(function () {
+    this.data.accounts = null;
+
     this.autorun(() => {
         this.subscribe('balanceSheet.read');
         this.data.accounts = Accounts.find();
@@ -24,7 +26,8 @@ Template.balanceSheetRead.helpers({
         return getCleanNumber(Math.round(getActiveTotal(totalId, this.accounts.fetch(), 'C', this.fiscal)));
     },
     getPassiveTotal: function (totalId) {
-        return getCleanNumber(Math.round(getPassiveTotal(totalId, this.accounts.fetch(), 'B', this.fiscal)));
+        const result = parseFloat(getResult(this.fiscal).replace(/\s+/g, ''));
+        return getCleanNumber(Math.round(result + getPassiveTotal(totalId, this.accounts.fetch(), 'B', this.fiscal)));
     },
     getActiveDiff: function (row, active = true) {
         if (!activeSettings[`C${row}`]) {
@@ -50,8 +53,19 @@ Template.balanceSheetRead.helpers({
         );
 
         return diff ? getCleanNumber(diff) : null;
+    },
+    result: function () {
+        return getResult(this.fiscal);
     }
 });
+
+function getResult(fiscal) {
+    const html = Blaze.toHTMLWithData(Template.incomeStatementRead, {
+        fiscal
+    });
+
+    return $(html).find('#result').text();
+}
 
 function getAccounts(accounts, cellKey, active, fiscal) {
     let settings = active ? activeSettings[cellKey] : passiveSettings[cellKey];
