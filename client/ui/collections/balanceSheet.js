@@ -1,23 +1,30 @@
-import { BalanceStatus } from '/imports/api/collections';
+import { BalanceStatus, Accounts } from '/imports/api/collections';
 
 const activeSettings = Meteor.settings.public.balanceSheet.active;
 const excludeActiveSettings = activeSettings.exclude;
 const passiveSettings = Meteor.settings.public.balanceSheet.passive;
 const excludePassiveSettings = passiveSettings.exclude;
 
+Template.balanceSheetRead.onCreated(function () {
+    this.autorun(() => {
+        this.subscribe('balanceSheet.read');
+        this.data.accounts = Accounts.find();
+    });
+});
+
 Template.balanceSheetRead.helpers({
     getValue: function (cellKey, active = true) {
-        const value = Math.round(getValue(this.accounts, cellKey, active, this.fiscal));
+        const value = Math.round(getValue(this.accounts.fetch(), cellKey, active, this.fiscal));
         return value === 0 ? null : getCleanNumber(value);
     },
     getActiveGrossTotal: function (totalId) {
-        return getCleanNumber(Math.round(getActiveTotal(totalId, this.accounts, 'B', this.fiscal)));
+        return getCleanNumber(Math.round(getActiveTotal(totalId, this.accounts.fetch(), 'B', this.fiscal)));
     },
     getActiveAmortizationTotal: function (totalId) {
-        return getCleanNumber(Math.round(getActiveTotal(totalId, this.accounts, 'C', this.fiscal)));
+        return getCleanNumber(Math.round(getActiveTotal(totalId, this.accounts.fetch(), 'C', this.fiscal)));
     },
     getPassiveTotal: function (totalId) {
-        return getCleanNumber(Math.round(getPassiveTotal(totalId, this.accounts, 'B', this.fiscal)));
+        return getCleanNumber(Math.round(getPassiveTotal(totalId, this.accounts.fetch(), 'B', this.fiscal)));
     },
     getActiveDiff: function (row, active = true) {
         if (!activeSettings[`C${row}`]) {
@@ -25,21 +32,21 @@ Template.balanceSheetRead.helpers({
                 return null;
             }
 
-            const value = Math.round(getValue(this.accounts, `B${row}`, active, this.fiscal));
+            const value = Math.round(getValue(this.accounts.fetch(), `B${row}`, active, this.fiscal));
             return value === 0 ? null : getCleanNumber(value);
         }
 
         const diff = Math.round(
-            getValue(this.accounts, `B${row}`, active, this.fiscal) -
-            getValue(this.accounts, `C${row}`, active, this.fiscal)
+            getValue(this.accounts.fetch(), `B${row}`, active, this.fiscal) -
+            getValue(this.accounts.fetch(), `C${row}`, active, this.fiscal)
         );
 
         return diff ? getCleanNumber(diff) : null;
     },
     getTotalActiveDiff: function (totalId) {
         const diff = Math.round(
-            getActiveTotal(totalId, this.accounts, 'B', this.fiscal) -
-            getActiveTotal(totalId, this.accounts, 'C', this.fiscal)
+            getActiveTotal(totalId, this.accounts.fetch(), 'B', this.fiscal) -
+            getActiveTotal(totalId, this.accounts.fetch(), 'C', this.fiscal)
         );
 
         return diff ? getCleanNumber(diff) : null;

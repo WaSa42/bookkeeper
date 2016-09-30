@@ -1,16 +1,25 @@
-import { BalanceStatus } from '/imports/api/collections';
+import { BalanceStatus, AccountNum, Accounts } from '/imports/api/collections';
 
 const settings = Meteor.settings.public.result;
 const excludeSettings = settings.exclude;
 
+Template.incomeStatementRead.onCreated(function () {
+    this.subscribe('incomeStatement.read');
+    this.autorun(() => {
+        this.data.accounts = Accounts.find({
+            num: AccountNum.INCOME_STATEMENT
+        })
+    });
+});
+
 Template.incomeStatementRead.helpers({
     getValue: function (cellKey) {
-        const value = Math.round(getValue(this.accounts, cellKey, this.fiscal));
+        const value = Math.round(getValue(this.accounts.fetch(), cellKey, this.fiscal));
         return value === 0 ? null : getCleanNumber(value);
     },
     getTotal: function (totalId) {
-        return getCleanNumber(Math.round(getTotal(totalId, this.accounts, 'B', this.fiscal)));
-    },
+        return getCleanNumber(Math.round(getTotal(totalId, this.accounts.fetch(), 'B', this.fiscal)));
+    }
 });
 
 function addFiscalSettings(settings) {

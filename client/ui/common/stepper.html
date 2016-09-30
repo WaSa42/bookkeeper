@@ -39,15 +39,6 @@
                         <div class="stepper-bar-left"></div>
                         <div class="stepper-bar-right"></div>
                     </div>
-                    <div class="stepper-step {{isActive path='/stepper/5'}} {{isDone 5}}">
-                        <div class="stepper-circle">
-                            <i class="fa fa-download line-sized"></i>
-                        </div>
-                        <div class="stepper-title">Impression et exportation</div>
-                        <div class="stepper-description">Imprimez ou exportez vos documents au format Excel&trade;</div>
-                        <div class="stepper-bar-left"></div>
-                        <div class="stepper-bar-right"></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -61,73 +52,13 @@
             <div class="container">
                 <header>
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <a href="{{pathFor 'stepper' step='2'}}" class="btn btn-default btn-block">
                                 <i class="fa fa-fw fa-random"></i>
                                 Revoir les divergences
                             </a>
                         </div>
-                        <div class="col-sm-4">
-                            <a href="{{pathFor 'stepper' step='4'}}" class="btn btn-default btn-block">
-                                <i class="fa fa-fw fa-balance-scale"></i>
-                                Afficher bilans & comptes de résultats
-                            </a>
-                        </div>
-                        <div class="col-sm-4">
-                            <a href="{{pathFor 'stepper' step='5'}}" class="btn btn-default btn-block">
-                                <i class="fa fa-fw fa-upload"></i>
-                                Exporter les documents
-                            </a>
-                        </div>
-                    </div>
-                </header>
-            </div>
-            {{> journalRead journal=fiscalJournal writings=fiscalWritings}}
-        {{/if}}
-        {{#if isStep 4}}
-            <div class="container">
-                <header>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <a href="{{pathFor 'stepper' step='2'}}" class="btn btn-default btn-block">
-                                <i class="fa fa-fw fa-random"></i>
-                                Revoir les divergences
-                            </a>
-                        </div>
-                        <div class="col-sm-4">
-                            <a href="{{pathFor 'stepper' step='3'}}" class="btn btn-default btn-block">
-                                <i class="fa fa-fw fa-history"></i>
-                                Afficher les opérations générées précédemment
-                            </a>
-                        </div>
-                        <div class="col-sm-4">
-                            <a href="{{pathFor 'stepper' step='5'}}" class="btn btn-default btn-block">
-                                <i class="fa fa-fw fa-upload"></i>
-                                Exporter les documents
-                            </a>
-                        </div>
-                    </div>
-                </header>
-            </div>
-            {{> balanceSheetRead}}
-        {{/if}}
-        {{#if isStep 5}}
-            <div class="container">
-                <header>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <a href="{{pathFor 'stepper' step='2'}}" class="btn btn-default btn-block">
-                                <i class="fa fa-fw fa-random"></i>
-                                Revoir les divergences
-                            </a>
-                        </div>
-                        <div class="col-sm-4">
-                            <a href="{{pathFor 'stepper' step='3'}}" class="btn btn-default btn-block">
-                                <i class="fa fa-fw fa-history"></i>
-                                Afficher les opérations générées précédemment
-                            </a>
-                        </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <a href="{{pathFor 'stepper' step='4'}}" class="btn btn-default btn-block">
                                 <i class="fa fa-fw fa-balance-scale"></i>
                                 Afficher bilans & comptes de résultats
@@ -137,6 +68,41 @@
                 </header>
             </div>
             {{> exportFiscalWritings}}
+            {{> journalRead journal=fiscalJournal writings=fiscalWritings}}
+        {{/if}}
+        {{#if isStep 4}}
+            <div class="container">
+                <header>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <a href="{{pathFor 'stepper' step='2'}}" class="btn btn-default btn-block">
+                                <i class="fa fa-fw fa-random"></i>
+                                Revoir les divergences
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="{{pathFor 'stepper' step='3'}}" class="btn btn-default btn-block">
+                                <i class="fa fa-fw fa-history"></i>
+                                Afficher les opérations générées précédemment
+                            </a>
+                        </div>
+                    </div>
+                    <ul class="nav nav-tabs" role="tablist" style="margin-top: 30px;">
+                        <li role="presentation"><a href="#accountBalanceSheet" aria-controls="accountBalanceSheet" role="tab" data-toggle="tab">Bilan comptable</a></li>
+                        <li role="presentation"><a href="#fiscalBalanceSheet" aria-controls="fiscalBalanceSheet" role="tab" data-toggle="tab">Bilan fiscal</a></li>
+                        <li role="presentation"><a href="#accountIncomeStatement" aria-controls="accountIncomeStatement" role="tab" data-toggle="tab">Compte de résultat comptable</a></li>
+                        <li role="presentation" class="active"><a href="#fiscalIncomeStatement" aria-controls="fiscalIncomeStatement" role="tab" data-toggle="tab">Compte de résultat fiscal</a></li>
+                    </ul>
+                </header>
+            </div>
+            <div>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane" id="accountBalanceSheet">{{> balanceSheetRead fiscal=false}}</div>
+                    <div role="tabpanel" class="tab-pane" id="fiscalBalanceSheet">{{> balanceSheetRead fiscal=true}}</div>
+                    <div role="tabpanel" class="tab-pane" id="accountIncomeStatement">{{> incomeStatementRead fiscal=false}}</div>
+                    <div role="tabpanel" class="tab-pane active" id="fiscalIncomeStatement">{{> incomeStatementRead fiscal=true}}</div>
+                </div>
+            </div>
         {{/if}}
     </div>
 </template>
