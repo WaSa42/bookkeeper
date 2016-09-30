@@ -26,6 +26,7 @@ underscore
 aldeed:tabular
 dburles:collection-helpers
 fortawesome:fontawesome
+gwendall:simple-schema-i18n
 iron:router
 logandk:iron-router-active
 mikowals:batch-insert

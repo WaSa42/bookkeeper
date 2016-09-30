@@ -68,6 +68,7 @@ Template.writingsImport.events({
                         width: '500px',
                         showCancelButton: true,
                         title: `${result.total} écritures trouvées`,
+                        reverseButtons: true,
                         confirmButtonText: 'Oui, importer !',
                         cancelButtonText: 'Non, prévisualiser',
                         text: 'Vous pouvez importer directement votre FEC ou le prévisualisez auparavant.'
@@ -127,20 +128,6 @@ Template.writingCreateForm.helpers({
     }
 });
 
-AutoForm.hooks({
-    'writing-create-form': {
-        before: {
-            insert: doc => {
-                doc.formattedDate = moment(doc.date).format('DD/MM/YYYY');
-                return doc;
-            }
-        },
-        onSuccess: () => {
-            toastr.success('Opération effectuée');
-        }
-    }
-});
-
 Template.divergentWritingList.onCreated(function () {
     this.subscribe('differences.list');
     this.data.selection = new ReactiveVar(null);
@@ -159,6 +146,12 @@ Template.divergentWritingList.helpers({
         }
 
         return selector;
+    },
+    challenge6Options: function () {
+        return {
+            schema: Challenge6Schema,
+            id: 'challenge-6-form'
+        };
     }
 });
 
@@ -244,6 +237,8 @@ Template.divergentWritingList3Actions.events({
             const writings = getWritings(template.data.writing);
 
             writings[0].debit = amount;
+            writings[0].credit = 0;
+            writings[1].debit = 0;
             writings[1].credit = amount;
 
             swal({
@@ -317,7 +312,6 @@ function parse(file, callback) {
         complete: results => {
             loading.hide();
             if (results.errors.length) {
-                console.log('parser error', results.errors);
                 results.errors.forEach(error => {
                     toastr.error(error.message);
                 });
@@ -423,17 +417,26 @@ function handleWriting(difference, writing) {
         askAmount(amount => {
             const writings = getWritings(writing);
 
-            writings[0].accountNum = amount > 0
-                ? difference.debitAccount.positive
-                : difference.debitAccount.negative;
+            if (typeof difference.debitAccount !== 'string') {
+                writings[0].accountNum = amount > 0
+                    ? difference.debitAccount.positive
+                    : difference.debitAccount.negative;
 
-            writings[1].accountNum = amount > 0
-                ? difference.creditAccount.positive
-                : difference.creditAccount.negative;
+                writings[1].accountNum = amount > 0
+                    ? difference.creditAccount.positive
+                    : difference.creditAccount.negative;
+            }
 
             writings.forEach(w => {
-                if (w.debit !== 0) w.debit = amount;
-                if (w.credit !== 0) w.credit = amount;
+                if (w.debit !== 0) {
+                    w.debit = amount;
+                    w.credit = 0;
+                }
+
+                if (w.credit !== 0) {
+                    w.debit = 0;
+                    w.credit = amount;
+                }
             });
 
             previewWritings(writing, writings, () => {
@@ -522,7 +525,7 @@ function askAmount(callback) {
         input: 'number',
         inputValidator: function (value) {
             return new Promise(function (resolve, reject) {
-                if (value) {
+                if (value && value > 0) {
                     resolve();
                 } else {
                     reject('Montant invalide !');
@@ -536,3 +539,32 @@ function askAmount(callback) {
         swal.resetDefaults();
     });
 }
+
+AutoForm.hooks({
+    'writing-create-form': {
+        before: {
+            insert: doc => {
+                doc.formattedDate = moment(doc.date).format('DD/MM/YYYY');
+                return doc;
+            }
+        },
+        onSuccess: () => {
+            toastr.success('Opération effectuée');
+        }
+    },
+    'challenge-6-form': {
+        onSubmit: values => {
+            askConfirmation(() => {
+                Meteor.call('challenge6', values, err => {
+                    if (err) {
+                        toastr.error(err.reason);
+                    } else {
+                        toastr.success('Opération effectuée');
+                    }
+                });
+            });
+
+            return false;
+        }
+    }
+});

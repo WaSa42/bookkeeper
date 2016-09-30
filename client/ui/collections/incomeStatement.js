@@ -78,7 +78,7 @@ function codeIsExcluded(cellKey, accountNum) {
 function getValue(accounts, cellKey, fiscal) {
     return getAccounts(accounts, cellKey, fiscal).reduce((a, b) => {
         // Fiscal
-        if (b.num.startsWith('F')) {
+        if (fiscal && b.num.startsWith('F')) {
             const status = b.getBalanceStatus();
 
             if (b.num.startsWith('F6')) {

@@ -277,7 +277,29 @@
                             </strong>
                             <small class="text-uppercase">Avec montant suggéré</small>
                         </h1>
-                        <!--{{> tabular table=TabularTables.DivergentWritings6 selector=(selector 6) id="tabular-divergent-writings-6" class="table table-striped table-bordered table-condensed table-responsive"}}-->
+                        {{#autoForm challenge6Options}}
+                            {{> afFormGroup name='sumptuary'}}
+                            {{#if afFieldValueIs name='sumptuary' value=true}}
+                                {{> afFormGroup name='sumptuaryAccountNum'}}
+                            {{/if}}
+                            {{> afFormGroup name='quote'}}
+                            {{#if afFieldValueIs name='quote' value=true}}
+                                {{> afFormGroup name='quoteAmount'}}
+                            {{/if}}
+                            {{> afFormGroup name='shares'}}
+                            {{#if afFieldValueIs name='shares' value=true}}
+                                {{> afFormGroup name='sharesAccountNum'}}
+                            {{/if}}
+                            {{> afFormGroup name='bonus'}}
+                            {{#if afFieldValueIs name='bonus' value=true}}
+                                {{> afFormGroup name='bonusAccountNum'}}
+                            {{/if}}
+                            {{> afFormGroup name='accident'}}
+                            {{#if afFieldValueIs name='accident' value=true}}
+                                {{> afFormGroup name='accidentAccountNum'}}
+                            {{/if}}
+                            <button class="btn btn-success center-block">Valider</button>
+                        {{/autoForm}}
                     </div>
                     <div role="tabpanel" class="tab-pane" id="type-7">
                         <h1>
